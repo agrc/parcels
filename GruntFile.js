@@ -62,14 +62,14 @@ module.exports = function (grunt) {
         '!stubmodule/**',
         '!util/**'
     ];
-    var deployDir = 'SGID';
+    var deployDir = 'Parels';
     var secrets;
     var sauceConfig = {
-        urls: ['http://127.0.0.1:8000/_SpecRunner.html?catch=false'],
+        urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
         tunnelTimeout: 120,
         build: process.env.TRAVIS_JOB_ID,
         browsers: browsers,
-        testname: 'atlas',
+        testname: 'parcels',
         maxRetries: 10,
         maxPollRetries: 10,
         'public': 'public',
@@ -127,7 +127,61 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            uses_defaults: {}
+            options: {
+                livereload: true,
+                base: '.',
+                logger: 'dev',
+                middleware: function (connect, options, defaultMiddleware) {
+                    var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
+                    return [proxy].concat(defaultMiddleware);
+                },
+                proxies: [
+                    {
+                        context: '/arcgis',
+                        host: 'localhost'
+                    }
+                ]
+            },
+            app: {
+                options: {
+                    port: 8000,
+                    base: {
+                        path: './src'
+                    }
+                }
+            },
+            jasmine: {
+                options: {
+                    port: 8001,
+                    base: {
+                        path: '.',
+                        options: {
+                            index: '_SpecRunner.html'
+                        }
+                    }
+                }
+            },
+            openApp: {
+                options: {
+                    open: true,
+                    port: 8000,
+                    base: {
+                        path: './src'
+                    }
+                }
+            },
+            openJasmine: {
+                options: {
+                    open: true,
+                    port: 8001,
+                    base: {
+                        path: '.',
+                        options: {
+                            index: '_SpecRunner.html'
+                        }
+                    }
+                }
+            }
         },
         copy: {
             main: {
@@ -192,7 +246,7 @@ module.exports = function (grunt) {
                         'src/app/tests/jsReporterSanitizer.js',
                         'src/app/tests/jasmineAMDErrorChecking.js'
                     ],
-                    host: 'http://localhost:8000'
+                    host: 'http://localhost:8001'
                 }
             }
         },
@@ -276,17 +330,22 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            options: {
+                livereload: true
+            },
             eslint: {
                 files: jsFiles,
                 tasks: ['newer:eslint:main', 'jasmine:main:build']
             },
             src: {
                 files: jsFiles.concat(otherFiles),
-                options: { livereload: true }
+                options: {
+                    livereload: true
+                }
             },
             stylus: {
                 files: 'src/app/**/*.styl',
-                tasks: ['newer:stylus']
+                tasks: ['stylus']
             }
         }
     });
@@ -294,7 +353,16 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'jasmine:main:build',
         'eslint:main',
-        'connect',
+        'connect:app',
+        'connect:jasmine',
+        'stylus',
+        'watch'
+    ]);
+    grunt.registerTask('launch', [
+        'jasmine:main:build',
+        'eslint:main',
+        'connect:openApp',
+        'connect:openJasmine',
         'stylus',
         'watch'
     ]);
