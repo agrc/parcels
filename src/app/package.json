@@ -1,8 +1,12 @@
 {
-    "name": "Atlas.app",
-    "version": "2.5.0",
+    "name": "Parcel.app",
+    "dojoBuild": "app.profile.js",
     "main": "main",
-    "description": "AGRC Boilerplate",
-    "homepage": "https://github.com/agrc/AGRCJavaScriptProjectBoilerPlate",
-    "dojoBuild": "app.profile.js"
+    "version": "0.1.0",
+    "description": "A website to get information about Utah parcels.",
+    "homepage": "https://mapserv.utah.gov/parcels",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/agrc/Parcels.git"
+    }
 }
