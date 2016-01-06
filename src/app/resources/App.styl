@@ -1,4 +1,4 @@
-@import 'nib';
+@require 'nib';
 @import '../../dijit/themes/claro/claro.css';
 @import '../../esri/css/esri.css';
 @import '../../bootstrap/dist/css/bootstrap.css';
@@ -47,8 +47,6 @@ body, html, .app
             position absolute
             top -3px
             right 0
-    [data-dojo-attach-point='popupBlockerBlurb']
-        display none
 
     /* SIDE BAR */
     .side-bar-container
@@ -88,14 +86,3 @@ body, html, .app
 /* remove orange outline in chrome */
 *focus
     outline none
-
-.map .tooltip
-    width 100px
-    position absolute
-    border 1px solid #7EABCD
-    background-color white
-    padding 5px
-    font-size 9pt
-    z-index 9999
-    border-radius 4px
-    opacity 1
