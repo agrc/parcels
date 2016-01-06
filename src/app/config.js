@@ -1,5 +1,16 @@
-/* jshint maxlen:false */
-define(['dojo/has', 'esri/config'], function (has, esriConfig) {
+define([
+    './counties',
+
+    'dojo/has',
+
+    'esri/config'
+], function (
+    counties,
+
+    has,
+
+    esriConfig
+) {
     // force api to use CORS on mapserv thus removing the test request on app load
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
@@ -22,23 +33,12 @@ define(['dojo/has', 'esri/config'], function (has, esriConfig) {
         apiKey: '', // acquire at developer.mapserv.utah.gov
 
         urls: {
-            search: 'http://api.mapserv.utah.gov/api/v1/search/{0}/{1}',
-            vector: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Vector/MapServer'
+            vector: 'http://mapserv.utah.gov/arcgis/rest/services/BaseMaps/Vector/MapServer',
+            county: '/arcgis/rest/services/Parcels/Mapserver/0',
+            parcelTemplate: '/arcgis/rest/services/Parcels/Mapserver/{0}'
         },
 
-        fieldNames: {
-            NAME: 'NAME', // counties & municipalities
-            STATE_LGD: 'STATE_LGD', // state
-            GRID1Mil: 'GRID1Mil',
-            GRIS100K: 'GRID100K'
-        },
-
-        featureClassNames: {
-            counties: 'SGID10.Boundaries.Counties',
-            municipalities: 'SGID10.Boundaries.Municipalities',
-            landOwnership: 'SGID10.Cadastre.LandOwnership',
-            nationalGrid: 'SGID10.Indices.NationalGrid'
-        }
+        counties: counties
     };
 
     if (has('agrc-build') === 'prod') {

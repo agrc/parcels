@@ -127,7 +127,7 @@ define([
                     id: 'claro',
                     position: 'TR'
                 }),
-                new Identify({map: this.map})
+                new Identify({map: this.map}, this.infoBar)
             );
         }
     });
