@@ -11,11 +11,13 @@ define([
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
 
+    'dojo/aspect',
     'dojo/dom',
     'dojo/dom-style',
     'dojo/text!app/templates/App.html',
     'dojo/_base/array',
-    'dojo/_base/declare'
+    'dojo/_base/declare',
+    'dojo/_base/lang'
 ], function (
     config,
     Identify,
@@ -29,11 +31,13 @@ define([
     _WidgetBase,
     _WidgetsInTemplateMixin,
 
+    aspect,
     dom,
     domStyle,
     template,
     array,
-    declare
+    declare,
+    lang
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
@@ -70,11 +74,19 @@ define([
 
             this.initMap();
 
+            var geocode = new FindAddress({
+                map: this.map,
+                apiKey: config.apiKey
+            }, this.geocodeNode);
+
+            aspect.after(geocode, '_done', function () {
+                setTimeout(lang.hitch(this, function () {
+                    this.graphicsLayer.remove(this._graphic);
+                }), 2500);
+            });
+
             this.childWidgets.push(
-                new FindAddress({
-                    map: this.map,
-                    apiKey: config.apiKey
-                }, this.geocodeNode),
+                geocode,
                 new MagicZoom({
                     map: this.map,
                     mapServiceURL: config.urls.vector,
