@@ -129,30 +129,11 @@ module.exports = function (grunt) {
         connect: {
             options: {
                 livereload: true,
-                base: '.',
-                logger: 'dev',
-                middleware: function (connect, options, defaultMiddleware) {
-                    var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
-                    return [proxy].concat(defaultMiddleware);
-                },
-                proxies: [
-                    {
-                        context: '/arcgis',
-                        host: 'localhost'
-                    }
-                ]
-            },
-            app: {
-                options: {
-                    port: 8000,
-                    base: {
-                        path: './src'
-                    }
-                }
+                base: '.'
             },
             jasmine: {
                 options: {
-                    port: 8001,
+                    port: 8000,
                     base: {
                         path: '.',
                         options: {
@@ -161,19 +142,10 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            openApp: {
-                options: {
-                    open: true,
-                    port: 8000,
-                    base: {
-                        path: './src'
-                    }
-                }
-            },
             openJasmine: {
                 options: {
                     open: true,
-                    port: 8001,
+                    port: 8000,
                     base: {
                         path: '.',
                         options: {
@@ -246,7 +218,7 @@ module.exports = function (grunt) {
                         'src/app/tests/jsReporterSanitizer.js',
                         'src/app/tests/jasmineAMDErrorChecking.js'
                     ],
-                    host: 'http://localhost:8001'
+                    host: 'http://localhost:8000'
                 }
             }
         },
@@ -353,7 +325,6 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'jasmine:main:build',
         'eslint:main',
-        'connect:app',
         'connect:jasmine',
         'stylus',
         'watch'
@@ -361,7 +332,6 @@ module.exports = function (grunt) {
     grunt.registerTask('launch', [
         'jasmine:main:build',
         'eslint:main',
-        'connect:openApp',
         'connect:openJasmine',
         'stylus',
         'watch'

@@ -16,7 +16,9 @@
   "license": "MIT",
   "devDependencies": {
     "dojo": "^1.10",
+    "grunt": "^0.4",
     "grunt-bump": "^0",
+    "grunt-connect-proxy": "^0.2.0",
     "grunt-contrib-clean": "^0",
     "grunt-contrib-compress": "^0.8.0",
     "grunt-contrib-connect": "^0",
@@ -32,7 +34,6 @@
     "grunt-processhtml": "^0",
     "grunt-saucelabs": "^8",
     "grunt-ssh": "^0",
-    "grunt": "^0.4",
     "load-grunt-tasks": "^3",
     "uglify-js": "^2"
   },
