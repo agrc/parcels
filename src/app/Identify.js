@@ -7,9 +7,12 @@ define([
 
     'dojo/date/locale',
     'dojo/dom-class',
+    'dojo/keys',
+    'dojo/on',
     'dojo/query',
     'dojo/request',
     'dojo/text!./templates/Identify.html',
+    'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -31,9 +34,12 @@ define([
 
     locale,
     domClass,
+    keys,
+    on,
     query,
     request,
     template,
+    topic,
     array,
     declare,
     lang,
@@ -88,7 +94,14 @@ define([
 
             this.own(
                 this.map.on('click', lang.hitch(this, 'onMapClick')),
-                this.countyQuery.on('error', lang.hitch(this, 'countyError'))
+                this.countyQuery.on('error', lang.hitch(this, 'countyError')),
+                on(document, 'keydown', lang.hitch(this, function closeContainer(evt) {
+                    var charOrCode = evt.charCode || evt.keyCode;
+                    if (charOrCode === keys.ESCAPE) {
+                        this._highlightParcel();
+                        domClass.add(this.domNode, 'closed');
+                    }
+                }))
             );
         },
         onMapClick: function (evt) {
@@ -97,13 +110,20 @@ define([
             // evt: Map Click Event
             console.log('app.Identify:onMapClick', arguments);
 
+            this._highlightParcel();
+            domClass.add(this.domNode, 'closed');
+            this.domNode.innerHTML = '';
+
             this.countyCriteria.geometry = evt.mapPoint;
             this.parcelCriteria.geometry = evt.mapPoint;
-
+            var that = this;
             this.countyQuery.execute(this.countyCriteria)
                 .then(lang.hitch(this, '_getParcelIndex'))
                 .then(lang.hitch(this, '_queryParcelLayer'))
-                .then(lang.hitch(this, '_displayResults'));
+                .then(lang.hitch(this, '_displayResults'))
+                .always(function () {
+                    domClass.remove(that.domNode, 'closed');
+                });
         },
         /** Puts the response into the mustache template and shows the footer.
          * @param esri/task/FeatureSet - response - the parcel attributes
@@ -134,7 +154,6 @@ define([
             model.item = [item];
 
             this.domNode.innerHTML = mustache.render(this.templateString, model);
-            domClass.remove(this.domNode, 'closed');
 
             this._highlightParcel(response.features[0].geometry);
         },
@@ -159,7 +178,15 @@ define([
         countyError: function (err) {
             console.log('app.Identify:countyError', arguments);
 
+            topic.publish('error', err);
+            var template = '<div class="contract-popup"><h3 class="text-center">{0}</h3><p class="text-muted">{1}</p></div>';
+            var content = lang.replace(template, ['No county was found where you clicked. Are you clikcing inside Utah?', '']);
 
+            if (err) {
+                content = lang.replace(template, ['There was a problem querying for parcel information.',
+                                                  err.error.message]);
+            }
+            this.domNode.innerHTML = content;
         },
         /** Query the parcel layer for attribute data.
          * @param Number - parcelIndex - the index of the parcel layer for the county
@@ -202,6 +229,10 @@ define([
 
             if (this._graphic) {
                 this.map.graphics.remove(this._graphic);
+            }
+
+            if (!geometry) {
+                return;
             }
 
             this._graphic = new Graphic(geometry, this.polygonSymbol);
