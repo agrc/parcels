@@ -4,8 +4,6 @@ define([
 
     'agrc/widgets/locate/FindAddress',
     'agrc/widgets/locate/MagicZoom',
-    'agrc/widgets/map/BaseMap',
-    'agrc/widgets/map/BaseMapSelector',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -17,15 +15,18 @@ define([
     'dojo/text!app/templates/App.html',
     'dojo/_base/array',
     'dojo/_base/declare',
-    'dojo/_base/lang'
+    'dojo/_base/lang',
+
+    'esri/geometry/Extent',
+    'esri/map',
+
+    'layer-selector'
 ], function (
     config,
     Identify,
 
     FindAddress,
     MagicZoom,
-    BaseMap,
-    BaseMapSelector,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -37,7 +38,12 @@ define([
     template,
     array,
     declare,
-    lang
+    lang,
+
+    Extent,
+    Map,
+
+    LayerSelector
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
@@ -127,17 +133,34 @@ define([
             //      Sets up the map
             console.info('app.App::initMap', arguments);
 
-            this.map = new BaseMap(this.mapDiv, {
-                useDefaultBaseMap: false,
-                showAttribution: false,
-                router: true
+            this.map = new Map(this.mapDiv, {
+                extent: new Extent({
+                    xmax: -12010849.397533866,
+                    xmin: -12898741.918094235,
+                    ymax: 5224652.298632992,
+                    ymin: 4422369.249751998,
+                    spatialReference: {
+                        wkid: 3857
+                    }})
             });
 
             this.childWidgets.push(
-                new BaseMapSelector({
+                new LayerSelector({
                     map: this.map,
-                    id: 'claro',
-                    position: 'TR'
+                    quadWord: config.quadWord,
+                    baseLayers: [
+                        'Imagery',
+                        'Hybrid',
+                        {
+                            token: 'Lite',
+                            selected: true
+                        },
+                        'Topo',
+                        'Terrain',
+                        'Color IR',
+                        'Bad Token'
+                    ],
+                    overlays: ['Overlay']
                 }),
                 new Identify({map: this.map}, this.infoBar)
             );

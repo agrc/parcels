@@ -2,12 +2,14 @@ define([
     './counties',
 
     'dojo/has',
+    'dojo/request/xhr',
 
     'esri/config'
 ], function (
     counties,
 
     has,
+    xhr,
 
     esriConfig
 ) {
@@ -44,12 +46,22 @@ define([
     if (has('agrc-build') === 'prod') {
         // mapserv.utah.gov
         window.AGRC.apiKey = 'AGRC-A94B063C533889';
+        window.AGRC.quadWord = 'alfred-plaster-crystal-dexter';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
         window.AGRC.apiKey = 'AGRC-AC122FA9671436';
+        window.AGRC.quadWord = 'opera-event-little-pinball';
     } else {
         // localhost
         window.AGRC.apiKey = 'AGRC-E5B94F99865799';
+        xhr(require.baseUrl + '../secrets.json', {
+            handleAs: 'json',
+            sync: true
+        }).then(function (secrets) {
+            window.AGRC.quadWord = secrets.quadWord;
+        }, function () {
+            throw 'Error getting quad word!';
+        });
     }
 
     return window.AGRC;
