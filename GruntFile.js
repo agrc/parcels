@@ -326,15 +326,15 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'jasmine:main:build',
         'eslint:main',
-        'connect:jasmine',
         'stylus',
+        'connect:jasmine',
         'watch'
     ]);
     grunt.registerTask('launch', [
         'jasmine:main:build',
         'eslint:main',
-        'connect:openJasmine',
         'stylus',
+        'connect:openJasmine',
         'watch'
     ]);
     grunt.registerTask('build-prod', [
