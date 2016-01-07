@@ -3,7 +3,6 @@ define([], function () {
         'Box Elder',
         'Cache',
         'Carbon',
-        'Counties',
         'Daggett',
         'Davis',
         'Duchesne',
