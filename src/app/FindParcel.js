@@ -61,7 +61,6 @@ define([
 
             this.searchWidget = new Search({
                 map: this.map,
-                enableButtonMode: true,
                 enableSourcesMenu: true, // missing css or something for menu
                 enableLabel: false,
                 enableInfoWindow: false,

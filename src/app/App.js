@@ -98,7 +98,7 @@ define([
                 geocode,
                 new FindParcel({
                     map: this.map
-                }).placeAt(this.map.root, 'last'),
+                }, this.parcelNode),
                 new MagicZoom({
                     map: this.map,
                     mapServiceURL: config.urls.vector,
