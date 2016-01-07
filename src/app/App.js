@@ -1,9 +1,11 @@
 define([
     './config',
     './Identify',
+    './FindParcel',
 
     'agrc/widgets/locate/FindAddress',
     'agrc/widgets/locate/MagicZoom',
+
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -24,6 +26,7 @@ define([
 ], function (
     config,
     Identify,
+    FindParcel,
 
     FindAddress,
     MagicZoom,
@@ -93,6 +96,9 @@ define([
 
             this.childWidgets.push(
                 geocode,
+                new FindParcel({
+                    map: this.map
+                }).placeAt(this.map.root, 'last'),
                 new MagicZoom({
                     map: this.map,
                     mapServiceURL: config.urls.vector,
