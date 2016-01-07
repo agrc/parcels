@@ -3,6 +3,7 @@
 *.odc
 *.pyc
 *.sde
+**/*.gdb/*
 deploy/
 dist/
 node_modules/
