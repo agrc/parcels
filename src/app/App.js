@@ -85,7 +85,8 @@ define([
 
             var geocode = new FindAddress({
                 map: this.map,
-                apiKey: config.apiKey
+                apiKey: config.apiKey,
+                zoomLevel: 17
             }, this.geocodeNode);
 
             aspect.after(geocode, '_done', function () {
