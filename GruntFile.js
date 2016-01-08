@@ -1,4 +1,3 @@
-/* jshint camelcase:false */
 var osx = 'OS X 10.10';
 var windows = 'Windows 8.1';
 var browsers = [{
@@ -62,7 +61,7 @@ module.exports = function (grunt) {
         '!stubmodule/**',
         '!util/**'
     ];
-    var deployDir = 'Parels';
+    var deployDir = 'Parcels';
     var secrets;
     var sauceConfig = {
         urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
@@ -261,7 +260,7 @@ module.exports = function (grunt) {
             },
             options: {
                 createDirectories: true,
-                path: './wwwroot' + deployDir + '/',
+                path: './wwwroot/' + deployDir + '/',
                 srcBasePath: 'deploy/',
                 showProgress: true
             }
