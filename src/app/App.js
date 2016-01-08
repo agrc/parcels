@@ -102,19 +102,20 @@ define([
                 }, this.parcelNode),
                 new MagicZoom({
                     map: this.map,
-                    mapServiceURL: config.urls.vector,
-                    searchLayerIndex: 4,
+                    apiKey: config.apiKey,
                     searchField: 'NAME',
                     placeHolder: 'place name...',
                     maxResultsToDisplay: 10,
+                    wkid: 3857,
                     'class': 'first'
                 }, this.gnisNode),
                 new MagicZoom({
                     map: this.map,
-                    mapServiceURL: config.urls.vector,
-                    searchLayerIndex: 1,
+                    apiKey: config.apiKey,
+                    searchLayer: 'SGID10.Boundaries.Municipalities',
                     searchField: 'NAME',
                     placeHolder: 'city name...',
+                    wkid: 3857,
                     maxResultsToDisplay: 10
                 }, this.cityNode)
             );
