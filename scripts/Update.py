@@ -94,16 +94,20 @@ class ParcelAppUpdate(ScheduledUpdate):
         workspace = arcpy.env.workspace
         arcpy.env.workspace = 'C:\\Projects\\GitHub\\Parcels\\data\\SGID10.gdb'
 
+        arcpy.TruncateTable_management(in_table=join(self._get_tranform_location(), self._fc_name))
+
         for layer in self._tranform_dependencies:
             arcpy.Append_management(inputs=layer,
                                     target=join(self._get_tranform_location(), self._fc_name),
                                     schema_type='NO_TEST')
 
+            county_name = layer.replace('Parcels_', '')
+
             with arcpy.da.UpdateCursor(in_table=join(self._get_tranform_location(), self._fc_name),
                                        field_names='County',
                                        where_clause='County IS NULL OR County = \'\'') as cursor:
                 for row in cursor:
-                    row[0] = layer
+                    row[0] = county_name
                     cursor.updateRow(row)
 
         arcpy.env.workspace = workspace
