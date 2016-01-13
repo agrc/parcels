@@ -36,9 +36,6 @@ class ParcelAppUpdate(ScheduledUpdate):
     gdb_name = 'Transformed.gdb'
     _fc_name = 'StateWideParcels'
     dependencies = [
-        'Counties'
-    ]
-    _tranform_dependencies = [
         'Parcels_Beaver',
         'Parcels_BoxElder',
         'Parcels_Cache',
@@ -96,7 +93,7 @@ class ParcelAppUpdate(ScheduledUpdate):
 
         arcpy.TruncateTable_management(in_table=join(self._get_tranform_location(), self._fc_name))
 
-        for layer in self._tranform_dependencies:
+        for layer in self.dependencies:
             arcpy.Append_management(inputs=layer,
                                     target=join(self._get_tranform_location(), self._fc_name),
                                     schema_type='NO_TEST')
@@ -163,9 +160,6 @@ class ParcelAppUpdate(ScheduledUpdate):
                                           field_is_nullable=field[3])
 
         arcpy.env.workspace = workspace
-
-    def get_dependent_layers(self):
-        return self.depencies + self._tranform_dependencies
 
     def _get_tranform_location(self):
         return join(self.output_directory, self.gdb_name)
