@@ -1,11 +1,10 @@
 define([
     './config',
-    './Identify',
     './FindParcel',
+    './Identify',
 
     'agrc/widgets/locate/FindAddress',
     'agrc/widgets/locate/MagicZoom',
-
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -20,13 +19,14 @@ define([
     'dojo/_base/lang',
 
     'esri/geometry/Extent',
+    'esri/layers/FeatureLayer',
     'esri/map',
 
     'layer-selector'
 ], function (
     config,
-    Identify,
     FindParcel,
+    Identify,
 
     FindAddress,
     MagicZoom,
@@ -44,6 +44,7 @@ define([
     lang,
 
     Extent,
+    FeatureLayer,
     Map,
 
     LayerSelector
@@ -149,7 +150,8 @@ define([
                     ymin: 4422369.249751998,
                     spatialReference: {
                         wkid: 3857
-                    }})
+                    }}),
+                showLabels: true
             });
 
             this.childWidgets.push(
@@ -172,6 +174,13 @@ define([
                 }),
                 new Identify({map: this.map}, this.infoBar)
             );
+
+            var parcels = new FeatureLayer(config.urls.parcel, {
+                showLabels: true,
+                outFields: ['PARCEL_ID']
+            });
+
+            this.map.addLayer(parcels);
         }
     });
 });
