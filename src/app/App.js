@@ -179,7 +179,8 @@ define([
             );
 
             var parcels = new ArcGISDynamicMapServiceLayer(config.urls.parcel, {
-                id: 'Parcels'
+                id: 'Parcels',
+                opacity: 0.75
             });
 
             this.map.addLayer(parcels);
