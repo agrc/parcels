@@ -67,11 +67,11 @@ class ParcelAppUpdate(ScheduledUpdate):
         'Parcels_Weber'
     ]
     _fields = [
-        ['PARCEL_ID', 'Id', 'TEXT', 'NULLABLE', 50],
+        ['PARCEL_ID', 'Parcel Id', 'TEXT', 'NULLABLE', 50],
         ['PARCEL_ADD', 'Address', 'TEXT', 'NULLABLE', 60],
         ['PARCEL_CITY', 'City', 'TEXT', 'NULLABLE', 30],
         ['PARCEL_ZIP', 'Zip Code', 'TEXT', 'NULLABLE', 10],
-        ['OWN_TYPE', 'Ownership', 'TEXT', 'NULLABLE', 20],
+        ['OWN_TYPE', 'Generalized Ownership Type', 'TEXT', 'NULLABLE', 20],
         ['RECORDER', 'Recorder Contact', 'TEXT', 'NULLABLE', 50],
         ['ParcelsCur', 'Current as of', 'DATE', 'NULLABLE'],
         ['ParcelNotes', 'Notes', 'TEXT', 'NULLABLE', 50],
