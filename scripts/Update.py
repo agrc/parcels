@@ -112,6 +112,16 @@ class ParcelAppUpdate(ScheduledUpdate):
 
         arcpy.env.workspace = workspace
 
+        try:
+            arcpy.RemoveIndex_management(in_table=join(self._get_tranform_location(), self._fc_name),
+                                         index_name='web_query')
+        except Exception:
+            pass
+
+        arcpy.AddIndex_management(in_table=join(self._get_tranform_location(), self._fc_name),
+                                  fields='PARCEL_ID;County',
+                                  index_name='web_query')
+
     def clean_up(self, arg):
         #: delete parcel data if not used in other plugin
         pass
