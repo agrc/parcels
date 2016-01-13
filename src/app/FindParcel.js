@@ -1,6 +1,7 @@
 define([
     'app/config',
     'app/counties',
+    'app/graphicController',
 
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
@@ -9,6 +10,7 @@ define([
     'dojo/keys',
     'dojo/on',
     'dojo/text!app/templates/FindParcel.html',
+    'dojo/topic',
     'dojo/_base/declare',
     'dojo/_base/lang',
 
@@ -22,6 +24,7 @@ define([
 ], function (
     config,
     counties,
+    graphicController,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -30,6 +33,7 @@ define([
     keys,
     on,
     template,
+    topic,
     declare,
     lang,
 
@@ -70,12 +74,7 @@ define([
             this.parcelQuery = new QueryTask(config.urls.parcel);
             this.parcelCriteria = new Query();
             this.parcelCriteria.returnGeometry = true;
-            this.parcelCriteria.outFields = ['OBJECTID'];
-
-            this.polygonSymbol = new SimpleFillSymbol('solid',
-                new SimpleLineSymbol('solid', new Color([18,192,236,1]), 1.25),
-                new Color([0,0,0,0.25])
-            );
+            this.parcelCriteria.outFields = ['*'];
         },
         /**
          * This is fired after all properties of a widget are defined, and the document fragment representing the
@@ -119,7 +118,7 @@ define([
             console.log('app.FindParcel:_showParcelId', arguments);
 
             domClass.toggle(this.searchGroup, 'hidden', !current);
-            this._highlightParcels();
+            graphicController.clearGraphics();
 
             domClass.add(this.errors, 'hidden');
             this.errors.innerHTML = '';
@@ -159,7 +158,7 @@ define([
         search: function () {
             console.log('app.FindParcel:search', arguments);
 
-            this._highlightParcels();
+            graphicController.clearGraphics();
 
             if (!this.get('countyName') || !this.get('parcelId')) {
                 this.errors.innerHTML = 'Supply a value for county and parcel id.';
@@ -178,8 +177,7 @@ define([
 
             var that = this;
             this._inFlight = this.parcelQuery.execute(this.parcelCriteria)
-                .then(lang.hitch(this, '_highlightParcels'))
-                .then(lang.hitch(this, '_zoomToExtent'))
+                .then(lang.hitch(this, '_displayResults'), lang.hitch(this, '_queryError'))
                 .always(function hideProgress() {
                     that._showProgress(false);
                 });
@@ -197,30 +195,16 @@ define([
         /** Puts the response into the mustache template and shows the footer.
          * @param esri/task/FeatureSet - response - the parcel attributes
          */
-        _highlightParcels: function (response) {
-            console.log('app.FindParcel:_highlightParcels', arguments);
+        _displayResults: function (response) {
+            console.log('app.FindParcel:_displayResults', arguments);
 
-            if (!(this._graphic instanceof Array)) {
-                this._graphic = [this._graphic];
+            if (!response || !response.features) {
+                return this._queryError();
             }
 
-            this._graphic.forEach(function removeGraphic(graphic) {
-                this.map.graphics.remove(graphic);
-            }, this);
-
-            if (!response || !response.features || response.features.length < 1) {
-                return;
-            }
-
-            this._graphic = response.features.map(function createGraphic(feature) {
-                return new Graphic(feature.geometry, this.polygonSymbol);
-            }, this);
-
-            this._graphic.forEach(function showGrahpic(graphic) {
-                this.map.graphics.add(graphic);
-            }, this);
-
-            return response.features;
+            topic.publish('identify', response.features[0], response.fieldAliases);
+            this._zoomToExtent(response.features);
+            graphicController.highlightFeatures(response.features);
         },
         /** Gets the FeatureSet features and zooms to the extent.
          * @param {[Features]} - features - The features returned from a query task

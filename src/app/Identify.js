@@ -3,6 +3,8 @@ define([
 
     'agrc/modules/String',
 
+    'app/graphicController',
+
     'dijit/_WidgetBase',
 
     'dojo/date/locale',
@@ -29,6 +31,8 @@ define([
     config,
 
     String,
+
+    graphicController,
 
     _WidgetBase,
 
@@ -78,11 +82,6 @@ define([
             this.parcelCriteria = new Query();
             this.parcelCriteria.returnGeometry = true;
             this.parcelCriteria.outFields = ['*'];
-
-            this.polygonSymbol = new SimpleFillSymbol('solid',
-                new SimpleLineSymbol('solid', new Color([18,192,236,1]), 1.25),
-                new Color([0,0,0,0.25])
-            );
         },
         startup: function () {
             // summary:
@@ -95,10 +94,11 @@ define([
                 on(document, 'keydown', lang.hitch(this, function closeContainer(evt) {
                     var charOrCode = evt.charCode || evt.keyCode;
                     if (charOrCode === keys.ESCAPE) {
-                        this._highlightParcel();
+                        graphicController.clearGraphics();
                         domClass.add(this.domNode, 'closed');
                     }
-                }))
+                })),
+                topic.subscribe('identify', lang.hitch(this, '_populateIdentify'))
             );
         },
         onMapClick: function (evt) {
@@ -107,7 +107,7 @@ define([
             // evt: Map Click Event
             console.log('app.Identify:onMapClick', arguments);
 
-            this._highlightParcel();
+            graphicController.clearGraphics();
             domClass.add(this.domNode, 'closed');
             this.domNode.innerHTML = '';
 
@@ -115,10 +115,35 @@ define([
 
             var that = this;
             this.parcelQuery.execute(this.parcelCriteria)
-                .then(lang.hitch(this, '_displayResults'))
+                .then(lang.hitch(this, '_displayResults'), lang.hitch(this, '_queryError'))
                 .always(function () {
                     domClass.remove(that.domNode, 'closed');
                 });
+        },
+        /** show feature attributes in identify popup.
+         * @param esri/task/Feature - features - a feature
+         * @returns return_type - return_description
+         */
+        _populateIdentify: function (feature, aliases) {
+            console.log('app.Identify:_populateIdentify', arguments);
+
+            var model = {};
+
+            if (!feature) {
+                this.domNode.innerHTML = mustache.render(this.templateString, model);
+
+                return true;
+            }
+
+            var item = feature.attributes;
+            item.formatParcelsCur = this._formatDate;
+            item.fieldAliases = aliases;
+
+            model.item = [item];
+
+            this.domNode.innerHTML = mustache.render(this.templateString, model);
+
+            domClass.remove(this.domNode, 'closed');
         },
         /** Puts the response into the mustache template and shows the footer.
          * @param esri/task/FeatureSet - response - the parcel attributes
@@ -127,26 +152,12 @@ define([
             console.log('app.Identify:_displayResults', arguments);
 
             if (!response || !response.features) {
-                return this.parcelError();
+                return this._queryError();
             }
 
-            var model = {};
+            this._populateIdentify(response.features[0], response.fieldAliases);
 
-            if (response.features.length < 1) {
-                this.domNode.innerHTML = mustache.render(this.templateString, model);
-
-                return true;
-            }
-
-            var item = response.features[0].attributes;
-            item.formatParcelsCur = this._formatDate;
-            item.fieldAliases = response.fieldAliases;
-
-            model.item = [item];
-
-            this.domNode.innerHTML = mustache.render(this.templateString, model);
-
-            this._highlightParcel(response.features[0].geometry);
+            graphicController.highlightFeatures([response.features[0]]);
         },
         /** Takes ephoc and retrns MM/DD/YYYY.
          * @param Number - epoch - date number
@@ -165,24 +176,6 @@ define([
                 selector: 'date',
                 formatLength: 'short'
             });
-        },
-        /** Hightlight the parcel geometry.
-         * @param esri/geometry/Polygon - geometry - the geometry of the parcel
-         */
-        _highlightParcel: function (geometry) {
-            console.log('app.Identity:_highlightParcel', arguments);
-
-            if (this._graphic) {
-                this.map.graphics.remove(this._graphic);
-            }
-
-            if (!geometry) {
-                return;
-            }
-
-            this._graphic = new Graphic(geometry, this.polygonSymbol);
-
-            this.map.graphics.add(this._graphic);
         },
         /** The error handler for the county query.
          * @param Error - err - ArcGIS Server error message returned in a JavaScript error object.

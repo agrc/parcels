@@ -6,6 +6,8 @@ define([
     'agrc/widgets/locate/FindAddress',
     'agrc/widgets/locate/MagicZoom',
 
+    'app/graphicController',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
@@ -30,6 +32,8 @@ define([
 
     FindAddress,
     MagicZoom,
+
+    graphicController,
 
     _TemplatedMixin,
     _WidgetBase,
@@ -181,6 +185,7 @@ define([
             });
 
             this.map.addLayer(parcels);
+            graphicController.map = this.map;
         }
     });
 });
