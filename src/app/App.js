@@ -24,6 +24,8 @@ define([
     'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/map',
 
+    'ijit/widgets/layout/SideBarToggler',
+
     'layer-selector'
 ], function (
     config,
@@ -50,6 +52,8 @@ define([
     Extent,
     ArcGISDynamicMapServiceLayer,
     Map,
+
+    SideBarToggler,
 
     LayerSelector
 ) {
@@ -101,6 +105,11 @@ define([
             });
 
             this.childWidgets.push(
+                new SideBarToggler({
+                    sidebar: this.sideBar,
+                    map: this.map,
+                    centerContainer: this.centerContainer
+                }, this.sidebarToggle),
                 geocode,
                 new FindParcel({
                     map: this.map
