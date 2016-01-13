@@ -71,7 +71,7 @@ define([
         constructor: function () {
             console.log('app.FindParcel::constructor', arguments);
 
-            this.parcelQuery = new QueryTask(config.urls.parcel);
+            this.parcelQuery = new QueryTask(config.urls.parcel + '/0');
             this.parcelCriteria = new Query();
             this.parcelCriteria.returnGeometry = true;
             this.parcelCriteria.outFields = ['*'];

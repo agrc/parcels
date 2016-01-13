@@ -21,7 +21,7 @@ define([
     'dojo/_base/lang',
 
     'esri/geometry/Extent',
-    'esri/layers/FeatureLayer',
+    'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/map',
 
     'layer-selector'
@@ -48,7 +48,7 @@ define([
     lang,
 
     Extent,
-    FeatureLayer,
+    ArcGISDynamicMapServiceLayer,
     Map,
 
     LayerSelector
@@ -154,8 +154,7 @@ define([
                     ymin: 4422369.249751998,
                     spatialReference: {
                         wkid: 3857
-                    }}),
-                showLabels: true
+                    }})
             });
 
             this.childWidgets.push(
@@ -179,9 +178,8 @@ define([
                 new Identify({map: this.map}, this.infoBar)
             );
 
-            var parcels = new FeatureLayer(config.urls.parcel, {
-                showLabels: true,
-                outFields: ['PARCEL_ID']
+            var parcels = new ArcGISDynamicMapServiceLayer(config.urls.parcel, {
+                id: 'Parcels'
             });
 
             this.map.addLayer(parcels);

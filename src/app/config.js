@@ -35,7 +35,7 @@ define([
         apiKey: '', // acquire at developer.mapserv.utah.gov
 
         urls: {
-            parcel: '/arcgis/rest/services/Parcels/Mapserver/0'
+            parcel: '/arcgis/rest/services/Parcels/Mapserver'
         },
 
         counties: counties
