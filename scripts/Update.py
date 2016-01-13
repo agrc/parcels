@@ -75,7 +75,8 @@ class ParcelAppUpdate(ScheduledUpdate):
         ['RECORDER', 'Recorder Contact', 'TEXT', 'NULLABLE', 50],
         ['ParcelsCur', 'Current as of', 'DATE', 'NULLABLE'],
         ['ParcelNotes', 'Notes', 'TEXT', 'NULLABLE', 50],
-        ['County', 'County', 'TEXT', 'NON_NULLABLE', 50]
+        ['County', 'County', 'TEXT', 'NON_NULLABLE', 50],
+        ['CoParcel_URL', 'County Parcel Website', 'TEXT', 'NULLABLE', 150]
     ]
 
     def nightly(self, arg):

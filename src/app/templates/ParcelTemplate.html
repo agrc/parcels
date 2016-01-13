@@ -1,0 +1,53 @@
+    <div class='contract-popup container'>
+        {{^item}}
+        <h3 class='text-center'>There is no parcel information here.
+        </h3>
+        {{/item}}
+        {{#item}}
+        <div class='row'>
+            <div class='col-xs-6 col-sm-6 col-md-3'>
+                <h4>{{#fieldAliases}}{{PARCEL_ID}}{{/fieldAliases}}</h4>
+                <p class='text-muted'>{{PARCEL_ID}}</p>
+            </div>
+            <div class='col-xs-6 col-sm-6 col-md-3'>
+                <h4>{{#fieldAliases}}{{PARCEL_ADD}}{{/fieldAliases}}</h4>
+                <p class='text-muted'>{{PARCEL_ADD}}</p>
+            </div>
+            <div class='clearfix hidden-lg hidden-md'></div>
+            <div class='col-xs-6 col-sm-6 col-md-3'>
+                <h4>{{#fieldAliases}}{{PARCEL_CITY}}{{/fieldAliases}}</h4>
+                <p class='text-muted'>{{PARCEL_CITY}}</p>
+            </div>
+            <div class='col-xs-6 col-sm-6 col-md-3'>
+                <h4>{{#fieldAliases}}{{PARCEL_ZIP}}{{/fieldAliases}}</h4>
+                <p class='text-muted'>{{PARCEL_ZIP}}</p>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6 col-sm-6 col-md-3'>
+                <h4>{{#fieldAliases}}{{OWN_TYPE}}{{/fieldAliases}}</h4>
+                <p class='text-muted'>{{OWN_TYPE}}</p>
+            </div>
+            <div class='col-xs-6 col-sm-6 col-md-3'>
+                <h4>{{#fieldAliases}}{{RECORDER}}{{/fieldAliases}}</h4>
+                <a class='text-muted' href='tel:{{RECORDER}}'>{{RECORDER}}</a>
+            </div>
+            <div class='clearfix hidden-lg hidden-md'></div>
+            <div class='col-xs-6 col-sm-6 col-md-3'>
+                <h4>{{#fieldAliases}}{{ParcelsCur}}{{/fieldAliases}}</h4>
+                <p class='text-muted'>{{formatParcelsCur}}</p>
+            </div>
+            <div class='col-xs-6 col-sm-6 col-md-3'>
+                <h4>{{#fieldAliases}}{{ParcelNotes}}{{/fieldAliases}}</h4>
+                <p class='text-muted'>{{ParcelNotes}}</p>
+            </div>
+        </div>
+        {{#CoParcel_URL}}
+        <div class="row county-link">
+            <div class="col-xs-12 text-center county-link-callout">
+                <a class="btn btn-default" href="{{CoParcel_URL}}">County Parcel Website</a>
+            </div>
+        </div>
+        {{/CoParcel_URL}}
+        {{/item}}
+    </div>

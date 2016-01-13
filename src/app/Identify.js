@@ -5,6 +5,7 @@ define([
 
     'app/graphicController',
 
+    'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
     'dojo/date/locale',
@@ -14,6 +15,7 @@ define([
     'dojo/query',
     'dojo/request',
     'dojo/text!./templates/Identify.html',
+    'dojo/text!./templates/ParcelTemplate.html',
     'dojo/topic',
     'dojo/_base/array',
     'dojo/_base/declare',
@@ -34,6 +36,7 @@ define([
 
     graphicController,
 
+    _TemplatedMixin,
     _WidgetBase,
 
     locale,
@@ -43,6 +46,7 @@ define([
     query,
     request,
     template,
+    parcelTemplate,
     topic,
     array,
     declare,
@@ -57,7 +61,7 @@ define([
 
     mustache
 ) {
-    return declare([_WidgetBase], {
+    return declare([_WidgetBase, _TemplatedMixin], {
         // description:
         //      Identify functionality for the app. Returns popup with data. Uses the search api for most of the data.
 
@@ -76,7 +80,7 @@ define([
 
             lang.mixin(this, params);
 
-            mustache.parse(this.templateString);   // optional, speeds up future uses
+            mustache.parse(parcelTemplate);   // optional, speeds up future uses
 
             this.parcelQuery = new QueryTask(config.urls.parcel + '/0');
             this.parcelCriteria = new Query();
@@ -94,8 +98,7 @@ define([
                 on(document, 'keydown', lang.hitch(this, function closeContainer(evt) {
                     var charOrCode = evt.charCode || evt.keyCode;
                     if (charOrCode === keys.ESCAPE) {
-                        graphicController.clearGraphics();
-                        domClass.add(this.domNode, 'closed');
+                        this.close();
                     }
                 })),
                 topic.subscribe('identify', lang.hitch(this, '_populateIdentify'))
@@ -107,9 +110,8 @@ define([
             // evt: Map Click Event
             console.log('app.Identify:onMapClick', arguments);
 
-            graphicController.clearGraphics();
-            domClass.add(this.domNode, 'closed');
-            this.domNode.innerHTML = '';
+            this.close();
+            this.content.innerHTML = '';
 
             this.parcelCriteria.geometry = evt.mapPoint;
 
@@ -119,6 +121,16 @@ define([
                 .always(function () {
                     domClass.remove(that.domNode, 'closed');
                 });
+        },
+        /** closes the identify popup.
+         * @param param_type - param_name - param_description
+         * @returns return_type - return_description
+         */
+        close: function () {
+            console.log('app.Identify:close', arguments);
+
+            graphicController.clearGraphics();
+            domClass.add(this.domNode, 'closed');
         },
         /** show feature attributes in identify popup.
          * @param esri/task/Feature - features - a feature
@@ -130,7 +142,7 @@ define([
             var model = {};
 
             if (!feature) {
-                this.domNode.innerHTML = mustache.render(this.templateString, model);
+                this.content.innerHTML = mustache.render(parcelTemplate, model);
 
                 return true;
             }
@@ -141,7 +153,7 @@ define([
 
             model.item = [item];
 
-            this.domNode.innerHTML = mustache.render(this.templateString, model);
+            this.content.innerHTML = mustache.render(parcelTemplate, model);
 
             domClass.remove(this.domNode, 'closed');
         },
@@ -191,7 +203,7 @@ define([
                 content = lang.replace(template, ['There was a problem querying for parcel information.',
                                                   err.error.message]);
             }
-            this.domNode.innerHTML = content;
+            this.content.innerHTML = content;
         }
     });
 });
