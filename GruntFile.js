@@ -237,6 +237,12 @@ module.exports = function (grunt) {
         },
         secrets: secrets,
         sftp: {
+            options: {
+                path: './wwwroot/' + deployDir + '/',
+                srcBasePath: 'deploy/',
+                showProgress: true,
+                readyTimeout: 3000
+            },
             stage: {
                 files: {
                     './': 'deploy/deploy.zip'
@@ -257,17 +263,11 @@ module.exports = function (grunt) {
                     password: '<%= secrets.prod.password %>',
                     path: './upload/' + deployDir
                 }
-            },
-            options: {
-                createDirectories: true,
-                path: './wwwroot/' + deployDir + '/',
-                srcBasePath: 'deploy/',
-                showProgress: true
             }
         },
         sshexec: {
             options: {
-
+                readyTimeout: 3000
             },
             stage: {
                 command: ['cd wwwroot/' + deployDir, 'unzip -oq deploy.zip', 'rm deploy.zip'].join(';'),
