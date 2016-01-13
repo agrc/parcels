@@ -1,12 +1,17 @@
 .find-parcel
-    width 305px
+    .activity
+        animation: spin 2s infinite linear;
 
-.arcgisSearch .searchGroup .searchInput
-    width 100%
-    padding 6px 0px 6px 12px
-
-.arcgisSearch .searchInputGroup
-    width 176px
-
-.arcgisSearch .searchExpandContainer
-    width 234px
+    @keyframes spin
+        0%
+            transform: rotate(0deg)
+        100%
+            transform: rotate(359deg)
+    .callout
+        border 1px solid #eee
+        border-left-width 5px
+        border-radius 3px
+        h4
+            padding-left 5px
+    .error-callout
+        border-left-color: #ce4844

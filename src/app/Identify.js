@@ -74,13 +74,10 @@ define([
 
             mustache.parse(this.templateString);   // optional, speeds up future uses
 
-            this.countyQuery = new QueryTask(config.urls.county);
-            this.countyCriteria = new Query();
-            this.countyCriteria.outFields = ['countyNbr']
-            this.countyCriteria.returnGeometry = false;
-
+            this.parcelQuery = new QueryTask(config.urls.parcel);
             this.parcelCriteria = new Query();
             this.parcelCriteria.returnGeometry = true;
+            this.parcelCriteria.outFields = ['*'];
 
             this.polygonSymbol = new SimpleFillSymbol('solid',
                 new SimpleLineSymbol('solid', new Color([18,192,236,1]), 1.25),
@@ -94,7 +91,7 @@ define([
 
             this.own(
                 this.map.on('click', lang.hitch(this, 'onMapClick')),
-                this.countyQuery.on('error', lang.hitch(this, 'countyError')),
+                this.parcelQuery.on('error', lang.hitch(this, '_queryError')),
                 on(document, 'keydown', lang.hitch(this, function closeContainer(evt) {
                     var charOrCode = evt.charCode || evt.keyCode;
                     if (charOrCode === keys.ESCAPE) {
@@ -114,12 +111,10 @@ define([
             domClass.add(this.domNode, 'closed');
             this.domNode.innerHTML = '';
 
-            this.countyCriteria.geometry = evt.mapPoint;
             this.parcelCriteria.geometry = evt.mapPoint;
+
             var that = this;
-            this.countyQuery.execute(this.countyCriteria)
-                .then(lang.hitch(this, '_getParcelIndex'))
-                .then(lang.hitch(this, '_queryParcelLayer'))
+            this.parcelQuery.execute(this.parcelCriteria)
                 .then(lang.hitch(this, '_displayResults'))
                 .always(function () {
                     domClass.remove(that.domNode, 'closed');
@@ -147,61 +142,11 @@ define([
             item.formatParcelsCur = this._formatDate;
             item.fieldAliases = response.fieldAliases;
 
-            array.forEach(Object.keys(item.fieldAliases), function (key) {
-                item.fieldAliases[key] = String.toProperCase(item.fieldAliases[key])
-            });
-
             model.item = [item];
 
             this.domNode.innerHTML = mustache.render(this.templateString, model);
 
             this._highlightParcel(response.features[0].geometry);
-        },
-        /** Gets the featureSet from the counties feature class and finds the index of the parcel layer.
-         * @param esri/tasks/featureSet - response - a collecion of features returned from arcgis server
-         * @returns number - the index of the parcel layer
-         */
-        _getParcelIndex: function (response) {
-            console.log('app.Identify:_getParcelIndex', arguments);
-
-            if (!response || response.features.length < 1) {
-                return this.countyError();
-            }
-
-            var countyNumber = parseInt(response.features[0].attributes.COUNTYNBR);
-
-            return countyNumber;
-        },
-        /** The error handler for the county query.
-         * @param Error - err - ArcGIS Server error message returned in a JavaScript error object.
-         */
-        countyError: function (err) {
-            console.log('app.Identify:countyError', arguments);
-
-            topic.publish('error', err);
-            var template = '<div class="contract-popup"><h3 class="text-center">{0}</h3><p class="text-muted">{1}</p></div>';
-            var content = lang.replace(template, ['No county was found where you clicked. Are you clikcing inside Utah?', '']);
-
-            if (err) {
-                content = lang.replace(template, ['There was a problem querying for parcel information.',
-                                                  err.error.message]);
-            }
-            this.domNode.innerHTML = content;
-        },
-        /** Query the parcel layer for attribute data.
-         * @param Number - parcelIndex - the index of the parcel layer for the county
-         * @returns esri/task/FeatureSet - the feature set of information for the parcels queried.
-         */
-        _queryParcelLayer: function (parcelIndex) {
-            console.log('app.Identify:_queryParcelLayer', arguments);
-
-            var url = lang.replace(config.urls.parcelTemplate, [parcelIndex]);
-            var parcelQuery = new QueryTask(url);
-
-            this.parcelCriteria.outFields = ['PARCEL_ID', 'PARCEL_ADD', 'PARCEL_CITY', 'PARCEL_ZIP', 'OWN_TYPE',
-                                             'RECORDER', 'ParcelsCur', 'ParcelNotes']
-
-            return parcelQuery.execute(this.parcelCriteria);
         },
         /** Takes ephoc and retrns MM/DD/YYYY.
          * @param Number - epoch - date number
@@ -238,6 +183,22 @@ define([
             this._graphic = new Graphic(geometry, this.polygonSymbol);
 
             this.map.graphics.add(this._graphic);
+        },
+        /** The error handler for the county query.
+         * @param Error - err - ArcGIS Server error message returned in a JavaScript error object.
+         */
+        _queryError: function (err) {
+            console.log('app.Identify:_queryError', arguments);
+
+            topic.publish('error', err);
+            var template = '<div class="contract-popup"><h3 class="text-center">{0}</h3><p class="text-muted">{1}</p></div>';
+            var content = lang.replace(template, ['No county was found where you clicked. Are you clikcing inside Utah?', '']);
+
+            if (err) {
+                content = lang.replace(template, ['There was a problem querying for parcel information.',
+                                                  err.error.message]);
+            }
+            this.domNode.innerHTML = content;
         }
     });
 });
