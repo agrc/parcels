@@ -21,7 +21,7 @@ class ScheduledUpdate(object):
     def nightly(arg, self):
         raise NotImplementedError('Implement nightly in your update script.')
 
-    def get_dependent_layers(self, arg):
+    def get_dependent_layers(self):
         return self.dependencies
 
     def get_source_location(self):
@@ -33,7 +33,7 @@ class ScheduledUpdate(object):
 
 class ParcelAppUpdate(ScheduledUpdate):
     expires_in_hours = 'First Tuesday of Month'
-    gdb_name = 'Transformed.gdb'
+    _db_name = 'Transformed.gdb'
     _fc_name = 'StateWideParcels'
     dependencies = [
         'Parcels_Beaver',
@@ -79,29 +79,42 @@ class ParcelAppUpdate(ScheduledUpdate):
         ['CoParcel_URL', 'County Parcel Website', 'TEXT', 'NULLABLE', 150]
     ]
 
-    def nightly(self, arg):
+    def new_installation(self):
         #: import 29 dependent layers from `source_location` to `output_location`
         #: or look through dependencies for alternate `source_location`
+
+        try:
+            workspace = arcpy.env.workspace
+            arcpy.env.overwriteOutput = True
+
+            arcpy.env.workspace = self.get_source_location()
+
+            for fc in arcpy.ListFeatureClasses("*Parcels*"):
+                arcpy.CopyFeatures_management(fc, join(self.get_destination_location(), fc.split('.')[2]))
+
+            arcpy.env.workspace = workspace
+        except Exception as e:
+            print(e)
 
         self._create_output_location()
 
         self._create_output_table()
 
-    def transform(self, arg):
+    def nightly(self):
         #: squash 29 county layers into 1 with 9 attributes used by the app
         workspace = arcpy.env.workspace
-        arcpy.env.workspace = 'C:\\Projects\\GitHub\\Parcels\\data\\SGID10.gdb'
+        arcpy.env.workspace = self.get_destination_location()
 
-        arcpy.TruncateTable_management(in_table=join(self._get_tranform_location(), self._fc_name))
+        arcpy.TruncateTable_management(in_table=join(self._get_transform_location(), self._fc_name))
 
         for layer in self.dependencies:
             arcpy.Append_management(inputs=layer,
-                                    target=join(self._get_tranform_location(), self._fc_name),
+                                    target=join(self._get_transform_location(), self._fc_name),
                                     schema_type='NO_TEST')
 
             county_name = layer.replace('Parcels_', '')
 
-            with arcpy.da.UpdateCursor(in_table=join(self._get_tranform_location(), self._fc_name),
+            with arcpy.da.UpdateCursor(in_table=join(self._get_transform_location(), self._fc_name),
                                        field_names='County',
                                        where_clause='County IS NULL OR County = \'\'') as cursor:
                 for row in cursor:
@@ -111,36 +124,36 @@ class ParcelAppUpdate(ScheduledUpdate):
         arcpy.env.workspace = workspace
 
         try:
-            arcpy.RemoveIndex_management(in_table=join(self._get_tranform_location(), self._fc_name),
+            arcpy.RemoveIndex_management(in_table=join(self._get_transform_location(), self._fc_name),
                                          index_name='web_query')
         except Exception:
             pass
 
-        arcpy.AddIndex_management(in_table=join(self._get_tranform_location(), self._fc_name),
+        arcpy.AddIndex_management(in_table=join(self._get_transform_location(), self._fc_name),
                                   fields='PARCEL_ID;County',
                                   index_name='web_query')
 
-    def clean_up(self, arg):
+    def clean_up(self):
         #: delete parcel data if not used in other plugin
         pass
 
     def _create_output_location(self):
-        if exists(self.get_destination_location()):
+        if exists(self._get_transform_location()):
             return
 
         arcpy.CreateFileGDB_management(self.output_directory,
-                                       self.gdb_name,
+                                       self._gdb_name,
                                        'CURRENT')
 
     def _create_output_table(self):
         workspace = arcpy.env.workspace
-        arcpy.env.workspace = self._get_tranform_location()
+        arcpy.env.workspace = self._get_transform_location()
 
         if arcpy.Exists(self._fc_name):
             return
 
         sr = join(self.output_directory, '3857.prj')
-        arcpy.CreateFeatureclass_management(out_path=self._get_tranform_location(),
+        arcpy.CreateFeatureclass_management(out_path=self._get_transform_location(),
                                             out_name=self._fc_name,
                                             geometry_type='POLYGON',
                                             spatial_reference=sr)
@@ -162,5 +175,5 @@ class ParcelAppUpdate(ScheduledUpdate):
 
         arcpy.env.workspace = workspace
 
-    def _get_tranform_location(self):
-        return join(self.output_directory, self.gdb_name)
+    def _get_transform_location(self):
+        return join(self.output_directory, self._gdb_name)
