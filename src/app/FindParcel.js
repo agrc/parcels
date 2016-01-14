@@ -112,6 +112,11 @@ define([
             console.log('app.FindParcel:_showParcelId', arguments);
 
             domClass.toggle(this.parcelGroup, 'hidden', !current);
+
+            graphicController.clearGraphics();
+
+            domClass.add(this.errors, 'hidden');
+            this.errors.innerHTML = '';
         },
         /** function to monitor changes to the parcel id value. */
         _showSubmit: function (field, previous, current) {
