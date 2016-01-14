@@ -1,6 +1,6 @@
 {
   "name": "Parcels",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "dependencies": {
     "agrc": "agrc-widgets#3.0.0",
     "agrc-jasmine-matchers": "^0.1.0",
