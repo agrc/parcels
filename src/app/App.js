@@ -98,12 +98,6 @@ define([
                 zoomLevel: 17
             }, this.geocodeNode);
 
-            aspect.after(geocode, '_done', function () {
-                setTimeout(lang.hitch(this, function () {
-                    this.graphicsLayer.remove(this._graphic);
-                }), 2500);
-            });
-
             this.childWidgets.push(
                 new SideBarToggler({
                     sidebar: this.sideBar,
