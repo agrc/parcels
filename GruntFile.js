@@ -260,8 +260,7 @@ module.exports = function (grunt) {
                 options: {
                     host: '<%= secrets.prod.host %>',
                     username: '<%= secrets.prod.username %>',
-                    password: '<%= secrets.prod.password %>',
-                    path: './upload/' + deployDir
+                    password: '<%= secrets.prod.password %>'
                 }
             }
         },
