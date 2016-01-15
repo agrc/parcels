@@ -21,9 +21,9 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
 
+    'esri/dijit/Print',
     'esri/geometry/Extent',
     'esri/layers/ArcGISDynamicMapServiceLayer',
-    'esri/dijit/Print',
 
     'ijit/widgets/layout/SideBarToggler',
 
@@ -51,9 +51,9 @@ define([
     declare,
     lang,
 
+    Print,
     Extent,
     ArcGISDynamicMapServiceLayer,
-    Print,
 
     SideBarToggler,
 
@@ -163,7 +163,9 @@ define([
             //      Sets up the map
             console.info('app.App::initMap', arguments);
 
-            this.map = new Map(this.mapDiv, {
+            this.map = new BaseMap(this.mapDiv, {
+                showAttribution: false,
+                useDefaultBaseMap: false,
                 extent: new Extent({
                     xmax: -12010849.397533866,
                     xmin: -12898741.918094235,
