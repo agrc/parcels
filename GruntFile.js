@@ -347,7 +347,8 @@ module.exports = function (grunt) {
     grunt.registerTask('deploy-prod', [
         'clean:deploy',
         'compress:main',
-        'sftp:prod'
+        'sftp:prod',
+        'sshexec:prod'
     ]);
     grunt.registerTask('build-stage', [
         'eslint:main',
