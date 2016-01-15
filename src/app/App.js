@@ -5,6 +5,7 @@ define([
 
     'agrc/widgets/locate/FindAddress',
     'agrc/widgets/locate/MagicZoom',
+    'agrc/widgets/map/BaseMap',
 
     'app/graphicController',
 
@@ -22,7 +23,7 @@ define([
 
     'esri/geometry/Extent',
     'esri/layers/ArcGISDynamicMapServiceLayer',
-    'esri/map',
+    'esri/dijit/Print',
 
     'ijit/widgets/layout/SideBarToggler',
 
@@ -34,6 +35,7 @@ define([
 
     FindAddress,
     MagicZoom,
+    BaseMap,
 
     graphicController,
 
@@ -51,7 +53,7 @@ define([
 
     Extent,
     ArcGISDynamicMapServiceLayer,
-    Map,
+    Print,
 
     SideBarToggler,
 
@@ -99,6 +101,18 @@ define([
             }, this.geocodeNode);
 
             this.childWidgets.push(
+                new Print({
+                    map: this.map,
+                    url: config.urls.exportWebMapUrl,
+                    templates: [{
+                        label: 'Portrait (PDF)',
+                        format: 'PDF',
+                        layout: 'Letter ANSI A Portrait',
+                        options: {
+                            legendLayers: []
+                        }
+                    }]
+                }, this.printDiv),
                 new SideBarToggler({
                     sidebar: this.sideBar,
                     map: this.map,

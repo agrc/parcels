@@ -1,6 +1,7 @@
 @require 'nib';
 @import '../../esri/css/esri.css';
 @import '../../bootstrap/dist/css/bootstrap.css';
+@import '../../agrc/resources/map/BaseMap.css';
 @require '../../ijit/themes/standard/layout/SideBarToggler.css';
 @import '../../agrc/resources/locate/FindAddress.css';
 @import '../../agrc/resources/locate/MagicZoom.css';
@@ -10,6 +11,42 @@
 
 $side-bar-width = 300px
 $container-margin = 5px
+
+// printing
+.dijitButtonNode *
+    cursor pointer
+    tap-hightight-color transparent
+.dijitButtonText
+    text-align center
+    padding 0 0.3em
+.dijitStretch
+    white-space nowrap
+    backgorund-repeat repeat-x
+.esriPrint
+    padding 0
+.dijitButton
+    margin: 0.2em
+    vertical-align middle
+.dijitInline
+    display inline-block
+    border 0
+    padding 0
+.dijitReset
+    margin 0
+    border 0
+    padding 0
+    font inherit
+    line-height normal
+    color inherit
+.dijitNoIcon
+    display none
+.dijitToggleButtonIconChar
+    display none !important
+.dijitOffScreen
+    position absolute !important
+    left -10000px !important
+    top -10000px !important
+// end printing
 
 body, html, .app
     width 100%
