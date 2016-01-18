@@ -84,16 +84,23 @@ define([
         postCreate: function () {
             console.log('app.FindParcel::postCreate', arguments);
 
+            this.inherited(arguments);
+
+            this._setupConnections();
+
             counties.forEach(function addOptions(county) {
                 var option = document.createElement('option');
                 option.value = county.replace(/\s+/g, '');
                 option.innerHTML = county;
 
+                if (this.selectedCounty === county) {
+                    option.selected = true;
+                    this.set('countyName', county);
+                    this._showParcelId('countyName', null, county);
+                }
+
                 this.county.appendChild(option);
             }, this);
-
-            this._setupConnections();
-            this.inherited(arguments);
         },
         /**
          * wire events, and such

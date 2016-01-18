@@ -7,6 +7,7 @@ define([
     'agrc/widgets/locate/MagicZoom',
     'agrc/widgets/map/BaseMap',
 
+    'app/extents',
     'app/graphicController',
 
     'dijit/_TemplatedMixin',
@@ -16,6 +17,7 @@ define([
     'dojo/aspect',
     'dojo/dom',
     'dojo/dom-style',
+    'dojo/io-query',
     'dojo/text!app/templates/App.html',
     'dojo/_base/array',
     'dojo/_base/declare',
@@ -37,6 +39,7 @@ define([
     MagicZoom,
     BaseMap,
 
+    extents,
     graphicController,
 
     _TemplatedMixin,
@@ -46,6 +49,7 @@ define([
     aspect,
     dom,
     domStyle,
+    ioQuery,
     template,
     array,
     declare,
@@ -82,6 +86,11 @@ define([
             config.app = this;
             this.childWidgets = [];
 
+            var county = this._determineCounty(window.location.href);
+            window.document.title = county.name + ' Parcels';
+            this.county = county.name;
+            this.countyExtent = county.extent;
+
             this.inherited(arguments);
         },
         postCreate: function () {
@@ -92,15 +101,14 @@ define([
             // set version number
             this.version.innerHTML = config.version;
 
-            this.initMap();
-
-            var geocode = new FindAddress({
-                map: this.map,
-                apiKey: config.apiKey,
-                zoomLevel: 17
-            }, this.geocodeNode);
+            this.initMap(this.countyExtent);
 
             this.childWidgets.push(
+                new FindAddress({
+                    map: this.map,
+                    apiKey: config.apiKey,
+                    zoomLevel: 17
+                }, this.geocodeNode),
                 new Print({
                     map: this.map,
                     url: config.urls.exportWebMapUrl,
@@ -118,9 +126,9 @@ define([
                     map: this.map,
                     centerContainer: this.centerContainer
                 }, this.sidebarToggle),
-                geocode,
                 new FindParcel({
-                    map: this.map
+                    map: this.map,
+                    selectedCounty: this.county
                 }, this.parcelNode),
                 new MagicZoom({
                     map: this.map,
@@ -158,22 +166,15 @@ define([
 
             this.inherited(arguments);
         },
-        initMap: function () {
+        initMap: function (extent) {
             // summary:
             //      Sets up the map
-            console.info('app.App::initMap', arguments);
+            console.log('app.App::initMap', arguments);
 
             this.map = new BaseMap(this.mapDiv, {
                 showAttribution: false,
                 useDefaultBaseMap: false,
-                extent: new Extent({
-                    xmax: -12010849.397533866,
-                    xmin: -12898741.918094235,
-                    ymax: 5224652.298632992,
-                    ymin: 4422369.249751998,
-                    spatialReference: {
-                        wkid: 3857
-                    }})
+                extent: extent
             });
 
             this.childWidgets.push(
@@ -204,6 +205,36 @@ define([
 
             this.map.addLayer(parcels);
             graphicController.map = this.map;
+        },
+        /** pulls the county from the #/{County} url and returns it or empty String.
+         * @param {String} - str - The window.location.href value
+         * @returns {String} - the county name or empty String
+         */
+        _determineCounty: function (str) {
+            console.log('app.App:_determineCounty', arguments);
+
+            var i = str.indexOf('#/');
+            var county =  (i >= 0) ? str.substring(i + 2) : '';
+
+            var county = extents.filter(function extractName(item) {
+                return item.name === county;
+            });
+
+            if (!county || county.length < 1) {
+                county = [{
+                    name: 'Utah State',
+                    extent: new Extent({
+                        xmax: -12010849.397533866,
+                        xmin: -12898741.918094235,
+                        ymax: 5224652.298632992,
+                        ymin: 4422369.249751998,
+                        spatialReference: {
+                            wkid: 3857
+                        }
+                    })}];
+            }
+
+            return county[0];
         }
     });
 });

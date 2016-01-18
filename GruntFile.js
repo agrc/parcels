@@ -26,8 +26,12 @@ var browsers = [{
     version: '9'
 }];
 
+
+
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
+
+    grunt.loadNpmTasks('intern');
 
     var otherFiles = [
         'src/app/**/*.html',
@@ -201,6 +205,16 @@ module.exports = function (grunt) {
                     src: ['**/*.{png,jpg,gif}', '!**/tests/**/*.*'],
                     dest: 'src/'
                 }]
+            }
+        },
+        intern: {
+            main: {
+                options: {
+                    runType: 'client', // defaults to 'client'
+                    config: 'src/app/tests/spec/intern',
+                    reporters: ['Console'],
+                    suites: ['SpecApp']
+                }
             }
         },
         jasmine: {

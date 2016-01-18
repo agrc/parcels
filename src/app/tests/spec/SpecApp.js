@@ -1,28 +1,31 @@
-require([
-    'app/App',
-    'dojo/dom-construct',
-    'dojo/_base/window'
+define(function (require) {
+    var registerSuite = require('intern!object');
+    var assert = require('intern/chai!assert');
+    var App = require('app/App');
+    var testWidget;
 
-],
+    registerSuite({
+        name: 'App',
 
-function (
-    App,
-    domConstruct,
-    win
-    ) {
-    describe('app/App', function () {
-        var testWidget;
-        beforeEach(function () {
-            testWidget = new App({}, domConstruct.create('div', {}, win.body()));
+        beforeEach: function () {
+            var div = document.createElement('div');
+            document.body.appendChild(div);
+
+            testWidget = new App({}, div);
             testWidget.startup();
-        });
-        afterEach(function () {
+        },
+
+        afterEach: function () {
             testWidget.destroy();
             testWidget = null;
-        });
+        },
 
-        it('creates a valid object', function () {
-            expect(testWidget).toEqual(jasmine.any(App));
-        });
+        pass: function () {
+            assert.ok(true);
+        },
+
+        fail: function () {
+            assert.ok(false);
+        }
     });
 });
