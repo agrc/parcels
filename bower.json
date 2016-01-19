@@ -3,13 +3,10 @@
   "version": "1.1.0",
   "dependencies": {
     "agrc": "agrc-widgets#3.0.0",
-    "agrc-jasmine-matchers": "^0.1.0",
     "bootstrap": "^3.3",
     "esri": "arcgis-js-api#^3.15.0",
     "ijit": "agrc-ijit#3.1.1",
-    "jasmine-favicon-reporter": "*",
     "stubmodule": "^0.6",
-    "jasmine-jsreporter": "^0.1.2",
     "xstyle": "09b4d603f63df3e7aa5acc04784e36710a75671d",
     "dgauges": "*",
     "mustache": "^2.2.1",

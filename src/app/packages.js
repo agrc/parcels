@@ -29,10 +29,6 @@ require({
             location: './mustache',
             main: 'mustache'
         }, {
-            name: 'proj4',
-            location: './proj4',
-            main: 'dist/proj4'
-        }, {
             name: 'spin',
             location: './spinjs',
             main: 'spin'

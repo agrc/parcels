@@ -178,11 +178,17 @@ define([
         _formatDate: function () {
             console.log('app.Identity:_formatDate', arguments);
 
-            if (!this.ParcelsCur && this.ParcelsCur < 1) {
+            if (!this.ParcelsCur || this.ParcelsCur < 1) {
                 return '';
             }
 
-            var date = new Date(this.ParcelsCur);
+            var timezone = new Date();
+            var date = new Date(this.ParcelsCur + timezone.getTimezoneOffset() * 60 * 1000);
+
+            var offset = timezone.getTimezoneOffset() / 60;
+            var hours = timezone.getHours();
+
+            date.setHours(hours - offset);
 
             return locale.format(date, {
                 selector: 'date',

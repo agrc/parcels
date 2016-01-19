@@ -1,43 +1,13 @@
-var osx = 'OS X 10.10';
-var windows = 'Windows 8.1';
-var browsers = [{
-    browserName: 'safari',
-    platform: osx
-}, {
-    browserName: 'firefox',
-    platform: windows
-}, {
-    browserName: 'chrome',
-    platform: windows
-}, {
-    browserName: 'microsoftedge',
-    platform: 'Windows 10'
-}, {
-    browserName: 'internet explorer',
-    platform: windows,
-    version: '11'
-}, {
-    browserName: 'internet explorer',
-    platform: 'Windows 8',
-    version: '10'
-}, {
-    browserName: 'internet explorer',
-    platform: 'Windows 7',
-    version: '9'
-}];
-
-
-
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
-
     grunt.loadNpmTasks('intern');
 
     var otherFiles = [
         'src/app/**/*.html',
         'src/app/**/*.css',
         'src/index.html',
-        'src/ChangeLog.html'
+        'src/ChangeLog.html',
+        'tests/**/*.js'
     ];
     var jsFiles = [
         'src/app/**/*.js',
@@ -67,21 +37,7 @@ module.exports = function (grunt) {
     ];
     var deployDir = 'Parcels';
     var secrets;
-    var sauceConfig = {
-        urls: ['http://127.0.0.1:8000/_SpecRunner.html'],
-        tunnelTimeout: 120,
-        build: process.env.TRAVIS_JOB_ID,
-        browsers: browsers,
-        testname: 'parcels',
-        maxRetries: 10,
-        maxPollRetries: 10,
-        'public': 'public',
-        throttled: 5,
-        sauceConfig: {
-            'max-duration': 1800
-        },
-        statusCheckAttempts: 500
-    };
+    var sauceConfig = {};
     try {
         secrets = grunt.file.readJSON('secrets.json');
         sauceConfig.username = secrets.sauce_name;
@@ -130,31 +86,11 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            options: {
-                livereload: true,
-                base: '.'
-            },
-            jasmine: {
+            intern: {
                 options: {
+                    livereload: true,
                     port: 8000,
-                    base: {
-                        path: '.',
-                        options: {
-                            index: '_SpecRunner.html'
-                        }
-                    }
-                }
-            },
-            openJasmine: {
-                options: {
-                    open: true,
-                    port: 8000,
-                    base: {
-                        path: '.',
-                        options: {
-                            index: '_SpecRunner.html'
-                        }
-                    }
+                    base: '.'
                 }
             }
         },
@@ -210,29 +146,22 @@ module.exports = function (grunt) {
         intern: {
             main: {
                 options: {
-                    runType: 'client', // defaults to 'client'
-                    config: 'src/app/tests/spec/intern',
-                    reporters: ['Console'],
-                    suites: ['SpecApp']
+                    runType: 'runner',
+                    config: 'tests/intern',
+                    reporters: ['Runner'],
+                    suites: [
+                        'tests/unit/App',
+                        'tests/unit/Identify',
+                        'tests/unit/FindParcel'
+                    ],
+                    sauceUsername: sauceConfig.username,
+                    sauceAccessKey: sauceConfig.key
                 }
             }
         },
-        jasmine: {
-            main: {
-                options: {
-                    specs: ['src/app/**/Spec*.js'],
-                    vendor: [
-                        'src/jasmine-favicon-reporter/vendor/favico.js',
-                        'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
-                        'src/jasmine-jsreporter/jasmine-jsreporter.js',
-                        'src/app/tests/jasmineTestBootstrap.js',
-                        'src/dojo/dojo.js',
-                        'src/app/packages.js',
-                        'src/app/tests/jsReporterSanitizer.js',
-                        'src/app/tests/jasmineAMDErrorChecking.js'
-                    ],
-                    host: 'http://localhost:8000'
-                }
+        open: {
+            tests: {
+                path: 'http://localhost:8000/node_modules/intern/client.html?config=tests/intern'
             }
         },
         processhtml: {
@@ -242,11 +171,6 @@ module.exports = function (grunt) {
                     'dist/index.html': ['src/index.html'],
                     'dist/user_admin.html': ['src/user_admin.html']
                 }
-            }
-        },
-        'saucelabs-jasmine': {
-            all: {
-                options: sauceConfig
             }
         },
         secrets: secrets,
@@ -320,7 +244,7 @@ module.exports = function (grunt) {
             },
             eslint: {
                 files: jsFiles,
-                tasks: ['newer:eslint:main', 'jasmine:main:build']
+                tasks: ['newer:eslint:main']
             },
             src: {
                 files: jsFiles.concat(otherFiles),
@@ -336,17 +260,16 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', [
-        'jasmine:main:build',
         'eslint:main',
         'stylus',
-        'connect:jasmine',
+        'connect:intern',
         'watch'
     ]);
     grunt.registerTask('launch', [
-        'jasmine:main:build',
         'eslint:main',
         'stylus',
-        'connect:openJasmine',
+        'connect:intern',
+        'open:tests',
         'watch'
     ]);
     grunt.registerTask('build-prod', [
@@ -379,14 +302,9 @@ module.exports = function (grunt) {
         'sftp:stage',
         'sshexec:stage'
     ]);
-    grunt.registerTask('sauce', [
-        'jasmine:main:build',
-        'connect',
-        'saucelabs-jasmine'
-    ]);
     grunt.registerTask('travis', [
         'eslint:main',
-        'sauce',
+        'intern:main',
         'build-prod'
     ]);
 };
