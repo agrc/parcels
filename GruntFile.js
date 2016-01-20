@@ -150,9 +150,7 @@ module.exports = function (grunt) {
                     config: 'tests/intern',
                     reporters: ['Runner'],
                     suites: [
-                        'tests/unit/App',
-                        'tests/unit/Identify',
-                        'tests/unit/FindParcel'
+                        'tests/all'
                     ],
                     sauceUsername: sauceConfig.username,
                     sauceAccessKey: sauceConfig.key

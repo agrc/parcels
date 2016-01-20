@@ -64,9 +64,7 @@ define({
         }]
     },
     suites: [
-        'tests/unit/App',
-        'tests/unit/Identify',
-        'tests/unit/FindParcel'
+        'tests/all'
     ],
     functionalSuites: [],
     excludeInstrumentation: /^(?!src\/app).*\//
