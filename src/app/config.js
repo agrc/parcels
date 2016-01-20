@@ -28,7 +28,7 @@ define([
 
         // version.: String
         //      The version number.
-        version: '1.1.0',
+        version: '1.2.0',
 
         // apiKey: String
         //      The api key used for services on api.mapserv.utah.gov
@@ -43,8 +43,8 @@ define([
     };
 
     if (has('agrc-build') === 'prod') {
-        // mapserv.utah.gov
-        window.AGRC.apiKey = 'AGRC-A94B063C533889';
+        // mapserv.utah.gov/parcels
+        window.AGRC.apiKey = 'AGRC-72B18AE3164585';
         window.AGRC.quadWord = 'alfred-plaster-crystal-dexter';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
