@@ -7,8 +7,11 @@ A module that contains a pallet to update the parcels for the parcel app
 '''
 
 import arcpy
+from forklift import seat
 from forklift.models import Pallet
-from os.path import exists, join
+from os.path import basename
+from os.path import exists
+from time import clock
 
 
 class ParcelPallet(Pallet):
@@ -33,6 +36,9 @@ class ParcelPallet(Pallet):
         self.destination_workspace = 'C:\\MapData\\Transformed.gdb'
         self.destination_fc_name = 'StateWideParcels'
 
+        self._create_workspace(self.temporary_workspace)
+        self._create_workspace(self.destination_workspace)
+
         self.add_crates(
             ['Parcels_Beaver', 'Parcels_BoxElder', 'Parcels_Cache', 'Parcels_Carbon', 'Parcels_Daggett',
              'Parcels_Davis', 'Parcels_Duchesne', 'Parcels_Emery', 'Parcels_Garfield', 'Parcels_Grand', 'Parcels_Iron',
@@ -46,20 +52,23 @@ class ParcelPallet(Pallet):
 
     def process(self):
         #: squash 29 county layers into 1 with 9 attributes used by the app
+        start_seconds = clock()
+
         workspace = arcpy.env.workspace
-
-        self._create_destination_workspace(self.destination_workspace)
-
         arcpy.env.workspace = self.destination_workspace
 
+        self.log.info('creating statewide parcel layer %s', self.destination_name)
         self._create_destination_table(self.destination_workspace, self.destination_name)
 
         for crate in self._crates:
+            self.log.info('appending crate %s', crate.name)
             arcpy.Append_management(inputs=crate.destination,
                                     target=self.destination_fc_name,
                                     schema_type='NO_TEST')
 
             county_name = crate.source_name.replace('Parcels_', '')
+
+            self.log.debug('updating field names')
 
             with arcpy.da.UpdateCursor(in_table=self.destination_fc_name,
                                        field_names='County',
@@ -71,22 +80,34 @@ class ParcelPallet(Pallet):
         arcpy.env.workspace = workspace
 
         try:
+            self.log.debug('removing index')
             arcpy.RemoveIndex_management(in_table=self.destination_fc_name,
                                          index_name='web_query')
-        except Exception:
-            pass
+        except Exception as e:
+            self.log.warn('error creating parcel index: %s', e.message)
 
+        self.log.debug('adding index')
         arcpy.AddIndex_management(in_table=self.destination_fc_name,
                                   fields='PARCEL_ID;County',
                                   index_name='web_query')
 
-    def _create_destination_workspace(self, gdb):
-        if exists(gdb):
+        self.log.debug('compacting %s', self.destination_workspace)
+        arcpy.Compact_management(self.destination_workspace)
+
+        self.log.debug('compacting %s', self.temporary_workspace)
+        arcpy.Compact_management(self.temporary_workspace)
+
+        self.log.debug('finished parcel processing %s',  seat.format_time(clock() - start_seconds))
+
+    def _create_workspace(self, workspace):
+        if exists(workspace):
             return
 
-        #: TODO split gdb_name and parent directory out of gdb
-        arcpy.CreateFileGDB_management(self.output_directory,
-                                       self._gdb_name,
+        gdb_name = basename(workspace)
+        workspace = workspace.replace(gdb_name, '')
+
+        arcpy.CreateFileGDB_management(workspace,
+                                       gdb_name,
                                        'CURRENT')
 
     def _create_destination_table(self, workspace, name):
@@ -96,9 +117,6 @@ class ParcelPallet(Pallet):
         if arcpy.Exists(name):
             arcpy.TruncateTable_management(name)
             return
-
-        arcpy.env.geographic_transformation = 'NAD_1983_to_WGS_1984_5'
-        arcpy.env.destination_coordinate_system = 3857
 
         arcpy.CreateFeatureclass_management(out_path=self._get_transform_location(),
                                             out_name=self._fc_name,
