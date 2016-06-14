@@ -21,6 +21,7 @@ class ParcelPallet(Pallet):
         super(ParcelPallet, self).__init__()
 
         self.arcgis_services = [('Parcels', 'MapServer')]
+        self.copy_data = ['C:\\MapData\\Cadastre.gdb']
 
         self._fields = [
             ['PARCEL_ID', 'Parcel Id', 'TEXT', 'NULLABLE', 50], ['PARCEL_ADD', 'Address', 'TEXT', 'NULLABLE', 60],
@@ -32,8 +33,8 @@ class ParcelPallet(Pallet):
             ['CoParcel_URL', 'County Parcel Website', 'TEXT', 'NULLABLE', 150]
         ]
 
-        self.temporary_workspace = 'C:\\MapData\\Cadastre.gdb'
-        self.destination_workspace = 'C:\\MapData\\Transformed.gdb'
+        self.temporary_workspace = 'C:\\Scheduled\\Staging\\Cadastre.gdb'
+        self.destination_workspace = 'C:\\Scheduled\\Staging\\Transformed.gdb'
         self.destination_fc_name = 'StateWideParcels'
 
         self._create_workspace(self.temporary_workspace)
