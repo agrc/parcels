@@ -49,9 +49,7 @@ class ParcelPallet(Pallet):
              'Parcels_SaltLake', 'Parcels_SanJuan', 'Parcels_Sanpete', 'Parcels_Sevier', 'Parcels_Summit',
              'Parcels_Tooele', 'Parcels_Uintah', 'Parcels_Utah', 'Parcels_Wasatch', 'Parcels_Washington',
              'Parcels_Wayne', 'Parcels_Weber'], {'source_workspace': join(self.garage, 'SGID10.sde'),
-                                                 'destination_workspace': self.temporary_workspace,
-                                                 'geographic_transformation': 'NAD_1983_to_WGS_1984_5',
-                                                 'destination_coordinate_system': 3857})
+                                                 'destination_workspace': self.temporary_workspace})
 
     def process(self):
         #: squash 29 county layers into 1 with 9 attributes used by the app
