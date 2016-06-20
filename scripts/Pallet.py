@@ -10,6 +10,7 @@ import arcpy
 from forklift import seat
 from forklift.models import Pallet
 from os.path import basename
+from os.path import join
 from os.path import exists
 from random import choice
 from time import clock
@@ -37,6 +38,7 @@ class ParcelPallet(Pallet):
         self.destination_workspace = 'C:\\Scheduled\\Staging\\Transformed.gdb'
         self.destination_fc_name = 'StateWideParcels'
 
+    def build(self):
         self._create_workspace(self.temporary_workspace)
         self._create_workspace(self.destination_workspace)
 
@@ -46,7 +48,7 @@ class ParcelPallet(Pallet):
              'Parcels_Juab', 'Parcels_Kane', 'Parcels_Millard', 'Parcels_Morgan', 'Parcels_Piute', 'Parcels_Rich',
              'Parcels_SaltLake', 'Parcels_SanJuan', 'Parcels_Sanpete', 'Parcels_Sevier', 'Parcels_Summit',
              'Parcels_Tooele', 'Parcels_Uintah', 'Parcels_Utah', 'Parcels_Wasatch', 'Parcels_Washington',
-             'Parcels_Wayne', 'Parcels_Weber'], {'source_workspace': 'Database Connections\\agrc@sgid10.sde',
+             'Parcels_Wayne', 'Parcels_Weber'], {'source_workspace': join(self.garage, 'SGID10.sde'),
                                                  'destination_workspace': self.temporary_workspace,
                                                  'geographic_transformation': 'NAD_1983_to_WGS_1984_5',
                                                  'destination_coordinate_system': 3857})
