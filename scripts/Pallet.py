@@ -37,7 +37,7 @@ class ParcelPallet(Pallet):
             ['CoParcel_URL', 'County Parcel Website', 'TEXT', 'NULLABLE', 150]
         ]
 
-    def build(self):
+    def build(self, target):
         self._create_workspace(self.temporary_workspace)
         self._create_workspace(self.destination_workspace)
 
