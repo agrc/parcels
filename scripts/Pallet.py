@@ -30,11 +30,9 @@ class ParcelPallet(Pallet):
         self._fields = [
             ['PARCEL_ID', 'Parcel Id', 'TEXT', 'NULLABLE', 50], ['PARCEL_ADD', 'Address', 'TEXT', 'NULLABLE', 60],
             ['PARCEL_CITY', 'City', 'TEXT', 'NULLABLE', 30], ['PARCEL_ZIP', 'Zip Code', 'TEXT', 'NULLABLE', 10],
-            ['OWN_TYPE', 'Generalized Ownership Type', 'TEXT', 'NULLABLE', 20],
-            ['RECORDER', 'Recorder Contact', 'TEXT', 'NULLABLE', 50],
+            ['OWN_TYPE', 'Generalized Ownership Type', 'TEXT', 'NULLABLE', 20], ['RECORDER', 'Recorder Contact', 'TEXT', 'NULLABLE', 50],
             ['ParcelsCur', 'Current as of', 'DATE', 'NULLABLE'], ['ParcelNotes', 'Notes', 'TEXT', 'NULLABLE', 50],
-            ['County', 'County', 'TEXT', 'NON_NULLABLE', 50],
-            ['CoParcel_URL', 'County Parcel Website', 'TEXT', 'NULLABLE', 150]
+            ['County', 'County', 'TEXT', 'NON_NULLABLE', 50], ['CoParcel_URL', 'County Parcel Website', 'TEXT', 'NULLABLE', 150]
         ]
 
     def build(self, target):
@@ -61,36 +59,34 @@ class ParcelPallet(Pallet):
         self._create_destination_table(self.destination_workspace, self.destination_fc_name)
 
         for crate in self._crates:
-            self.log.info('appending crate %s', crate.name)
+            self.log.info('appending crate %s', crate.source_name)
             arcpy.Append_management(inputs=crate.destination, target=self.destination_fc_name, schema_type='NO_TEST')
 
-            county_name = crate.source_name.replace('Parcels_', '')
+            county_name = crate.destination_name.replace('Parcels_', '')
 
             self.log.debug('updating field names')
 
-            with arcpy.da.UpdateCursor(in_table=self.destination_fc_name,
-                                       field_names='County',
-                                       where_clause='County IS NULL OR County = \'\'') as cursor:
+            with arcpy.da.UpdateCursor(in_table=self.destination_fc_name, field_names='County') as cursor:
                 for row in cursor:
                     row[0] = county_name
                     cursor.updateRow(row)
 
-        arcpy.env.workspace = workspace
-
+        self.log.debug('removing index')
         try:
-            self.log.debug('removing index')
-            arcpy.RemoveIndex_management(in_table=self.destination_fc_name, index_name='web_query')
+            arcpy.RemoveIndex_management(in_table=self.destination_fc_name, index_name='webquery')
         except Exception as e:
-            self.log.warn('error creating parcel index: %s', e.message)
+            self.log.warn('error removing parcel index: %s', e.message)
 
         self.log.debug('adding index')
-        arcpy.AddIndex_management(in_table=self.destination_fc_name, fields='PARCEL_ID;County', index_name='web_query')
-
-        self.log.debug('compacting %s', self.destination_workspace)
-        arcpy.Compact_management(self.destination_workspace)
+        try:
+            arcpy.AddIndex_management(in_table=self.destination_fc_name, fields='PARCEL_ID;County', index_name='webquery')
+        except Exception as e:
+            self.log.warn('error adding parcel index: %s', e.message)
 
         self.log.debug('compacting %s', self.temporary_workspace)
         arcpy.Compact_management(self.temporary_workspace)
+
+        arcpy.env.workspace = workspace
 
         self.log.debug('finished parcel processing %s', seat.format_time(clock() - start_seconds))
 
@@ -111,9 +107,7 @@ class ParcelPallet(Pallet):
             arcpy.TruncateTable_management(name)
             return
 
-        arcpy.CreateFeatureclass_management(out_path=workspace,
-                                            out_name=name,
-                                            geometry_type='POLYGON')
+        arcpy.CreateFeatureclass_management(out_path=workspace, out_name=name, geometry_type='POLYGON')
 
         for field in self._fields:
             if len(field) == 5:
@@ -124,18 +118,13 @@ class ParcelPallet(Pallet):
                                           field_is_nullable=field[3],
                                           field_length=field[4])
             else:
-                arcpy.AddField_management(in_table=name,
-                                          field_name=field[0],
-                                          field_alias=field[1],
-                                          field_type=field[2],
-                                          field_is_nullable=field[3])
+                arcpy.AddField_management(in_table=name, field_name=field[0], field_alias=field[1], field_type=field[2], field_is_nullable=field[3])
 
         arcpy.env = env
 
     def ship(self):
-        emails = ['The parcels were just updated bro. Rejoice.',
-                  'It\'s your lucky day. The parcels data has been updated!', 'Yo, the parcel app has fresh data.',
-                  'Thanks for all your hard work. The parcel app has current data.',
+        emails = ['The parcels were just updated bro. Rejoice.', 'It\'s your lucky day. The parcels data has been updated!',
+                  'Yo, the parcel app has fresh data.', 'Thanks for all your hard work. The parcel app has current data.',
                   'You updated the parcels, so I updated the parcel app data!']
 
         self.send_email('rkelson@utah.gov', 'Parcels', choice(emails))
