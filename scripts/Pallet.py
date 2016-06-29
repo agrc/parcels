@@ -39,14 +39,12 @@ class ParcelPallet(Pallet):
         self._create_workspace(self.temporary_workspace)
         self._create_workspace(self.destination_workspace)
 
-        self.add_crates(
-            ['Parcels_Beaver', 'Parcels_BoxElder', 'Parcels_Cache', 'Parcels_Carbon', 'Parcels_Daggett',
-             'Parcels_Davis', 'Parcels_Duchesne', 'Parcels_Emery', 'Parcels_Garfield', 'Parcels_Grand', 'Parcels_Iron',
-             'Parcels_Juab', 'Parcels_Kane', 'Parcels_Millard', 'Parcels_Morgan', 'Parcels_Piute', 'Parcels_Rich',
-             'Parcels_SaltLake', 'Parcels_SanJuan', 'Parcels_Sanpete', 'Parcels_Sevier', 'Parcels_Summit',
-             'Parcels_Tooele', 'Parcels_Uintah', 'Parcels_Utah', 'Parcels_Wasatch', 'Parcels_Washington',
-             'Parcels_Wayne', 'Parcels_Weber'], {'source_workspace': join(self.garage, 'SGID10.sde'),
-                                                 'destination_workspace': self.temporary_workspace})
+        self.add_crates(['Parcels_Beaver', 'Parcels_BoxElder', 'Parcels_Cache', 'Parcels_Carbon', 'Parcels_Daggett', 'Parcels_Davis', 'Parcels_Duchesne',
+                         'Parcels_Emery', 'Parcels_Garfield', 'Parcels_Grand', 'Parcels_Iron', 'Parcels_Juab', 'Parcels_Kane', 'Parcels_Millard',
+                         'Parcels_Morgan', 'Parcels_Piute', 'Parcels_Rich', 'Parcels_SaltLake', 'Parcels_SanJuan', 'Parcels_Sanpete', 'Parcels_Sevier',
+                         'Parcels_Summit', 'Parcels_Tooele', 'Parcels_Uintah', 'Parcels_Utah', 'Parcels_Wasatch', 'Parcels_Washington', 'Parcels_Wayne',
+                         'Parcels_Weber'], {'source_workspace': join(self.garage, 'SGID10.sde'),
+                                            'destination_workspace': self.temporary_workspace})
 
     def process(self):
         #: squash 29 county layers into 1 with 9 attributes used by the app
