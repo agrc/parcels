@@ -23,7 +23,7 @@ class ParcelPallet(Pallet):
 
         self.arcgis_services = [('Parcels', 'MapServer')]
         self.temporary_workspace = 'C:\\Scheduled\\Staging\\Cadastre.gdb'
-        self.destination_workspace = 'C:\\Scheduled\\Staging\\Parcels.gdb'
+        self.destination_workspace = 'C:\\Scheduled\\Staging\\parcels.gdb'
         self.destination_fc_name = 'StateWideParcels'
         self.copy_data = [self.destination_workspace]
 
@@ -57,8 +57,8 @@ class ParcelPallet(Pallet):
         workspace = arcpy.env.workspace
         arcpy.env.workspace = self.destination_workspace
 
-        self.log.info('creating statewide parcel layer %s', self.destination_fc_name)
-        self._create_destination_table(self.destination_workspace, self.destination_fc_name)
+        self.log.info('creating statewide parcel layer %s', self.destination_name)
+        self._create_destination_table(self.destination_workspace, self.destination_name)
 
         for crate in self._crates:
             self.log.info('appending crate %s', crate.name)
