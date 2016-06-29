@@ -57,8 +57,8 @@ class ParcelPallet(Pallet):
         workspace = arcpy.env.workspace
         arcpy.env.workspace = self.destination_workspace
 
-        self.log.info('creating statewide parcel layer %s', self.destination_name)
-        self._create_destination_table(self.destination_workspace, self.destination_name)
+        self.log.info('creating statewide parcel layer %s', self.destination_fc_name)
+        self._create_destination_table(self.destination_workspace, self.destination_fc_name)
 
         for crate in self._crates:
             self.log.info('appending crate %s', crate.name)
