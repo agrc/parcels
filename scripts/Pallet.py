@@ -111,8 +111,8 @@ class ParcelPallet(Pallet):
             arcpy.TruncateTable_management(name)
             return
 
-        arcpy.CreateFeatureclass_management(out_path=self._get_transform_location(),
-                                            out_name=self._fc_name,
+        arcpy.CreateFeatureclass_management(out_path=workspace,
+                                            out_name=name,
                                             geometry_type='POLYGON')
 
         for field in self._fields:
