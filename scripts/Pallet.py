@@ -107,7 +107,7 @@ class ParcelPallet(Pallet):
             arcpy.TruncateTable_management(name)
             return
 
-        arcpy.CreateFeatureclass_management(out_path=workspace, out_name=name, geometry_type='POLYGON')
+        arcpy.CreateFeatureclass_management(out_path=workspace, out_name=name, geometry_type='POLYGON', spatial_reference=self.destination_coordinate_system)
 
         for field in self._fields:
             if len(field) == 5:
