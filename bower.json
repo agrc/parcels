@@ -1,6 +1,6 @@
 {
   "name": "Parcels",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "dependencies": {
     "agrc": "agrc-widgets#3.0.0",
     "bootstrap": "^3.3",
