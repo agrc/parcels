@@ -61,13 +61,18 @@ class ParcelPallet(Pallet):
             arcpy.Append_management(inputs=crate.destination, target=self.destination_fc_name, schema_type='NO_TEST')
 
             county_name = crate.destination_name.replace('Parcels_', '')
-
             self.log.debug('updating field names')
 
-            with arcpy.da.UpdateCursor(in_table=self.destination_fc_name, field_names='County') as cursor:
+            with arcpy.da.UpdateCursor(in_table=self.destination_fc_name, field_names='County', where_clause='County IS NULL OR County = \'\'') as cursor:
                 for row in cursor:
                     row[0] = county_name
                     cursor.updateRow(row)
+
+        with arcpy.da.UpdateCursor(in_table=self.destination_fc_name, field_names='County', where_clause='\'.\' in County') as cursor:
+            for row in cursor:
+                db, owner, name = row[0].split('.')
+                row[0] = name
+                cursor.updateRow(row)
 
         self.log.debug('removing index')
         try:
