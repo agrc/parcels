@@ -68,12 +68,6 @@ class ParcelPallet(Pallet):
                     row[0] = county_name
                     cursor.updateRow(row)
 
-        with arcpy.da.UpdateCursor(in_table=self.destination_fc_name, field_names='County', where_clause='\'.\' in County') as cursor:
-            for row in cursor:
-                db, owner, name = row[0].split('.')
-                row[0] = name
-                cursor.updateRow(row)
-
         self.log.debug('removing index')
         try:
             arcpy.RemoveIndex_management(in_table=self.destination_fc_name, index_name='webquery')
