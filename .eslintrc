@@ -3,7 +3,8 @@
         "browser": true,
         "jasmine": true,
         "amd": true,
-        "node": true
+        "node": true,
+        "jquery": true
     },
     "globals": {},
     "rules": {
