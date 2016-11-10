@@ -8,9 +8,11 @@ deploy/
 dist/
 node_modules/
 secrets.json
+src/agrc-jasmine-matchers/
 src/agrc/
 src/app/**/*.css
 src/bootstrap/
+src/components-jasmine/
 src/dgauges/
 src/dgrid/
 src/dijit/
@@ -20,6 +22,8 @@ src/dstore/
 src/esri/
 src/favico.js/
 src/ijit/
+src/jasmine-favicon-reporter/
+src/jasmine-jsreporter/
 src/jquery/
 src/ladda-bootstrap/
 src/layer-selector/
