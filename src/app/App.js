@@ -29,7 +29,9 @@ define([
 
     'ijit/widgets/layout/SideBarToggler',
 
-    'layer-selector'
+    'layer-selector',
+
+    'app/Disclaimer'
 ], function (
     config,
     FindParcel,
