@@ -219,6 +219,7 @@ define([
             var i = str.indexOf('#/');
             var symbolLength = 2;
             var county = (i >= 0) ? str.substring(i + symbolLength) : '';
+            county = county.replace(/\+|%20/g, ' ');
 
             county = extents.filter(function extractName(item) {
                 return item.name === county;
