@@ -140,7 +140,7 @@ define([
                     placeHolder: 'place name...',
                     maxResultsToDisplay: 10,
                     wkid: 3857,
-                    'class': 'first'
+                    class: 'first'
                 }, this.gnisNode),
                 new MagicZoom({
                     map: this.map,
@@ -198,7 +198,7 @@ define([
                     ],
                     overlays: ['Overlay']
                 }),
-                new Identify({map: this.map}, this.infoBar)
+                new Identify({ map: this.map }, this.infoBar)
             );
 
             var parcels = new ArcGISDynamicMapServiceLayer(config.urls.parcel, {
@@ -217,9 +217,10 @@ define([
             console.log('app.App:_determineCounty', arguments);
 
             var i = str.indexOf('#/');
-            var county =  (i >= 0) ? str.substring(i + 2) : '';
+            var symbolLength = 2;
+            var county = (i >= 0) ? str.substring(i + symbolLength) : '';
 
-            var county = extents.filter(function extractName(item) {
+            county = extents.filter(function extractName(item) {
                 return item.name === county;
             });
 
@@ -234,7 +235,8 @@ define([
                         spatialReference: {
                             wkid: 3857
                         }
-                    })}];
+                    })
+                }];
             }
 
             return county[0];

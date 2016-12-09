@@ -11,8 +11,8 @@ define([
 ) {
     return {
         polygonSymbol: new SimpleFillSymbol('solid',
-            new SimpleLineSymbol('solid', new Color([18,192,236,1]), 1.25),
-            new Color([0,0,0,0.25])
+            new SimpleLineSymbol('solid', new Color([18, 192, 236, 1]), 1.25), // eslint-disable-line no-magic-numbers
+            new Color([0, 0, 0, 0.25]) // eslint-disable-line no-magic-numbers
         ),
 
         map: null,

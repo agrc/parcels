@@ -143,6 +143,7 @@ define([
             console.log('app.FindParcel:_setCounty', arguments);
 
             this.set('countyName', evt.target.value);
+
             return evt.target.value;
         },
         /** Triggered when the parcel input changes and sets the parcel id for the where clause to query parcel ids.
@@ -153,6 +154,7 @@ define([
             console.log('app.FindParcel:_set', arguments);
 
             this.set('parcelId', evt.target.value);
+
             return evt.target.value;
         },
         /** Handle the keypress event and execute search if it was the enter key8.
@@ -174,14 +176,15 @@ define([
 
             if (!this.get('countyName') || !this.get('parcelId')) {
                 this.errors.innerHTML = 'Supply a value for county and parcel id.';
+
                 return;
             }
 
             this._showProgress(true);
 
-            var where_clause = this._buildWhereClause(this.get('countyName'), this.get('parcelId'));
+            var whereClause = this._buildWhereClause(this.get('countyName'), this.get('parcelId'));
 
-            this.parcelCriteria.where = where_clause;
+            this.parcelCriteria.where = whereClause;
 
             if (this._inFlight) {
                 this._inFlight.cancel();
@@ -191,7 +194,7 @@ define([
             this._inFlight = this.parcelQuery.execute(this.parcelCriteria)
                 .then(lang.hitch(this, '_displayResults'), lang.hitch(this, '_queryError'))
                 .always(function hideProgress() {
-                    that._showProgress(false);
+                    that._showProgress(false); // eslint-disable-line no-underscore-dangle
                 });
         },
         /** Composes the where clause to find parcel by id.
@@ -230,7 +233,8 @@ define([
 
             var extent = graphicsUtils.graphicsExtent(features);
 
-            this.map.setExtent(extent.expand(10));
+            var factor = 10;
+            this.map.setExtent(extent.expand(factor));
         },
         /** Show or hide a progress indicator.
          * @param bool - show - if true, show progress, if false hide progress
@@ -246,13 +250,13 @@ define([
         _queryError: function (err) {
             console.log('app.FindParcel:_queryError', arguments);
 
-            var template = '<h4>{0}</h4><p class="text-muted">{1}</p></div>';
-            var content = lang.replace(template, ['No parcel was found with that id. ' +
+            var popupTemplate = '<h4>{0}</h4><p class="text-muted">{1}</p></div>';
+            var content = lang.replace(popupTemplate, ['No parcel was found with that id. ' +
                                                   'Are you sure you have the correct county and parcel id?', '']);
 
             if (err) {
-                content = lang.replace(template, ['There was a problem querying for parcel information.',
-                                                  err.error.message]);
+                content = lang.replace(popupTemplate, ['There was a problem querying for parcel information.',
+                    err.error.message]);
             }
             this.errors.innerHTML = content;
             domClass.remove(this.errors, 'hidden');

@@ -183,9 +183,11 @@ define([
             }
 
             var timezone = new Date();
-            var date = new Date(this.ParcelsCur + timezone.getTimezoneOffset() * 60 * 1000);
+            var seconds = 60;
+            var milliseconds = 1000;
+            var date = new Date(this.ParcelsCur + timezone.getTimezoneOffset() * seconds * milliseconds);
 
-            var offset = timezone.getTimezoneOffset() / 60;
+            var offset = timezone.getTimezoneOffset() / seconds;
             var hours = timezone.getHours();
 
             date.setHours(hours - offset);
@@ -202,12 +204,15 @@ define([
             console.log('app.Identify:_queryError', arguments);
 
             topic.publish('error', err);
-            var template = '<div class="contract-popup"><h3 class="text-center">{0}</h3><p class="text-muted">{1}</p></div>';
-            var content = lang.replace(template, ['No county was found where you clicked. Are you clikcing inside Utah?', '']);
+            var popupTemplate = '<div class="contract-popup">' +
+                            '<h3 class="text-center">{0}</h3><p class="text-muted">{1}</p>' +
+                            '</div>';
+            var content = lang.replace(popupTemplate,
+                ['No county was found where you clicked. Are you clicking inside Utah?', '']);
 
             if (err) {
-                content = lang.replace(template, ['There was a problem querying for parcel information.',
-                                                  err.error.message]);
+                content = lang.replace(popupTemplate, ['There was a problem querying for parcel information.',
+                    err.error.message]);
             }
             this.content.innerHTML = content;
         }

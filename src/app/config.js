@@ -35,8 +35,11 @@ define([
         apiKey: '', // acquire at developer.mapserv.utah.gov
 
         urls: {
-            parcel: window.location.protocol + '//' + window.location.hostname + '/arcgis/rest/services/Parcels/Mapserver',
-            exportWebMapUrl: window.location.protocol + '//' + window.location.hostname + '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task'
+            parcel: window.location.protocol + '//' +
+                    window.location.hostname + '/arcgis/rest/services/Parcels/Mapserver',
+            exportWebMapUrl: window.location.protocol + '//' +
+                             window.location.hostname +
+                             '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task'
         },
 
         counties: counties
