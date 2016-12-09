@@ -96,7 +96,12 @@ module.exports = function (grunt) {
         },
         copy: {
             main: {
-                files: [{expand: true, cwd: 'src/', src: ['*.html'], dest: 'dist/'}]
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: ['*.html'],
+                    dest: 'dist/'
+                }]
             }
         },
         dojo: {
@@ -117,7 +122,8 @@ module.exports = function (grunt) {
                 dojo: 'src/dojo/dojo.js', // Path to dojo.js file in dojo source
                 load: 'build', // Optional: Utility to bootstrap (Default: 'build')
                 releaseDir: '../dist',
-                requires: ['src/app/packages.js', 'src/app/run.js'], // Optional: Module to require for the build (Default: nothing)
+                // Optional: Module to require for the build (Default: nothing)
+                requires: ['src/app/packages.js', 'src/app/run.js'],
                 basePath: './src'
             }
         },
@@ -236,6 +242,34 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        uglify: {
+            options: {
+                preserveComments: false,
+                sourceMap: true,
+                compress: {
+                    drop_console: true, // eslint-disable-line camelcase
+                    passes: 2,
+                    dead_code: true // eslint-disable-line camelcase
+                }
+            },
+            stage: {
+                options: {
+                    compress: {
+                        drop_console: false // eslint-disable-line camelcase
+                    }
+                },
+                src: ['dist/dojo/dojo.js'],
+                dest: 'dist/dojo/dojo.js'
+            },
+            prod: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist',
+                    src: '**/*.js',
+                    dest: 'dist'
+                }]
+            }
+        },
         watch: {
             options: {
                 livereload: true
@@ -276,6 +310,7 @@ module.exports = function (grunt) {
         'newer:imagemin:main',
         'stylus',
         'dojo:prod',
+        'uglify:prod',
         'copy:main',
         'processhtml:main'
     ]);
@@ -291,6 +326,7 @@ module.exports = function (grunt) {
         'newer:imagemin:main',
         'stylus',
         'dojo:stage',
+        'uglify:stage',
         'copy:main',
         'processhtml:main'
     ]);
