@@ -31,7 +31,7 @@
     "grunt-dojo": "^1",
     "grunt-eslint": "^19.0.0",
     "grunt-if-missing": "^1",
-    "grunt-newer": "^1",
+    "grunt-newer": "^1.1.2",
     "grunt-open": "^0.2.3",
     "grunt-processhtml": "^0.4.1",
     "grunt-ssh": "^0",
