@@ -46,8 +46,8 @@ define([
     };
 
     if (has('agrc-build') === 'prod') {
-        // mapserv.utah.gov/parcels
-        window.AGRC.apiKey = 'AGRC-72B18AE3164585';
+        // parcels.utah.gov
+        window.AGRC.apiKey = 'AGRC-4DD66766986896';
         window.AGRC.quadWord = 'alfred-plaster-crystal-dexter';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
