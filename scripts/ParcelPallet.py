@@ -72,13 +72,13 @@ class ParcelPallet(Pallet):
         try:
             arcpy.RemoveIndex_management(in_table=self.destination_fc_name, index_name='webquery')
         except Exception as e:
-            self.log.warn('error removing parcel index: %s', e.message)
+            self.log.warn('error removing parcel index: %s', e)
 
         self.log.debug('adding index')
         try:
             arcpy.AddIndex_management(in_table=self.destination_fc_name, fields='PARCEL_ID;County', index_name='webquery')
         except Exception as e:
-            self.log.warn('error adding parcel index: %s', e.message)
+            self.log.warn('error adding parcel index: %s', e)
 
         self.log.debug('compacting %s', self.temporary_workspace)
         arcpy.Compact_management(self.temporary_workspace)
