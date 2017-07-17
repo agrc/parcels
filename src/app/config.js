@@ -17,7 +17,6 @@ define([
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
     esriConfig.defaults.io.corsEnabledServers.push('discover.agrc.utah.gov');
-    esriConfig.defaults.io.corsEnabledServers.push('basemaps.utah.gov');
 
     window.AGRC = {
         // errorLogger: ijit.modules.ErrorLogger
@@ -29,7 +28,7 @@ define([
 
         // version.: String
         //      The version number.
-        version: '1.3.2',
+        version: '1.3.1',
 
         // apiKey: String
         //      The api key used for services on api.mapserv.utah.gov
@@ -37,7 +36,7 @@ define([
 
         urls: {
             parcel: window.location.protocol + '//' +
-                    'test.mapserv.utah.gov/arcgis/rest/services/Parcels/Mapserver',
+                    window.location.hostname + '/arcgis/rest/services/Parcels/Mapserver',
             exportWebMapUrl: window.location.protocol + '//' +
                              window.location.hostname +
                              '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task'
