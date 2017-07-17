@@ -85,7 +85,8 @@ define([
             this.parcelQuery = new QueryTask(config.urls.parcel + '/0');
             this.parcelCriteria = new Query();
             this.parcelCriteria.returnGeometry = true;
-            this.parcelCriteria.outFields = ['*'];
+            this.parcelCriteria.outFields = ['CoParcel_URL', 'PARCEL_ADD', 'PARCEL_CITY',
+                'PARCEL_ZIP', 'PARCEL_ID', 'ParcelsCur', 'ParcelNotes', 'OWN_TYPE'];
         },
         startup: function () {
             // summary:
