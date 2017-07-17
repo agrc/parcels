@@ -16,6 +16,7 @@ define([
     // force api to use CORS on mapserv thus removing the test request on app load
     // e.g. http://mapserv.utah.gov/ArcGIS/rest/info?f=json
     esriConfig.defaults.io.corsEnabledServers.push('mapserv.utah.gov');
+    esriConfig.defaults.io.corsEnabledServers.push('discover.agrc.utah.gov');
     esriConfig.defaults.io.corsEnabledServers.push('basemaps.utah.gov');
 
     window.AGRC = {
@@ -28,7 +29,7 @@ define([
 
         // version.: String
         //      The version number.
-        version: '1.3.1',
+        version: '1.3.2',
 
         // apiKey: String
         //      The api key used for services on api.mapserv.utah.gov
@@ -36,7 +37,7 @@ define([
 
         urls: {
             parcel: window.location.protocol + '//' +
-                    window.location.hostname + '/arcgis/rest/services/Parcels/Mapserver',
+                    'test.mapserv.utah.gov/arcgis/rest/services/Parcels/Mapserver',
             exportWebMapUrl: window.location.protocol + '//' +
                              window.location.hostname +
                              '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task'
