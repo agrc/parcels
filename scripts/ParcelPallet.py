@@ -6,14 +6,14 @@ Pallet.py
 A module that contains a pallet to update the parcels for the parcel app
 '''
 
+from os import makedirs
+from os.path import basename, exists, join
+from random import choice
+from time import clock
+
 import arcpy
 from forklift import seat
 from forklift.models import Pallet
-from os.path import basename
-from os.path import join
-from os.path import exists
-from random import choice
-from time import clock
 
 
 class ParcelPallet(Pallet):
@@ -93,6 +93,9 @@ class ParcelPallet(Pallet):
 
         gdb_name = basename(workspace)
         workspace = workspace.replace(gdb_name, '')
+
+        if not exists(workspace):
+            makedirs(workspace)
 
         arcpy.CreateFileGDB_management(workspace, gdb_name, 'CURRENT')
 
