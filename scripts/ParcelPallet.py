@@ -43,7 +43,7 @@ class ParcelPallet(Pallet):
                          'Parcels_Emery', 'Parcels_Garfield', 'Parcels_Grand', 'Parcels_Iron', 'Parcels_Juab', 'Parcels_Kane', 'Parcels_Millard',
                          'Parcels_Morgan', 'Parcels_Piute', 'Parcels_Rich', 'Parcels_SaltLake', 'Parcels_SanJuan', 'Parcels_Sanpete', 'Parcels_Sevier',
                          'Parcels_Summit', 'Parcels_Tooele', 'Parcels_Uintah', 'Parcels_Utah', 'Parcels_Wasatch', 'Parcels_Washington', 'Parcels_Wayne',
-                         'Parcels_Weber'], {'source_workspace': join(self.garage, 'SGID10.sde'),
+                         'Parcels_Weber'], {'source_workspace': join(self.garage, 'SGID.sde'),
                                             'destination_workspace': self.temporary_workspace})
 
     def process(self):
