@@ -1,6 +1,6 @@
 {
   "name": "Parcels",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A website to get information about Utah parcels.",
   "homepage": "https://mapserv.utah.gov/parcels",
   "repository": {
