@@ -37,9 +37,7 @@ define([
         urls: {
             parcel: window.location.protocol + '//' +
                     window.location.hostname + '/arcgis/rest/services/Parcels/Mapserver',
-            exportWebMapUrl: window.location.protocol + '//' +
-                             window.location.hostname +
-                             '/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task'
+            exportWebMapUrl: 'https://print.agrc.utah.gov/5/arcgis/rest/services/GPServer/export'
         },
 
         counties: counties
