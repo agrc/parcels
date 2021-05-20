@@ -1,0 +1,67 @@
+name: firebase deploy
+
+on:
+  push:
+
+jobs:
+  build-dev:
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    if: github.ref != 'refs/heads/main'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - run: npm ci
+
+      - run: npm i -g grunt-cli bower
+
+      - run: bower install
+
+      - run: grunt build-prod
+
+      - name: Firebase Deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.SERVICE_ACCOUNT }}'
+          channelId: live
+          projectId: '${{ secrets.PROJECT_ID }}'
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
+
+  build-prod:
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - run: npm ci
+
+      - run: npm i -g grunt-cli bower
+
+      - run: bower install
+
+      - run: grunt build-prod
+
+      - name: Firebase Deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.SERVICE_ACCOUNT }}'
+          channelId: live
+          projectId: '${{ secrets.PROJECT_ID }}'
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
