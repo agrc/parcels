@@ -1,3 +1,3 @@
-[![Build Status](https://travis-ci.org/agrc/Parcels.svg?branch=master)](https://travis-ci.org/agrc/Parcels)
+[![firebase deploy](https://github.com/agrc/Parcels/actions/workflows/nodejs.yml/badge.svg)](https://github.com/agrc/Parcels/actions/workflows/nodejs.yml)
 
 # Utah Parcel Viewer
