@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: dev
+      url: https://parcels.dev.utah.gov
     if: github.ref != 'refs/heads/main'
 
     steps:
@@ -41,6 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: prod
+      url: https://parcels.utah.gov
     if: github.ref == 'refs/heads/main'
 
     steps:
