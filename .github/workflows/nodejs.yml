@@ -62,6 +62,15 @@ jobs:
 
       - run: grunt build-prod
 
+      - name: Cache firebase
+        uses: actions/cache@v2
+        with:
+          path: ./.firebase
+          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache') }}
+          restore-keys: |
+            ${{ runner.OS }}-firebase-
+            ${{ runner.OS }}-
+
       - name: Firebase Deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
