@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  build-dev:
+  deploy-dev:
     runs-on: ubuntu-latest
     environment:
       name: dev
@@ -37,7 +37,7 @@ jobs:
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
 
-  build-prod:
+  deploy-prod:
     runs-on: ubuntu-latest
     environment:
       name: prod
