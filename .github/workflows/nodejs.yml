@@ -2,6 +2,10 @@ name: firebase deploy
 
 on:
   push:
+    paths:
+      - "src/**"
+      - ".github/workflows/nodejs.yaml"
+      - "package.json"
 
 jobs:
   deploy-dev:
