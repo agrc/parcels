@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "src/**"
-      - ".github/workflows/nodejs.yaml"
+      - ".github/workflows/nodejs.yml"
       - "package.json"
 
 jobs:
