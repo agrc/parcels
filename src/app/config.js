@@ -35,8 +35,7 @@ define([
         apiKey: '', // acquire at developer.mapserv.utah.gov
 
         urls: {
-            parcel: window.location.protocol + '//' +
-                    window.location.hostname + '/arcgis/rest/services/Parcels/Mapserver',
+            parcel: 'https://mapserv.utah.gov/arcgis/rest/services/Parcels/Mapserver',
             exportWebMapUrl: 'https://print.agrc.utah.gov/5/arcgis/rest/services/GPServer/export'
         },
 
