@@ -30,7 +30,7 @@ jobs:
 
       - run: bower install
 
-      - run: grunt build-prod
+      - run: grunt build-stage
 
       - name: Firebase Deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
