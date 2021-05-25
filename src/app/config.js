@@ -48,7 +48,7 @@ define([
         window.AGRC.quadWord = 'alfred-plaster-crystal-dexter';
     } else if (has('agrc-build') === 'stage') {
         // *.dev.utah.gov
-        window.AGRC.apiKey = 'AGRC-AC122FA9671436';
+        window.AGRC.apiKey = 'AGRC-FE1B257E901672';
         window.AGRC.quadWord = 'wedding-tactic-enrico-yes';
     } else {
         // localhost
