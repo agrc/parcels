@@ -47,9 +47,9 @@ define([
         window.AGRC.apiKey = 'AGRC-4DD66766986896';
         window.AGRC.quadWord = 'alfred-plaster-crystal-dexter';
     } else if (has('agrc-build') === 'stage') {
-        // test.mapserv.utah.gov
+        // *.dev.utah.gov
         window.AGRC.apiKey = 'AGRC-AC122FA9671436';
-        window.AGRC.quadWord = 'opera-event-little-pinball';
+        window.AGRC.quadWord = 'wedding-tactic-enrico-yes';
     } else {
         // localhost
         window.AGRC.apiKey = 'AGRC-E5B94F99865799';
