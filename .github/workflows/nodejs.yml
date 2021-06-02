@@ -5,10 +5,10 @@ on:
     paths:
       - "src/**"
       - ".github/workflows/nodejs.yml"
-      - "package.json"
-      - firebase.json
-      - .firebaserc
-      - bower.json
+      - "package-lock.json"
+      - "firebase.json"
+      - ".firebaserc"
+      - "bower.json"
 
 jobs:
   deploy-dev:
