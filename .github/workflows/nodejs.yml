@@ -6,6 +6,9 @@ on:
       - "src/**"
       - ".github/workflows/nodejs.yml"
       - "package.json"
+      - firebase.json
+      - .firebaserc
+      - bower.json
 
 jobs:
   deploy-dev:
