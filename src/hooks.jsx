@@ -5,17 +5,20 @@ export function useGraphicManager(mapView) {
   const [graphic, setGraphic] = useState();
   const previousGraphic = useRef();
 
-  const removeGraphics = (graphics) => {
-    if (!graphics) {
-      return;
-    }
+  const removeGraphics = useCallback(
+    (graphics) => {
+      if (!graphics) {
+        return;
+      }
 
-    if (Array.isArray(graphics)) {
-      graphics.forEach((x) => mapView.graphics.remove(x));
-    } else {
-      mapView.graphics.remove(graphics);
-    }
-  };
+      if (Array.isArray(graphics)) {
+        graphics.forEach((x) => mapView.graphics.remove(x));
+      } else {
+        mapView.graphics.remove(graphics);
+      }
+    },
+    [mapView]
+  );
 
   useEffect(() => {
     if (!mapView) return;
@@ -38,7 +41,7 @@ export function useGraphicManager(mapView) {
     }
 
     mapView.when(() => mapView.graphics.add(myGraphic));
-  }, [graphic]);
+  }, [mapView, graphic, removeGraphics]);
 
   return { graphic, setGraphic };
 }
@@ -88,7 +91,7 @@ export function useHash() {
     return () => {
       window.removeEventListener('hashchange', hashChangeHandler);
     };
-  }, []);
+  }, [hashChangeHandler]);
 
   const updateHash = useCallback(
     (newHash) => {

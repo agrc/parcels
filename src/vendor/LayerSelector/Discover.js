@@ -1,8 +1,8 @@
 /** Sets the TileInfo for each of Discover layers since they all use different levels.
-* @private
-* @param {applianceLayer} layers - The appliance layers object `{ 'id': { urlPattern: ''}}`
-* @returns {applianceLayer} - returns Discover layers object with a new `tileInfo` property.
-*/
+ * @private
+ * @param {applianceLayer} layers - The appliance layers object `{ 'id': { urlPattern: ''}}`
+ * @returns {applianceLayer} - returns Discover layers object with a new `tileInfo` property.
+ */
 const setTileInfosForApplianceLayers = (layers, defaultTileInfo, TileInfo) => {
   const lods = defaultTileInfo.lods;
   const fiveToNineteen = lods.slice(0, 20); // eslint-disable-line no-magic-numbers

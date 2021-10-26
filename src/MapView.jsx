@@ -5,7 +5,7 @@ import { ArrowsExpandIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import ky from 'ky';
 import debounce from 'lodash.debounce';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGraphicManager, useHash } from './hooks';
 import LayerSelector from './vendor/LayerSelector/LayerSelector';
 
@@ -15,61 +15,63 @@ const parcels =
 const ParcelMap = ({ setMapView, toggleSidebar, fullScreen, setActiveParcel, initialView }) => {
   const mapDiv = useRef(null);
   const mapView = useRef(null);
-  const events = useRef([]);
   const [selectorOptions, setSelectorOptions] = useState(null);
   const { setGraphic } = useGraphicManager(mapView.current);
-  const [_, setHash] = useHash();
+  const [, setHash] = useHash();
 
-  console.log('initialView', initialView);
-  const clickHandler = async (event) => {
-    const results = await ky
-      .get('query', {
-        prefixUrl: parcels,
-        searchParams: {
-          geometry: JSON.stringify(event.mapPoint.toJSON()),
-          geometryType: 'esriGeometryPoint',
-          returnGeometry: true,
-          outFields: [
-            'CoParcel_URL',
-            'PARCEL_ADD',
-            'PARCEL_CITY',
-            'PARCEL_ZIP',
-            'PARCEL_ID',
-            'ParcelsCur',
-            'ParcelNotes',
-            'OWN_TYPE',
-          ].join(),
-          f: 'json',
-        },
-      })
-      .json();
+  const clickHandler = useCallback(
+    async (event) => {
+      const results = await ky
+        .get('query', {
+          prefixUrl: parcels,
+          searchParams: {
+            geometry: JSON.stringify(event.mapPoint.toJSON()),
+            geometryType: 'esriGeometryPoint',
+            returnGeometry: true,
+            outFields: [
+              'CoParcel_URL',
+              'PARCEL_ADD',
+              'PARCEL_CITY',
+              'PARCEL_ZIP',
+              'PARCEL_ID',
+              'ParcelsCur',
+              'ParcelNotes',
+              'OWN_TYPE',
+            ].join(),
+            f: 'json',
+          },
+        })
+        .json();
 
-    let feature = null;
-    if (results.features.length > 0) {
-      feature = results.features[0];
-      feature.geometry.type = 'polygon';
-      feature.geometry.spatialReference = mapView.current.spatialReference;
-      feature.symbol = {
-        type: 'simple-fill',
-        style: 'solid',
-        color: [170, 170, 170, 0.2],
-        outline: {
-          type: 'simple-line',
+      let feature = null;
+      if (results.features.length > 0) {
+        feature = results.features[0];
+        feature.geometry.type = 'polygon';
+        feature.geometry.spatialReference = mapView.current.spatialReference;
+        feature.symbol = {
+          type: 'simple-fill',
           style: 'solid',
-          color: [127, 219, 255],
-          width: 3,
-        },
-      };
-    }
-    setActiveParcel(feature);
-    setGraphic(feature);
-  };
+          color: [170, 170, 170, 0.2],
+          outline: {
+            type: 'simple-line',
+            style: 'solid',
+            color: [127, 219, 255],
+            width: 3,
+          },
+        };
+      }
+      setActiveParcel(feature);
+      setGraphic(feature);
+    },
+    [setActiveParcel, setGraphic]
+  );
 
-  const updateHash = () => {
+  const updateHash = useCallback(() => {
     const { scale } = mapView.current.viewpoint;
     const { x, y } = mapView.current.center;
     setHash(`${initialView.name}/location/${x},${y},${scale}`);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialView]);
 
   useEffect(() => {
     if (!mapDiv.current || mapView.current) {
@@ -137,7 +139,7 @@ const ParcelMap = ({ setMapView, toggleSidebar, fullScreen, setActiveParcel, ini
       baseLayers: ['Lite', 'Hybrid', 'Terrain', 'Topo', 'Color IR'],
       position: 'top-right',
     });
-  }, []);
+  }, [setMapView]);
 
   const controller = useRef(null);
   useEffect(() => {
@@ -149,21 +151,22 @@ const ParcelMap = ({ setMapView, toggleSidebar, fullScreen, setActiveParcel, ini
         controller.current.abort();
       }
 
+      const events = [];
       mapView.current.when(() => {
         mapView.current
           .goTo(initialView.target, { animate: false, signal })
-          .then(() => events.current.push(mapView.current.watch('extent', debounce(updateHash, 100))))
+          .then(() => events.push(mapView.current.watch('extent', debounce(updateHash, 100))))
           .catch(function () {});
       });
 
-      mapView.current.when(() => events.current.push(mapView.current.on('click', clickHandler)));
+      mapView.current.when(() => events.push(mapView.current.on('click', clickHandler)));
 
       return () => {
-        events.current.forEach((handle) => handle.remove());
-        events.current.length = 0;
+        events.forEach((handle) => handle.remove());
+        events.length = 0;
       };
     }
-  }, [initialView]);
+  }, [initialView, clickHandler, updateHash]);
 
   return (
     <section

@@ -94,6 +94,7 @@ const TailwindDartboard = (props) => {
     <div className={classNames('dartboard', props.className)}>
       {props.children}
       <div className="group">
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label {...getFirstLabelProps()} />
         <input
           {...getFirstInputProps()}
@@ -104,6 +105,7 @@ const TailwindDartboard = (props) => {
         ) : null}
       </div>
       <div className="group">
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label {...getSecondLabelProps()} />
         <input
           {...getSecondInputProps()}

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import Basemap from '@arcgis/core/Basemap';
-import Extent from '@arcgis/core/geometry/Extent';
 import LOD from '@arcgis/core/layers/support/LOD';
 import TileInfo from '@arcgis/core/layers/support/TileInfo';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
@@ -23,7 +22,9 @@ const ExpandableContainer = (props) => {
     <div
       className="layer-selector"
       onMouseOver={() => setExpanded(true)}
+      onFocus={() => setExpanded(true)}
       onMouseOut={() => setExpanded(false)}
+      onBlur={() => setExpanded(false)}
       area-haspopup="true"
     >
       <input type="image" className={imageClasses} src={icon} alt="layers" />

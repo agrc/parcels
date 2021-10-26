@@ -73,11 +73,12 @@ export function App() {
   const { setGraphic } = useGraphicManager(mapView);
   const { setGeometry } = useMapZooming(mapView);
   const [activeParcel, setActiveParcel] = useState(undefined);
-  const [hash, _] = useHash();
+  const [hash] = useHash();
   const [appConfig, setAppConfig] = useState(defaultAppState);
 
   useEffect(() => {
     setAppConfig(extractCountyAndView(hash));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -128,7 +129,7 @@ export function App() {
             apiKey={import.meta.env.VITE_API_KEY}
             format="esrijson"
           >
-            <label className="text-lg font-semibold">Find an address</label>
+            <div className="text-lg font-semibold">Find an address</div>
           </TailwindDartboard>
         </Section>
         <Section>

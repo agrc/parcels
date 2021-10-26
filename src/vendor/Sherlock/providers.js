@@ -74,7 +74,7 @@ class WebApiProvider extends ProviderBase {
     };
   }
 
-  async getFeature(selectedItem, contextValue) {
+  async getFeature(selectedItem) {
     const results = await this.webApi.search(this.searchLayer, this.outFields.concat('shape@'), {
       predicate: `xid=${selectedItem.attributes.xid}`,
       spatialReference: this.wkid,

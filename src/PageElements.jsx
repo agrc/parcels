@@ -72,7 +72,7 @@ export function Sidebar({ children, isOpen }) {
         <p className="mt-10 mb-4 text-sm font-bold tracking-wider text-gray-700">
           <i>
             Data Sourced from County Recorders - hosted and served by{' '}
-            <a href="http://gis.utah.gov/data/sgid-cadastre/parcels/" target="_blank" rel="noopener">
+            <a href="http://gis.utah.gov/data/sgid-cadastre/parcels/" target="_blank" rel="noopener noreferrer">
               UGRC
             </a>
           </i>
@@ -113,6 +113,7 @@ export function TypeAhead({ label, layer, field, onSuccess }) {
         {label}
       </label>
       <div {...getComboboxProps()}>
+        {/* eslint-disable-next-line jsx-a11y/autocomplete-valid */}
         <input
           className={clsx(
             { 'rounded-t': items.length > 0 && isOpen, rounded: items.length > 0 && !isOpen },
@@ -199,7 +200,7 @@ export function ParcelTypeAhead({ county = '', onSuccess }) {
 
   return (
     <section className="w-full">
-      <label className="text-lg font-semibold">Find a parcel</label>
+      <div className="text-lg font-semibold">Find a parcel</div>
       <Listbox value={selectedCounty} onChange={setSelectedCounty}>
         <div className="relative mt-1">
           <Listbox.Label>County</Listbox.Label>
@@ -298,10 +299,10 @@ export function Disclaimer() {
                 <p className="text-sm text-gray-500">
                   The State of Utah and County Governments, their elected officials, officers, employees, and agents
                   assume no legal responsibilities for the information contained herein and shall have no liability for
-                  any damages, losses, costs, or expenses, including, but not limited to attorney's fees, arising from
-                  the use or misuses of the information provided herein. The User's use thereof shall constitute an
-                  agreement by the User to release The State of Utah and County Government, its elected officials,
-                  officers, employees, and agents from such liability.
+                  any damages, losses, costs, or expenses, including, but not limited to attorney&apos;s fees, arising
+                  from the use or misuses of the information provided herein. The User&apos;s use thereof shall
+                  constitute an agreement by the User to release The State of Utah and County Government, its elected
+                  officials, officers, employees, and agents from such liability.
                 </p>
                 <p className="text-sm text-gray-500">
                   By using the information contained herein, the User is stating that the above Disclaimer has been read
@@ -337,7 +338,7 @@ export function ParcelInformation({ feature }) {
     if (feature !== undefined) {
       open();
     }
-  }, [feature]);
+  }, [feature, open]);
 
   return (
     <Transition
@@ -397,7 +398,7 @@ export function ParcelInformation({ feature }) {
                     className="flex flex-row items-center px-8 space-x-2 text-lg font-bold text-blue-300 w-max hover:text-blue-100"
                     href={feature.attributes.CoParcel_URL}
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     <ExternalLinkIcon className="w-5 h-5 text-white" aria-hidden="true" />
                     <span>County Parcel Website</span>

@@ -18,11 +18,13 @@ const createDefaultTileInfo = (LOD) => {
     const resolution = initialResolution / Math.pow(squared, level);
     const scale = resolution * dpi * inchesPerMeter;
 
-    lods.push(new LOD({
-      level: level,
-      scale: scale,
-      resolution: resolution
-    }));
+    lods.push(
+      new LOD({
+        level: level,
+        scale: scale,
+        resolution: resolution,
+      })
+    );
   }
 
   return {
@@ -30,12 +32,12 @@ const createDefaultTileInfo = (LOD) => {
     size: tileSize,
     origin: {
       x: -20037508.342787,
-      y: 20037508.342787
+      y: 20037508.342787,
     },
     spatialReference: {
-      wkid: 3857
+      wkid: 3857,
     },
-    lods: lods
+    lods: lods,
   };
 };
 
