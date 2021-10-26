@@ -69,7 +69,7 @@ const ParcelMap = ({ setMapView, toggleSidebar, fullScreen, setActiveParcel, ini
   const updateHash = useCallback(() => {
     const { scale } = mapView.current.viewpoint;
     const { x, y } = mapView.current.center;
-    setHash(`${initialView.name}/location/${x},${y},${scale}`);
+    setHash(`${initialView.name === 'Utah State' ? '' : initialView.name}/location/${x},${y},${scale}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialView]);
 

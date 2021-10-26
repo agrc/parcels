@@ -49,7 +49,7 @@ export function extractCountyAndView(hash) {
     const [x, y, scale] = hash.substring(hash.lastIndexOf('/') + 1).split(',');
 
     return {
-      name: countyName,
+      name: countyName || defaultAppState.name,
       target: new Viewpoint({
         targetGeometry: {
           type: 'point',
@@ -93,7 +93,7 @@ export function App() {
       <Sidebar isOpen={isOpen}>
         <Section>
           <ParcelTypeAhead
-            county={appConfig.name}
+            county={appConfig.name === defaultAppState.name ? '' : appConfig.name}
             onSuccess={(result) => {
               const polygon = new Polygon(result.geometry);
 
