@@ -1,7 +1,7 @@
 import { Dialog, Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ExternalLinkIcon, SelectorIcon, XIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
-import escapeRegExp from 'lodash.escapeRegExp';
+import escapeRegExp from 'lodash.escaperegexp';
 import { Fragment, useEffect, useState } from 'react';
 import { useOpenClosed } from './hooks';
 import logo from './ugrc_logo.png';
