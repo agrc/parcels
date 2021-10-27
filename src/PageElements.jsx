@@ -39,6 +39,7 @@ const counties = [
   'Wayne',
   'Weber',
 ];
+const intl = new Intl.DateTimeFormat('en-US', { dateStyle: 'short' });
 
 export function Header({ county = 'Utah State', version = '1.0.0' }) {
   return (
@@ -387,7 +388,7 @@ export function ParcelInformation({ feature }) {
                 </div>
                 <div className="px-8 w-max">
                   <h4 className="text-lg font-bold">Current as of</h4>
-                  <p className="text-gray-300">{feature.attributes.ParcelsCur}</p>
+                  <p className="text-gray-300">{intl.format(feature.attributes.ParcelsCur)}</p>
                 </div>
                 <div className="px-8 w-max">
                   <h4 className="text-lg font-bold">Notes</h4>
