@@ -41,7 +41,7 @@ const counties = [
 ];
 const intl = new Intl.DateTimeFormat('en-US', { dateStyle: 'short' });
 
-export function Header({ county = 'Utah State', version = '1.0.0' }) {
+export function Header({ county = 'Utah State' }) {
   return (
     <section className="flex items-center justify-between m-1 bg-gradient-to-t from-gray-100 to-white grid-area-header">
       <h1 className="relative inline-block">
@@ -54,7 +54,7 @@ export function Header({ county = 'Utah State', version = '1.0.0' }) {
           target="_blank"
           rel="noreferrer"
         >
-          v{version}
+          v{import.meta.env.PACKAGE_VERSION}
         </a>
       </h1>
       <img src={logo} className="h-8 sm:h-full" alt="UGRC logo" />
