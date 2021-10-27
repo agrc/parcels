@@ -70,6 +70,7 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
         });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setActiveParcel, setGraphic]
   );
 
