@@ -72,10 +72,23 @@ export function Sidebar({ children, isOpen }) {
     >
       <div className="relative">
         {children}
-        <p className="mt-10 mb-4 text-sm font-bold tracking-wider text-gray-700">
+        <p className="mt-10 mb-4 text-sm font-bold tracking-wider text-justify text-gray-700">
           <i>
-            Data Sourced from County Recorders - hosted and served by{' '}
-            <a href="http://gis.utah.gov/data/sgid-cadastre/parcels/" target="_blank" rel="noopener noreferrer">
+            <a
+              href="http://gis.utah.gov/data/sgid-cadastre/parcels/"
+              className="text-blue-400 hover:text-blue-600 active:text-blue-900"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Data
+            </a>{' '}
+            Sourced from County Recorders - hosted and served by{' '}
+            <a
+              href="http://gis.utah.gov/"
+              className="text-blue-400 hover:text-blue-600 active:text-blue-900"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               UGRC
             </a>
           </i>
