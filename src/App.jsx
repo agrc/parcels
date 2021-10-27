@@ -4,11 +4,18 @@ import Viewpoint from '@arcgis/core/Viewpoint';
 import Polygon from '@arcgis/core/geometry/Polygon';
 import Extent from '@arcgis/core/geometry/Extent';
 import { ToastContainer, toast } from 'react-toastify';
+import { initializeApp } from 'firebase/app';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 import { Disclaimer, Header, Sidebar, Section, ParcelInformation, ParcelTypeAhead, TypeAhead } from './PageElements';
 import ParcelMap from './MapView';
 import { TailwindDartboard } from './vendor/Dartboard/Dartboard';
 import { useHash, useOpenClosed, useMapZooming, useGraphicManager } from './hooks';
 import extents from './extents';
+
+const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 const pointSymbol = {
   type: 'web-style',
@@ -30,7 +37,6 @@ const defaultAppState = {
 };
 
 export function extractCountyAndView(hash) {
-  console.log('extractCountyAndView', hash);
   if (hash === '' || hash === '#') {
     return defaultAppState;
   }
@@ -48,6 +54,12 @@ export function extractCountyAndView(hash) {
   if (hash.includes('/location/')) {
     const [x, y, scale] = hash.substring(hash.lastIndexOf('/') + 1).split(',');
 
+    logEvent(analytics, 'county_view', {
+      county: countyName || defaultAppState.name,
+    });
+
+    logEvent(analytics, 'deep_link');
+
     return {
       name: countyName || defaultAppState.name,
       target: new Viewpoint({
@@ -63,8 +75,13 @@ export function extractCountyAndView(hash) {
   }
 
   const county = extents.filter((item) => item.name === countyName);
+  const state = county.length > 0 ? county[0] : defaultAppState;
 
-  return county.length > 0 ? county[0] : defaultAppState;
+  logEvent(analytics, 'county_view', {
+    county: state.name,
+  });
+
+  return state;
 }
 
 export function App() {
@@ -97,6 +114,11 @@ export function App() {
             onSuccess={(result) => {
               const polygon = new Polygon(result.geometry);
 
+              logEvent(analytics, 'parcel_search', {
+                parcel: result?.attributes?.parcel_id,
+                county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
+              });
+
               setGeometry(polygon.extent.expand(3));
               setGraphic({
                 geometry: result.geometry,
@@ -121,6 +143,10 @@ export function App() {
             pointSymbol={pointSymbol}
             events={{
               success: (result) => {
+                logEvent(analytics, 'geocode', {
+                  address: result?.attributes.InputAddress,
+                  score: result?.attributes.Score,
+                });
                 setGeometry(new Viewpoint({ targetGeometry: result.geometry, scale: 1000 }));
                 setGraphic(result);
               },
@@ -135,6 +161,7 @@ export function App() {
         <Section>
           <TypeAhead
             onSuccess={(result) => {
+              logEvent(analytics, 'gnis_search', { gnis: result?.attributes?.name });
               setGeometry(new Viewpoint({ targetGeometry: result.geometry, scale: 25000 }));
               setGraphic({
                 geometry: result.geometry,
@@ -150,6 +177,7 @@ export function App() {
         <Section>
           <TypeAhead
             onSuccess={(result) => {
+              logEvent(analytics, 'city_search', { city: result?.attributes?.name });
               const polygon = new Polygon(result.geometry);
 
               setGeometry(polygon.extent.expand(1));
@@ -175,6 +203,7 @@ export function App() {
         </Section>
       </Sidebar>
       <ParcelMap
+        ga={{ analytics, logEvent }}
         initialView={appConfig}
         setMapView={setMapView}
         fullScreen={!isOpen}

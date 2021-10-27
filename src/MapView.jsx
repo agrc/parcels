@@ -12,7 +12,7 @@ import LayerSelector from './vendor/LayerSelector/LayerSelector';
 const parcels =
   'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahStatewideParcels/FeatureServer/0/';
 
-const ParcelMap = ({ setMapView, toggleSidebar, fullScreen, setActiveParcel, initialView }) => {
+const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel, initialView }) => {
   const mapDiv = useRef(null);
   const mapView = useRef(null);
   const [selectorOptions, setSelectorOptions] = useState(null);
@@ -62,6 +62,11 @@ const ParcelMap = ({ setMapView, toggleSidebar, fullScreen, setActiveParcel, ini
       }
       setActiveParcel(feature);
       setGraphic(feature);
+
+      ga.logEvent(ga.analytics, 'parcel_identify', {
+        id: feature.attributes.PARCEL_ID,
+        address: `${feature.attributes.PARCEL_ADD}, ${feature.attributes.PARCEL_CITY} ${feature.attributes.PARCEL_ZIP}`,
+      });
     },
     [setActiveParcel, setGraphic]
   );
@@ -138,6 +143,7 @@ const ParcelMap = ({ setMapView, toggleSidebar, fullScreen, setActiveParcel, ini
       quadWord: import.meta.env.VITE_DISCOVER_KEY,
       baseLayers: ['Lite', 'Hybrid', 'Terrain', 'Topo', 'Color IR'],
       position: 'top-right',
+      ga: ga,
     });
   }, [setMapView]);
 

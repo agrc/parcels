@@ -146,7 +146,7 @@ const createLayerFactories = (layerType, layerFactories, WebTiledLayer, quadWord
 };
 
 const ConditionalWrapper = ({ condition, wrapper, children }) => (condition ? wrapper(children) : children);
-const LayerSelector = (props) => {
+const LayerSelector = ({ ga, baseLayers, view, quadWord, overlays = [], position, makeExpandable }) => {
   const [layers, setLayers] = useState({
     baseLayers: [],
     overlays: [],
@@ -163,18 +163,18 @@ const LayerSelector = (props) => {
       let layerList = null;
       switch (layerItem.layerType) {
         case 'baselayer':
-          if (!props.view.map.basemap?.baseLayers) {
-            props.view.map.basemap = {
+          if (!view.map.basemap?.baseLayers) {
+            view.map.basemap = {
               baseLayers: [],
               id: 'layer-selector',
               title: 'layer-selector',
             };
           }
 
-          layerList = props.view.map.basemap.baseLayers;
+          layerList = view.map.basemap.baseLayers;
           break;
         case 'overlay':
-          layerList = props.view.map.layers;
+          layerList = view.map.layers;
           break;
         default:
           break;
@@ -226,10 +226,10 @@ const LayerSelector = (props) => {
       // This is a hack to re-apply the zoom after adding the first cached layer. This works because the
       // map view is an observable
       managedLayersDraft[layerItem.id].layer.when('loaded', () => {
-        const currentScale = managedLayersDraft[layerItem.id].layer.tileInfo.lods[props.view.zoom].scale;
-        if (props.view.zoom > -1 && props.view.scale !== currentScale) {
+        const currentScale = managedLayersDraft[layerItem.id].layer.tileInfo.lods[view.zoom].scale;
+        if (view.zoom > -1 && view.scale !== currentScale) {
           // eslint-disable-next-line no-self-assign
-          props.view.zoom = props.view.zoom;
+          view.zoom = view.zoom;
         }
       });
 
@@ -239,7 +239,7 @@ const LayerSelector = (props) => {
   }, [layers]);
 
   useEffect(() => {
-    if (!props.baseLayers || props.baseLayers.length < 1) {
+    if (!baseLayers || baseLayers.length < 1) {
       console.warn(
         'layer-selector::`baseLayers` is null or empty. Make sure you have spelled it correctly ' +
           'and are passing it into the constructor of this widget.'
@@ -247,63 +247,62 @@ const LayerSelector = (props) => {
 
       return;
     }
-  }, [props.baseLayers]);
+  }, [baseLayers]);
 
   useEffect(() => {
     const applianceLayerTemplates = {
       Imagery: {
-        urlPattern: `https://discover.agrc.utah.gov/login/path/${props.quadWord}/tiles/utah/{level}/{col}/{row}`,
+        urlPattern: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/utah/{level}/{col}/{row}`,
         hasAttributionData: true,
         copyright: 'Hexagon',
         attributionDataUrl: imageryAttributionJsonUrl,
       },
       Topo: {
-        urlPattern: `https://discover.agrc.utah.gov/login/path/${props.quadWord}/tiles/topo_basemap/{level}/{col}/{row}`,
+        urlPattern: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/topo_basemap/{level}/{col}/{row}`,
         copyright: 'UGRC',
       },
       Terrain: {
-        urlPattern: `https://discover.agrc.utah.gov/login/path/${props.quadWord}/tiles/terrain_basemap/{level}/{col}/{row}`,
+        urlPattern: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/terrain_basemap/{level}/{col}/{row}`,
         copyright: 'UGRC',
       },
       Lite: {
-        urlPattern: `https://discover.agrc.utah.gov/login/path/${props.quadWord}/tiles/lite_basemap/{level}/{col}/{row}`,
+        urlPattern: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/lite_basemap/{level}/{col}/{row}`,
         copyright: 'UGRC',
       },
       'Color IR': {
-        urlPattern: `https://discover.agrc.utah.gov/login/path/${props.quadWord}/tiles/naip_2018_nrg/{level}/{col}/{row}`,
+        urlPattern: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/naip_2018_nrg/{level}/{col}/{row}`,
         copyright: 'UGRC',
       },
       Hybrid: {
-        urlPattern: `https://discover.agrc.utah.gov/login/path/${props.quadWord}/tiles/utah/{level}/{col}/{row}`,
+        urlPattern: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/utah/{level}/{col}/{row}`,
         linked: ['Overlay'],
         copyright: 'Hexagon, UGRC',
         hasAttributionData: true,
         attributionDataUrl: imageryAttributionJsonUrl,
       },
       Overlay: {
-        urlPattern: `https://discover.agrc.utah.gov/login/path/${props.quadWord}/tiles/overlay_basemap/{level}/{col}/{row}`,
+        urlPattern: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/overlay_basemap/{level}/{col}/{row}`,
         // no attribution for overlay layers since it just duplicates the base map attribution
       },
       'Address Points': {
-        urlPattern: `https://discover.agrc.utah.gov/login/path/${props.quadWord}/tiles/address_points_basemap/{level}/{col}/{row}`,
+        urlPattern: `https://discover.agrc.utah.gov/login/path/${quadWord}/tiles/address_points_basemap/{level}/{col}/{row}`,
       },
     };
 
-    props.view.map.basemap = new Basemap();
+    view.map.basemap = new Basemap();
 
     const defaultTileInfo = createDefaultTileInfo(LOD);
     const applianceLayers = setTileInfosForApplianceLayers(applianceLayerTemplates, defaultTileInfo, TileInfo);
 
-    const baseLayers =
-      createLayerFactories('baselayer', props.baseLayers, WebTileLayer, props.quadWord, applianceLayers) || [];
-    let overlays = props.overlays || [];
+    const baseLayerFactories =
+      createLayerFactories('baselayer', baseLayers, WebTileLayer, quadWord, applianceLayers) || [];
 
     let hasDefaultSelection = false;
     let defaultSelection = null;
     let hasHybrid = false;
     let linkedLayersBuilder = [];
 
-    baseLayers.forEach((layer) => {
+    baseLayerFactories.forEach((layer) => {
       if (layer.selected === true) {
         hasDefaultSelection = true;
         defaultSelection = layer;
@@ -320,9 +319,9 @@ const LayerSelector = (props) => {
     setLinkedLayers(linkedLayersBuilder);
 
     // set default basemap to index 0 if not specified by the user
-    if (!hasDefaultSelection && baseLayers.length > 0) {
-      baseLayers[0].selected = true;
-      defaultSelection = baseLayers[0];
+    if (!hasDefaultSelection && baseLayerFactories.length > 0) {
+      baseLayerFactories[0].selected = true;
+      defaultSelection = baseLayerFactories[0];
     }
 
     // insert overlay to first spot because hybrid
@@ -330,11 +329,11 @@ const LayerSelector = (props) => {
       overlays.splice(0, 0, 'Overlay');
     }
 
-    overlays = createLayerFactories('overlay', overlays, WebTileLayer, props.quadWord, applianceLayers) || [];
+    const overlayFactories = createLayerFactories('overlay', overlays, WebTileLayer, quadWord, applianceLayers) || [];
 
     // set visibility of linked layers to match
     if (defaultSelection.linked && defaultSelection.linked.length > 0) {
-      overlays.forEach((layer) => {
+      overlayFactories.forEach((layer) => {
         if (defaultSelection.linked.includes(layer.id)) {
           layer.selected = true;
         }
@@ -342,22 +341,22 @@ const LayerSelector = (props) => {
     }
 
     setLayers({
-      baseLayers,
-      overlays,
+      baseLayers: baseLayerFactories,
+      overlays: overlayFactories,
     });
 
-    props.view.ui.add(selectorNode.current, props.position);
+    view.ui.add(selectorNode.current, position);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onItemChanged = (event, props) => {
+  const onItemChanged = (event, { layerType, id }) => {
     const overlays = layers.overlays;
     const baseLayers = layers.baseLayers;
 
-    if (props.layerType === 'baselayer') {
+    if (layerType === 'baselayer') {
       baseLayers.forEach((item) => {
-        item.selected = item.id === props.id ? event.target.checked : false;
+        item.selected = item.id === id ? event.target.checked : false;
       });
 
       const selectedItem = baseLayers.filter((layer) => layer.selected)[0];
@@ -377,13 +376,15 @@ const LayerSelector = (props) => {
           return item;
         });
       }
-    } else if (props.layerType === 'overlay') {
+    } else if (layerType === 'overlay') {
       overlays.forEach((item) => {
-        if (item.id === props.id) {
+        if (item.id === id) {
           item.selected = event.target.checked;
         }
       });
     }
+
+    ga.logEvent(ga.analytics, 'basemap_change', { basemap: event.target.value });
 
     setLayers({
       overlays,
@@ -394,7 +395,7 @@ const LayerSelector = (props) => {
   return (
     <div ref={selectorNode}>
       <ConditionalWrapper
-        condition={props.makeExpandable}
+        condition={makeExpandable}
         wrapper={(children) => <ExpandableContainer>{children}</ExpandableContainer>}
       >
         <div className="layer-selector--layers">

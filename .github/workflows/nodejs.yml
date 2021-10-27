@@ -38,6 +38,7 @@ jobs:
         env:
           VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_QUAD_WORD }}
           VITE_API_KEY: ${{ secrets.WEB_API_KEY }}
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
       - name: 🪣 Cache firebase
         uses: actions/cache@v2
