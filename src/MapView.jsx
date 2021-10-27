@@ -63,10 +63,12 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
       setActiveParcel(feature);
       setGraphic(feature);
 
-      ga.logEvent(ga.analytics, 'parcel_identify', {
-        id: feature.attributes.PARCEL_ID,
-        address: `${feature.attributes.PARCEL_ADD}, ${feature.attributes.PARCEL_CITY} ${feature.attributes.PARCEL_ZIP}`,
-      });
+      if (feature !== null) {
+        ga.logEvent(ga.analytics, 'parcel_identify', {
+          id: feature.attributes.PARCEL_ID,
+          address: `${feature.attributes.PARCEL_ADD}, ${feature.attributes.PARCEL_CITY} ${feature.attributes.PARCEL_ZIP}`,
+        });
+      }
     },
     [setActiveParcel, setGraphic]
   );
@@ -145,6 +147,7 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
       position: 'top-right',
       ga: ga,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setMapView]);
 
   const controller = useRef(null);
