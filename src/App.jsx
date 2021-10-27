@@ -54,9 +54,11 @@ export function extractCountyAndView(hash) {
   if (hash.includes('/location/')) {
     const [x, y, scale] = hash.substring(hash.lastIndexOf('/') + 1).split(',');
 
-    logEvent(analytics, 'county_view', {
-      county: countyName || defaultAppState.name,
-    });
+    if (countyName !== defaultAppState.name) {
+      logEvent(analytics, 'county_view', {
+        county: countyName || defaultAppState.name,
+      });
+    }
 
     logEvent(analytics, 'deep_link');
 
@@ -77,9 +79,11 @@ export function extractCountyAndView(hash) {
   const county = extents.filter((item) => item.name === countyName);
   const state = county.length > 0 ? county[0] : defaultAppState;
 
-  logEvent(analytics, 'county_view', {
-    county: state.name,
-  });
+  if (state.name !== defaultAppState.name) {
+    logEvent(analytics, 'county_view', {
+      county: state.name,
+    });
+  }
 
   return state;
 }
