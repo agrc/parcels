@@ -184,7 +184,7 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
         'relative mb-2 border border-gray-300 shadow cursor-pointer grid-area-map bg-gradient-to-br from-gray-50 to-gray-100'
       )}
     >
-      <div className="absolute bottom-0 right-0 z-10 flex items-center justify-center text-white transition-colors bg-green-800 rounded-tl shadow cursor-pointer w-7 h-7 hover:bg-green-600">
+      <div className="absolute bottom-0 right-0 z-10 flex items-center justify-center text-white transition-colors bg-green-800 rounded-tl shadow cursor-pointer w-7 h-7 hover:bg-green-600 active:bg-green-900">
         <ArrowsExpandIcon className="w-6 h-6" onClick={toggleSidebar} />
       </div>
       <div className="w-full h-full" ref={mapDiv}>

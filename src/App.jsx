@@ -85,7 +85,7 @@ export function extractCountyAndView(hash) {
 }
 
 export function App() {
-  const [isOpen, { toggle }] = useOpenClosed(true);
+  const [isOpen, { toggle }] = useOpenClosed(window.innerWidth >= 768);
   const [mapView, setMapView] = useState();
   const { setGraphic } = useGraphicManager(mapView);
   const { setGeometry } = useMapZooming(mapView);

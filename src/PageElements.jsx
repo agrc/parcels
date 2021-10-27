@@ -45,9 +45,11 @@ export function Header({ county = 'Utah State', version = '1.0.0' }) {
   return (
     <section className="flex items-center justify-between m-1 bg-gradient-to-t from-gray-100 to-white grid-area-header">
       <h1 className="relative inline-block">
-        <span className="text-5xl font-black tracking-tight text-gray-700">{county} Parcels</span>
+        <span className="text-3xl font-bold tracking-tight text-gray-700 sm:font-black sm:text-5xl">
+          {county} Parcels
+        </span>
         <a
-          className="absolute top-0 text-xs font-semibold tracking-tighter text-blue-400 -right-2"
+          className="absolute top-0 hidden text-xs font-semibold tracking-tighter text-blue-400 sm:block -right-2"
           href="https://github.com/agrc/parcels/blob/main/CHANGELOG.md"
           target="_blank"
           rel="noreferrer"
@@ -55,7 +57,7 @@ export function Header({ county = 'Utah State', version = '1.0.0' }) {
           v{version}
         </a>
       </h1>
-      <img src={logo} alt="UGRC logo" />
+      <img src={logo} className="h-8 sm:h-full" alt="UGRC logo" />
     </section>
   );
 }
@@ -353,7 +355,7 @@ export function ParcelInformation({ feature }) {
       leaveTo="opacity-0 scale-95"
     >
       <Dialog as="section" className="absolute inset-x-0 bottom-0 z-20 w-full" onClose={close}>
-        <div className="inline-block w-full px-6 py-3 overflow-hidden text-left text-white align-middle transition-all transform bg-gray-900/95">
+        <div className="flex w-full px-6 py-3 overflow-hidden text-left text-white align-middle transition-all transform bg-gray-900/95">
           <div className="mt-4 text-right">
             <button
               type="button"
@@ -363,40 +365,40 @@ export function ParcelInformation({ feature }) {
               <XIcon className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
-          <div className="flex flex-row flex-wrap justify-between w-full gap-4 mb-2">
+          <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-8">
             {feature?.attributes ? (
               <>
-                <div className="px-8 w-max">
+                <div>
                   <h4 className="text-lg font-bold">Parcel Id</h4>
                   <p className="text-gray-300">{feature.attributes.PARCEL_ID}</p>
                 </div>
-                <div className="px-8 w-max">
+                <div>
                   <h4 className="text-lg font-bold">Address</h4>
                   <p className="text-gray-300">{feature.attributes.PARCEL_ADD}</p>
                 </div>
-                <div className="px-8 w-max">
+                <div>
                   <h4 className="text-lg font-bold">City</h4>
                   <p className="text-gray-300">{feature.attributes.PARCEL_CITY}</p>
                 </div>
-                <div className="px-8 w-max">
+                <div>
                   <h4 className="text-lg font-bold">Zip Code</h4>
                   <p className="text-gray-300">{feature.attributes.PARCEL_ZIP}</p>
                 </div>
-                <div className="px-8 w-max">
+                <div>
                   <h4 className="text-lg font-bold">Generalized Ownership Type</h4>
                   <p className="text-gray-300">{feature.attributes.OWN_TYPE}</p>
                 </div>
-                <div className="px-8 w-max">
+                <div>
                   <h4 className="text-lg font-bold">Current as of</h4>
                   <p className="text-gray-300">{intl.format(feature.attributes.ParcelsCur)}</p>
                 </div>
-                <div className="px-8 w-max">
+                <div>
                   <h4 className="text-lg font-bold">Notes</h4>
                   <p className="text-gray-300">{feature.attributes.ParcelNotes}</p>
                 </div>
                 {feature.attributes.CoParcel_URL && (
                   <a
-                    className="flex flex-row items-center px-8 space-x-2 text-lg font-bold text-blue-300 w-max hover:text-blue-100"
+                    className="flex flex-row items-center space-x-2 text-lg font-bold text-blue-300 hover:text-blue-100 active:text-blue-500"
                     href={feature.attributes.CoParcel_URL}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -407,7 +409,7 @@ export function ParcelInformation({ feature }) {
                 )}
               </>
             ) : (
-              <div className="flex-grow text-3xl text-center">There is no parcel information here.</div>
+              <div className="col-span-8 text-xl text-center md:text-3xl">There is no parcel information here.</div>
             )}
           </div>
         </div>
