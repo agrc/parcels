@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply flex w-full h-full overflow-hidden;
+}
+
+.grid-template {
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: min-content 1fr;
+  grid-template-areas:
+    'header header'
+    'sidebar   map';
+}
+.grid-template--sidebar-closed {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'header'
+    'map';
+}
+
+.grid-area-header {
+  grid-area: header;
+}
+
+.grid-area-map {
+  grid-area: map;
+}
+
+.grid-area-sidebar {
+  grid-area: sidebar;
+  will-change: transform;
+  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drawer--closed {
+  transform: translateY(100vh);
+}
+
+/* @media (min-width: 640px) {
+  .app {
+    grid: [menu] 1fr / [menu] 95px [map] 1fr;
+  }
+  .menu {
+    @apply flex-col;
+    grid-area: menu;
+  }
+  .drawer {
+    grid-area: menu;
+    width: 320px;
+  }
+  .drawer--closed {
+    transform: translateX(-100%);
+  }
+  .menu {
+    will-change: transform;
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .menu--open {
+    transform: translateX(320px);
+  }
+} */
+
+.toggle-checkbox:checked {
+  @apply right-0 border-indigo-400;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+  @apply bg-indigo-400;
+}
+
+.esri-view .esri-view-surface--inset-outline:focus::after {
+  @apply outline-none;
+}

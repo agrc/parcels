@@ -3,12 +3,11 @@ name: firebase deploy
 on:
   push:
     paths:
-      - "src/**"
-      - ".github/workflows/nodejs.yml"
-      - "package-lock.json"
-      - "firebase.json"
-      - ".firebaserc"
-      - "bower.json"
+      - 'src/**'
+      - '.github/workflows/nodejs.yml'
+      - 'package-lock.json'
+      - 'firebase.json'
+      - '.firebaserc'
 
 jobs:
   deploy-dev:
@@ -19,23 +18,38 @@ jobs:
     if: github.ref != 'refs/heads/main'
 
     steps:
-      - name: Checkout Code
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+
+      - name: ⬇️ Set up code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
+      - name: ⎔ Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: lts/*
+          cache: npm
 
-      - run: npm ci
+      - name: 📥 Download dependencies
+        run: npm ci
 
-      - run: npm i -g grunt-cli bower
+      - name: 🏗 Run build script
+        run: npm run build
+        env:
+          VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_QUAD_WORD }}
+          VITE_API_KEY: ${{ secrets.WEB_API_KEY }}
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
-      - run: bower install
+      - name: 🪣 Cache firebase
+        uses: actions/cache@v2
+        with:
+          path: ./.firebase
+          key: ${{ runner.OS }}-firebase-${{ hashFiles('**/*.cache') }}
+          restore-keys: |
+            ${{ runner.OS }}-firebase-
+            ${{ runner.OS }}-
 
-      - run: grunt build-stage
-
-      - name: Firebase Deploy
+      - name: 🚀 Firebase Deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
@@ -53,23 +67,28 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Checkout Code
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+
+      - name: ⬇️ Set up code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
+      - name: ⎔ Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: lts/*
+          cache: npm
 
-      - run: npm ci
+      - name: 📥 Download dependencies
+        run: npm ci
 
-      - run: npm i -g grunt-cli bower
+      - name: 🏗 Run build script
+        run: npm run build
+        env:
+          VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_QUAD_WORD }}
+          VITE_API_KEY: ${{ secrets.WEB_API_KEY }}
 
-      - run: bower install
-
-      - run: grunt build-prod
-
-      - name: Cache firebase
+      - name: 🪣 Cache firebase
         uses: actions/cache@v2
         with:
           path: ./.firebase
@@ -78,7 +97,7 @@ jobs:
             ${{ runner.OS }}-firebase-
             ${{ runner.OS }}-
 
-      - name: Firebase Deploy
+      - name: 🚀 Firebase Deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

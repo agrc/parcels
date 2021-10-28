@@ -1,0 +1,135 @@
+// _varibales.scss
+// font family
+$font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+// @arcgis/core font paths for vite to resolve
+$icomoon-font-path: './../../node_modules/@arcgis/core/assets/esri/themes/base/icons/fonts/';
+$calcite-fonts-path: './../../node_modules/@arcgis/core/assets/esri/themes/base/fonts/fonts/';
+
+// @arcgis/core widgets set to false
+// set to true in apps as needed
+$include_widgets: true !default;
+$include_Widget: true !default;
+$include_AreaMeasurement2D: false !default;
+$include_AreaMeasurement3D: false !default;
+$include_Attachments: false !default;
+$include_Attribution: false !default;
+$include_BasemapGallery: false !default;
+$include_BasemapLayerList: false !default;
+$include_BasemapToggle: false !default;
+$include_BinaryColorSizeSlider: false !default;
+$include_Bookmarks: false !default;
+$include_BuildingExplorer: false !default;
+$include_ButtonMenu: false !default;
+$include_ClassedColorSlider: false !default;
+$include_ClassedSizeSlider: false !default;
+$include_Compass: false !default;
+$include_ColorSizeSlider: false !default;
+$include_ColorSlider: false !default;
+$include_CoordinateConversion: false !default;
+$include_DatePicker: false !default;
+$include_Daylight: false !default;
+$include_Directions: false !default;
+$include_DirectLineMeasurement3D: false !default;
+$include_DistanceMeasurement2D: false !default;
+$include_Editor: false !default;
+$include_ElevationProfile: false !default;
+$include_Expand: false !default;
+$include_Feature: false !default;
+$include_FeatureContent: false !default;
+$include_FeatureMedia: false !default;
+$include_FeatureForm: false !default;
+$include_FeatureTable: false !default;
+$include_FeatureTemplates: false !default;
+$include_FloorFilter: false !default;
+$include_Grid: false !default;
+$include_HeatmapSlider: false !default;
+$include_Histogram: false !default;
+$include_HistogramRangeSlider: false !default;
+$include_IdentityForm: false !default;
+$include_IdentityModal: false !default;
+$include_ItemList: false !default;
+$include_LayerList: false !default;
+$include_Legend: false !default;
+$include_LineOfSight: false !default;
+$include_Measurement: false !default;
+$include_NavigationToggle: false !default;
+$include_OpacitySlider: false !default;
+$include_Print: false !default;
+$include_Popup: false !default;
+$include_ScaleBar: false !default;
+$include_ScaleRangeSlider: false !default;
+$include_Search: false !default;
+$include_SizeSlider: false !default;
+$include_Sketch: false !default;
+$include_Slice: false !default;
+$include_Slider: false !default;
+$include_Spinner: false !default;
+$include_Swipe: false !default;
+$include_TableList: false !default;
+$include_TimePicker: false !default;
+$include_TimeSlider: false !default;
+$include_Zoom: false !default;
+
+$background-color--active: #e5e7eb;
+$background-color--hover: #f3f4f6;
+$background-color: #fff;
+$border-color--active: #e5e7eb;
+$border-color: #9ca3af;
+$button-height: 2.25rem;
+$button-width: 32px;
+$font-size: 1rem;
+$interactive-font-color--hover: #111827;
+$interactive-font-color: #1f2937;
+
+$ignore: #fff;
+$whoCares: inherit;
+$background-color--inverse: $ignore;
+$border-radius: $whoCares;
+$border-size--active: $whoCares;
+$button-color--hover: $whoCares;
+$button-color--inverse: $whoCares;
+$button-color: $whoCares;
+$button-height--half: $whoCares;
+$cap-spacing--eighth: $whoCares;
+$cap-spacing--half: $whoCares;
+$cap-spacing--plus-half: $whoCares;
+$cap-spacing: $whoCares;
+$font-color--placeholder: $whoCares;
+$font-color: $ignore;
+$font-size__body: $whoCares;
+$font-size__h1: $whoCares;
+$font-size__h2: $whoCares;
+$font-size__lt-h2: $whoCares;
+$font-size--small: $whoCares;
+$font-weight__heading: $whoCares;
+$font-weight: $whoCares;
+$footer-height--min: $whoCares;
+$header-button-width: $whoCares;
+$header-height--min: $whoCares;
+$heading-color: $whoCares;
+$icon-size: $whoCares;
+$interactive-font-color--disabled: $whoCares;
+$interactive-font-color--inverse: $whoCares;
+$line-height: $whoCares;
+$opacity--disabled: $whoCares;
+$panel-min-height--xsmall: $whoCares;
+$panel-width: $whoCares;
+$side-spacing--half: $whoCares;
+$side-spacing--plus-half: $whoCares;
+$side-spacing: $whoCares;
+$spinning-loader-size: $whoCares;
+$view-height--gt-medium__component-max-height: $whoCares;
+$view-height--medium__component-max-height: $whoCares;
+$view-height--small__component-max-height: $whoCares;
+$view-height--xsmall__component-max-height: $whoCares;
+$view-ui-spacing: $whoCares;
+
+// @arcgis/core sass
+@import './../../node_modules/@arcgis/core/assets/esri/themes/base/icons/style.scss';
+@import './../../node_modules/@arcgis/core/assets/esri/themes/base/mixins';
+@import './../../node_modules/@arcgis/core/assets/esri/themes/base/View';
+@import './../../node_modules/@arcgis/core/assets/esri/themes/base/Ui';
+
+@import './../../node_modules/@arcgis/core/assets/esri/themes/base/widgets/Widget';
