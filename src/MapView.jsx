@@ -1,7 +1,6 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import EsriMap from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
-import { ArrowsExpandIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import ky from 'ky';
 import debounce from 'lodash.debounce';
@@ -15,6 +14,7 @@ const parcels =
 const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel, initialView }) => {
   const mapDiv = useRef(null);
   const mapView = useRef(null);
+  const FullScreen = useRef(null);
   const [selectorOptions, setSelectorOptions] = useState(null);
   const { setGraphic } = useGraphicManager(mapView.current);
   const [, setHash] = useHash();
@@ -82,6 +82,7 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
   }, [initialView]);
 
   useEffect(() => {
+    console.log('rerender::map initialization');
     if (!mapDiv.current || mapView.current) {
       return;
     }
@@ -141,6 +142,8 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
 
     setMapView(mapView.current);
 
+    mapView.current.ui.add(FullScreen.current, 'top-left');
+
     setSelectorOptions({
       view: mapView.current,
       quadWord: import.meta.env.VITE_DISCOVER_KEY,
@@ -185,10 +188,29 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
         'relative mb-2 border border-gray-300 shadow cursor-pointer grid-area-map bg-gradient-to-br from-gray-50 to-gray-100'
       )}
     >
-      <div className="absolute bottom-0 right-0 z-10 flex items-center justify-center text-white transition-colors bg-green-800 rounded-tl shadow cursor-pointer w-7 h-7 hover:bg-green-600 active:bg-green-900">
-        <ArrowsExpandIcon className="w-6 h-6" onClick={toggleSidebar} />
-      </div>
       <div className="w-full h-full" ref={mapDiv}>
+        <div ref={FullScreen} className="mt-2 esri-component esri-widget">
+          <div
+            className="esri-widget--button esri-widget esri-interactive"
+            role="button"
+            tabIndex="0"
+            title="Toggle full screen"
+            onClick={toggleSidebar}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') toggleSidebar();
+            }}
+          >
+            <span
+              aria-hidden="true"
+              role="presentation"
+              className={clsx({
+                'esri-icon-zoom-out-fixed': !fullScreen,
+                'esri-icon-zoom-in-fixed': fullScreen,
+              })}
+            ></span>
+            <span className="esri-icon-font-fallback-text">Toggle full screen</span>
+          </div>
+        </div>
         {selectorOptions ? <LayerSelector {...selectorOptions}></LayerSelector> : null}
       </div>
     </section>

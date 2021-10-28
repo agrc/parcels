@@ -1,5 +1,4 @@
 import { Dialog, Listbox, Transition } from '@headlessui/react';
-import { CheckIcon, ExternalLinkIcon, SelectorIcon, XIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import escapeRegExp from 'lodash.escaperegexp';
 import { Fragment, useEffect, useState } from 'react';
@@ -128,7 +127,7 @@ export function TypeAhead({ label, layer, field, onSuccess }) {
       <label className="text-lg font-semibold" {...getLabelProps()}>
         {label}
       </label>
-      <div {...getComboboxProps()}>
+      <div className="relative" {...getComboboxProps()}>
         {/* eslint-disable-next-line jsx-a11y/autocomplete-valid */}
         <input
           className={clsx(
@@ -138,6 +137,9 @@ export function TypeAhead({ label, layer, field, onSuccess }) {
           {...getInputProps()}
           autoComplete="never"
         />
+        <span className="absolute top-[13px] right-0 flex items-center pr-2 pointer-events-none">
+          <span className="w-5 h-5 text-gray-400 esri-icon-search" aria-hidden="true" />
+        </span>
       </div>
       <ul
         className={clsx({
@@ -222,8 +224,8 @@ export function ParcelTypeAhead({ county = '', onSuccess }) {
           <Listbox.Label>County</Listbox.Label>
           <Listbox.Button className="relative w-full px-3 py-2 mt-1 mb-2 text-base text-left text-gray-700 bg-white border border-gray-400 rounded h-11 focus:outline-none focus:border-indigo-500">
             <span className="block truncate">{selectedCounty}</span>
-            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-              <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+            <span className="absolute top-[13px] right-0 flex items-center pr-2 pointer-events-none">
+              <span className="w-5 h-5 text-gray-400 esri-icon-down" aria-hidden="true" />
             </span>
           </Listbox.Button>
           <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
@@ -245,9 +247,10 @@ export function ParcelTypeAhead({ county = '', onSuccess }) {
                         {county}
                       </span>
                       {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
-                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
-                        </span>
+                        <span
+                          className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600 esri-icon-check-mark"
+                          aria-hidden="true"
+                        ></span>
                       ) : null}
                     </>
                   )}
@@ -372,10 +375,11 @@ export function ParcelInformation({ feature }) {
           <div className="mt-4 text-right">
             <button
               type="button"
-              className="absolute p-1 text-white bg-gray-800 border border-white rounded hover:text-red-800 top-2 right-2 hover:bg-gray-50 focus:outline-none"
+              className="absolute px-1 text-white bg-gray-800 border border-white rounded hover:text-red-800 top-2 right-2 hover:bg-gray-50 focus:outline-none"
               onClick={close}
             >
-              <XIcon className="w-5 h-5" aria-hidden="true" />
+              <span aria-hidden="true" role="presentation" className="w-4 h-4 esri-icon-close"></span>
+              <span className="esri-icon-font-fallback-text">Close</span>
             </button>
           </div>
           <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-8">
@@ -416,7 +420,8 @@ export function ParcelInformation({ feature }) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <ExternalLinkIcon className="w-5 h-5 text-white" aria-hidden="true" />
+                    <span aria-hidden="true" role="presentation" className="w-5 h-5 esri-icon-link-external"></span>
+                    <span className="esri-icon-font-fallback-text">Toggle full screen</span>
                     <span>County Parcel Website</span>
                   </a>
                 )}
