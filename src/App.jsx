@@ -118,6 +118,16 @@ export function App() {
             onSuccess={(result) => {
               const polygon = new Polygon(result.geometry);
 
+              if (polygon.extent === null) {
+                logEvent(analytics, 'parcel_search_no_geometry', {
+                  parcel: result?.attributes?.parcel_id,
+                  county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
+                });
+
+                toast.error('There was no location found for this parcel');
+                return;
+              }
+
               logEvent(analytics, 'parcel_search', {
                 parcel: result?.attributes?.parcel_id,
                 county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
