@@ -350,6 +350,8 @@ export function Disclaimer() {
   );
 }
 
+const regex = /(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])/gm;
+
 export function ParcelInformation({ feature }) {
   let [isOpen, { close, open }] = useOpenClosed(false);
 
@@ -382,37 +384,17 @@ export function ParcelInformation({ feature }) {
               <span className="esri-icon-font-fallback-text">Close</span>
             </button>
           </div>
-          <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-8">
+          <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-9">
             {feature?.attributes ? (
               <>
-                <div>
-                  <h4 className="text-lg font-bold">Parcel Id</h4>
-                  <p className="text-gray-300">{feature.attributes.PARCEL_ID}</p>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold">Address</h4>
-                  <p className="text-gray-300">{feature.attributes.PARCEL_ADD}</p>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold">City</h4>
-                  <p className="text-gray-300">{feature.attributes.PARCEL_CITY}</p>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold">Zip Code</h4>
-                  <p className="text-gray-300">{feature.attributes.PARCEL_ZIP}</p>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold">Generalized Ownership Type</h4>
-                  <p className="text-gray-300">{feature.attributes.OWN_TYPE}</p>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold">Current as of</h4>
-                  <p className="text-gray-300">{intl.format(feature.attributes.ParcelsCur)}</p>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold">Notes</h4>
-                  <p className="text-gray-300">{feature.attributes.ParcelNotes}</p>
-                </div>
+                <IdentifyItem label="Parcel Id" text={feature.attributes.PARCEL_ID} />
+                <IdentifyItem label="Address" text={feature.attributes.PARCEL_ADD} />
+                <IdentifyItem label="City" text={feature.attributes.PARCEL_CITY} />
+                <IdentifyItem label="Zip Code" text={feature.attributes.PARCEL_ZIP} />
+                <IdentifyItem label="County" text={feature.attributes.County?.replace(regex, ' ')} />
+                <IdentifyItem label="Generalized Ownership Type" text={feature.attributes.OWN_TYPE} />
+                <IdentifyItem label="Current as of" text={intl.format(feature.attributes.ParcelsCur)} />
+                <IdentifyItem label="Notes" text={feature.attributes.ParcelNotes} />
                 {feature.attributes.CoParcel_URL && (
                   <a
                     className="flex flex-row items-center space-x-2 text-lg font-bold text-blue-300 hover:text-blue-100 active:text-blue-500"
@@ -422,7 +404,7 @@ export function ParcelInformation({ feature }) {
                   >
                     <span aria-hidden="true" role="presentation" className="w-5 h-5 esri-icon-link-external"></span>
                     <span className="esri-icon-font-fallback-text">Toggle full screen</span>
-                    <span>County Parcel Website</span>
+                    <span>{feature.attributes.County?.replace(regex, ' ')} Website</span>
                   </a>
                 )}
               </>
@@ -433,5 +415,14 @@ export function ParcelInformation({ feature }) {
         </div>
       </Dialog>
     </Transition>
+  );
+}
+
+function IdentifyItem({ text, label }) {
+  return (
+    <div>
+      <h4 className="text-lg font-bold">{label}</h4>
+      <p className="text-gray-300">{text}</p>
+    </div>
   );
 }
