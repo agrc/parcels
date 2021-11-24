@@ -387,7 +387,7 @@ export function ParcelInformation({ feature }) {
           <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-9">
             {feature?.attributes ? (
               <>
-                <IdentifyItem label="Parcel Id" text={feature.attributes.PARCEL_ID} />
+                <IdentifyItem label="Parcel Number" text={feature.attributes.PARCEL_ID} />
                 <IdentifyItem label="Address" text={feature.attributes.PARCEL_ADD} />
                 <IdentifyItem label="City" text={feature.attributes.PARCEL_CITY} />
                 <IdentifyItem label="Zip Code" text={feature.attributes.PARCEL_ZIP} />
