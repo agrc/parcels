@@ -3,6 +3,17 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+### [2.1.2](https://github.com/agrc/Parcels/compare/v2.1.0...v2.1.2) (2021-12-16)
+
+### 🐛 Bug Fixes
+
+- use safari-supported method for splitting county names ([b45618c](https://github.com/agrc/Parcels/commit/b45618c2dfca91a11ae28be2fd36a8cada6433eb))
+
+### 🚀 Chores
+
+- :evergreen_tree: ([3f88f36](https://github.com/agrc/Parcels/commit/3f88f36ff3e5bd01fc204cceb3648c1ec44e7e89))
+- **release:** 2.1.1 ([e38669a](https://github.com/agrc/Parcels/commit/e38669a67e1fcab794e17c6057a0d0671aad33aa))
+
 ### [2.1.1](https://github.com/agrc/Parcels/compare/v2.1.0...v2.1.1) (2021-12-16)
 
 ## [2.1.0](https://github.com/agrc/Parcels/compare/v2.0.0...v2.1.0) (2021-11-24)
