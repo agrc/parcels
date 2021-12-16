@@ -3,6 +3,8 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+### [2.1.1](https://github.com/agrc/Parcels/compare/v2.1.0...v2.1.1) (2021-12-16)
+
 ## [2.1.0](https://github.com/agrc/Parcels/compare/v2.0.0...v2.1.0) (2021-11-24)
 
 ### 🚀 Chores
