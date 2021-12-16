@@ -6,6 +6,7 @@ import { useOpenClosed } from './hooks';
 import logo from './ugrc_logo.png';
 import { WebApiProvider } from './vendor/Sherlock/providers';
 import useSherlock from './vendor/Sherlock/Sherlock';
+import startCase from 'lodash.startcase';
 
 const counties = [
   'Beaver',
@@ -350,8 +351,6 @@ export function Disclaimer() {
   );
 }
 
-const regex = /(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])/gm;
-
 export function ParcelInformation({ feature }) {
   let [isOpen, { close, open }] = useOpenClosed(false);
 
@@ -360,6 +359,8 @@ export function ParcelInformation({ feature }) {
       open();
     }
   }, [feature, open]);
+
+  const countyName = feature?.attributes?.County ? startCase(feature.attributes.County) : null;
 
   return (
     <Transition
@@ -391,7 +392,7 @@ export function ParcelInformation({ feature }) {
                 <IdentifyItem label="Address" text={feature.attributes.PARCEL_ADD} />
                 <IdentifyItem label="City" text={feature.attributes.PARCEL_CITY} />
                 <IdentifyItem label="Zip Code" text={feature.attributes.PARCEL_ZIP} />
-                <IdentifyItem label="County" text={feature.attributes.County?.replace(regex, ' ')} />
+                <IdentifyItem label="County" text={countyName} />
                 <IdentifyItem label="Generalized Ownership Type" text={feature.attributes.OWN_TYPE} />
                 <IdentifyItem label="Current as of" text={intl.format(feature.attributes.ParcelsCur)} />
                 <IdentifyItem label="Notes" text={feature.attributes.ParcelNotes} />
@@ -404,7 +405,7 @@ export function ParcelInformation({ feature }) {
                   >
                     <span aria-hidden="true" role="presentation" className="w-5 h-5 esri-icon-link-external"></span>
                     <span className="esri-icon-font-fallback-text">Toggle full screen</span>
-                    <span>{feature.attributes.County?.replace(regex, ' ')} Website</span>
+                    <span>{countyName} Website</span>
                   </a>
                 )}
               </>
