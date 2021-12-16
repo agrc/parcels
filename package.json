@@ -23,6 +23,7 @@
     "lodash.debounce": "^4.0.8",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.sortby": "^4.7.0",
+    "lodash.startcase": "^4.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-toastify": "^8.1.0",
