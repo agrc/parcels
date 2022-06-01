@@ -15,7 +15,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@headlessui/react": "^1.5.0",
+    "@headlessui/react": "^1.6.4",
     "clsx": "^1.1.1",
     "downshift": "^6.1.7",
     "firebase": "^9.6.10",
