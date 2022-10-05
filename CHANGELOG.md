@@ -3,6 +3,14 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.1.3-1](https://github.com/agrc/parcels/compare/v2.1.3-0...v2.1.3-1) (2022-10-05)
+
+
+### 🐛 Bug Fixes
+
+* use @ugrc/layer-selector ([196d76a](https://github.com/agrc/parcels/commit/196d76a1e6df519164106a87304e02d6a1cb22f0))
+* use @ugrc/utilities where easily possible ([eded4f8](https://github.com/agrc/parcels/commit/eded4f8afa44841caa098f9470daa7daa52cf0d7))
+
 ## [2.1.3-0](https://github.com/agrc/parcels/compare/v2.1.2...v2.1.3-0) (2022-10-05)
 
 
