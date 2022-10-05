@@ -3,6 +3,30 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.0-0](https://github.com/agrc/parcels/compare/v2.1.2...v2.3.0-0) (2022-10-05)
+
+
+### 🌲 Dependencies
+
+* october dependency updates ([6984786](https://github.com/agrc/parcels/commit/6984786a1b2f6e6721c2897e70016e9f82841334))
+
+
+### 🎨 Design Improvements
+
+* change meta description ([81d5f6a](https://github.com/agrc/parcels/commit/81d5f6a7e709620ac439bda3c4470dda2436facf))
+* link to the release page instead of the changelog ([04c38b8](https://github.com/agrc/parcels/commit/04c38b8a97949e8102de921b2c9b8bf17be3e423))
+
+
+### 🐛 Bug Fixes
+
+* use @ugrc/layer-selector ([e396688](https://github.com/agrc/parcels/commit/e39668801c856b0d5ddf09aee1b0f2130dedf80d))
+* use @ugrc/utilities where easily possible ([f109d0e](https://github.com/agrc/parcels/commit/f109d0e9fe71d67f30606d9c5b6b40ed34977122))
+
+
+### 🚀 Features
+
+* update to react 18 ([9a4bce3](https://github.com/agrc/parcels/commit/9a4bce3842931230c26c3ccc0d2bab50efaac76a))
+
 ## [2.2.0-0](https://github.com/agrc/parcels/compare/v2.1.3-1...v2.2.0-0) (2022-10-05)
 
 
