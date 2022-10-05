@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
+    "@ugrc/layer-selector": "^6.1.1",
     "@ugrc/utilities": "^2.2.1",
     "clsx": "^1.2.1",
     "downshift": "^6.1.12",
