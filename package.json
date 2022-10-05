@@ -26,8 +26,8 @@
     "lodash.escaperegexp": "^4.1.2",
     "lodash.sortby": "^4.7.0",
     "lodash.startcase": "^4.4.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-toastify": "^9.0.8"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "postcss": "^8.4.17",
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
-    "react-test-renderer": "^17.0.2",
+    "react-test-renderer": "^18.2.0",
     "sass": "^1.55.0",
     "tailwindcss": "^3.1.8",
     "vite": "^3.1.4",
