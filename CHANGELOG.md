@@ -3,6 +3,13 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.2.0-0](https://github.com/agrc/parcels/compare/v2.1.3-1...v2.2.0-0) (2022-10-05)
+
+
+### 🚀 Features
+
+* update to react 18 ([4a007dc](https://github.com/agrc/parcels/commit/4a007dc83fc307bc6abf4513c68d22f086ede55a))
+
 ## [2.1.3-1](https://github.com/agrc/parcels/compare/v2.1.3-0...v2.1.3-1) (2022-10-05)
 
 
