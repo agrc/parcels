@@ -1,6 +1,6 @@
 # Utah Parcel Viewer
 
-[![firebase deploy](https://github.com/agrc/parcels/actions/workflows/nodejs.yml/badge.svg)](https://github.com/agrc/parcels/actions/workflows/nodejs.yml)
+[![firebase deploy](https://github.com/agrc/parcels/actions/workflows/push.yml/badge.svg)](https://github.com/agrc/parcels/actions/workflows/push.yml)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
@@ -61,10 +61,4 @@ Within these two environments add the following secrets
   - `roles/serviceusage.apiKeysAdmin`
 - WEB_API_KEY - your api.mapserv.utah.gov api key
 
-This project uses [conventional commits](https://conventionalcommits.org/) and [standard version](https://github.com/conventional-changelog/standard-version) to manage the change log and version.
-
-Run
-
-```sh
-npm run release
-```
+This project uses [conventional commits](https://conventionalcommits.org/) and [release please](https://github.com/googleapis/release-please) to manage the change log and version.
