@@ -50,7 +50,7 @@ export function Header({ county = 'Utah State' }) {
         </span>
         <a
           className="absolute top-0 hidden text-xs font-semibold tracking-tighter text-blue-400 sm:block -right-2"
-          href="https://github.com/agrc/parcels/blob/main/CHANGELOG.md"
+          href={`https://github.com/agrc/parcels/releases/v${import.meta.env.PACKAGE_VERSION}`}
           target="_blank"
           rel="noreferrer"
         >
