@@ -9,7 +9,8 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
 import { Disclaimer, Header, Sidebar, Section, ParcelInformation, ParcelTypeAhead, TypeAhead } from './PageElements';
 import ParcelMap from './MapView';
 import { TailwindDartboard } from './vendor/Dartboard/Dartboard';
-import { useHash, useOpenClosed, useMapZooming, useGraphicManager } from './hooks';
+import { useOpenClosed } from '@ugrc/utilities/hooks';
+import { useHash, useMapZooming, useGraphicManager } from './hooks';
 import extents from './extents';
 
 const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
