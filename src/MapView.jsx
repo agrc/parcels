@@ -6,7 +6,8 @@ import ky from 'ky';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGraphicManager, useHash } from './hooks';
-import LayerSelector from './vendor/LayerSelector/LayerSelector';
+import LayerSelector from '@ugrc/layer-selector';
+import '@ugrc/layer-selector/src/LayerSelector.css';
 
 const parcels =
   'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahStatewideParcels/FeatureServer/0/';
