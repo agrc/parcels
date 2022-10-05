@@ -1,0 +1,35 @@
+name: Pull Request Events
+
+on: pull_request
+
+permissions:
+  contents: write
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    name: Firebase preview
+    runs-on: ubuntu-latest
+    if: ${{ github.event.sender.type == 'User' }}
+    environment:
+      name: dev
+
+    steps:
+      - name: 🚀 Deploy
+        uses: agrc/firebase-website-deploy-composite-action@v1
+        with:
+          identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
+          service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+          project-id: ${{ secrets.PROJECT_ID }}
+          preview: yes
+          build-command: npm run build
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_QUAD_WORD }}
+          VITE_API_KEY: ${{ secrets.WEB_API_KEY }}
+          VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
