@@ -8,7 +8,7 @@ import { initializeApp } from 'firebase/app';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import { Disclaimer, Header, Sidebar, Section, ParcelInformation, ParcelTypeAhead, TypeAhead } from './PageElements';
 import ParcelMap from './MapView';
-import { TailwindDartboard } from './vendor/Dartboard/Dartboard';
+import { TailwindDartboard } from '@ugrc/dart-board';
 import { useOpenClosed } from '@ugrc/utilities/hooks';
 import { useHash, useMapZooming, useGraphicManager } from './hooks';
 import extents from './extents';
