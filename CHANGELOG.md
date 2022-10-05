@@ -3,6 +3,13 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.0-0](https://github.com/agrc/parcels/compare/v2.2.1...v2.3.0-0) (2022-10-05)
+
+
+### 🚀 Features
+
+* use ugrc dartboard instead of vendor version ([f0ac68a](https://github.com/agrc/parcels/commit/f0ac68a260a03bb027f48bdf23efbef3a5c80d54))
+
 ## [2.2.1](https://github.com/agrc/parcels/compare/v2.2.0...v2.2.1) (2022-10-05)
 
 
