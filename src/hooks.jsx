@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Graphic from '@arcgis/core/Graphic';
 
 export function useGraphicManager(mapView) {
@@ -56,27 +56,6 @@ export function useMapZooming(mapView) {
   }, [geometry, mapView]);
 
   return { geometry, setGeometry };
-}
-
-export function useOpenClosed(initialValue = false) {
-  const [state, setState] = useState(initialValue);
-
-  const handlers = useMemo(
-    () => ({
-      open: () => {
-        setState(true);
-      },
-      close: () => {
-        setState(false);
-      },
-      toggle: () => {
-        setState((s) => (s ? false : true));
-      },
-    }),
-    []
-  );
-
-  return [state, handlers];
 }
 
 export function useHash() {

@@ -2,7 +2,7 @@ import { Dialog, Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import escapeRegExp from 'lodash.escaperegexp';
 import { Fragment, useEffect, useState } from 'react';
-import { useOpenClosed } from './hooks';
+import { useOpenClosed } from '@ugrc/utilities/hooks';
 import logo from './ugrc_logo.png';
 import { WebApiProvider } from './vendor/Sherlock/providers';
 import useSherlock from './vendor/Sherlock/Sherlock';
