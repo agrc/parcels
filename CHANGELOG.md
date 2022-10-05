@@ -3,6 +3,13 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.2.1](https://github.com/agrc/parcels/compare/v2.2.0...v2.2.1) (2022-10-05)
+
+
+### 🐛 Bug Fixes
+
+* add missing repo token ([10dd6e0](https://github.com/agrc/parcels/commit/10dd6e04b8f2ae03f87af71485074a7c250ecdf8))
+
 ## [2.2.0](https://github.com/agrc/parcels/compare/v2.1.2...v2.2.0) (2022-10-05)
 
 
