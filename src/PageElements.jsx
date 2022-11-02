@@ -102,16 +102,7 @@ export function TypeAhead({ label, layer, field, onSuccess }) {
   const provider = new WebApiProvider(import.meta.env.VITE_API_KEY, layer, field);
 
   const {
-    downshift: {
-      inputValue,
-      isOpen,
-      getLabelProps,
-      getMenuProps,
-      getInputProps,
-      getComboboxProps,
-      highlightedIndex,
-      getItemProps,
-    },
+    downshift: { inputValue, isOpen, getLabelProps, getMenuProps, getInputProps, highlightedIndex, getItemProps },
     itemToString,
     items,
     limitExceeded,
@@ -128,7 +119,7 @@ export function TypeAhead({ label, layer, field, onSuccess }) {
       <label className="text-lg font-semibold" {...getLabelProps()}>
         {label}
       </label>
-      <div className="relative" {...getComboboxProps()}>
+      <div className="relative">
         {/* eslint-disable-next-line jsx-a11y/autocomplete-valid */}
         <input
           className={clsx(
