@@ -3,7 +3,7 @@
   "version": "2.3.1",
   "scripts": {
     "build": "vite build",
-    "start": "npm run dev",
+    "copy:arcgis": "cpy \"./node_modules/@arcgis/core/assets/**\" ./public/assets",
     "dev": "vite",
     "fix": "npm run format:fix && npm run lint:fix",
     "format:fix": "prettier --loglevel warn --write \"./**/*.{js,jsx,md}\" --ignore-path ./.ignore",
@@ -13,6 +13,7 @@
     "prepare": "husky install",
     "release": "standard-version",
     "serve": "vite preview",
+    "start": "npm run dev",
     "test": "jest"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "@arcgis/core": "^4.25.5",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
+    "cpy-cli": "^4.2.0",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
