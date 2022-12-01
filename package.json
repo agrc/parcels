@@ -17,6 +17,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@arcgis/core": "^4.25.5",
     "@headlessui/react": "^1.7.4",
     "@ugrc/dart-board": "^5.0.5",
     "@ugrc/layer-selector": "^6.1.1",
@@ -34,7 +35,6 @@
     "react-toastify": "^9.1.1"
   },
   "devDependencies": {
-    "@arcgis/core": "^4.25.5",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
     "cpy-cli": "^4.2.0",
