@@ -33,7 +33,7 @@
     "react-toastify": "^9.1.0"
   },
   "devDependencies": {
-    "@arcgis/core": "^4.24.7",
+    "@arcgis/core": "^4.25.5",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.26.0",
