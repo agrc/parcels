@@ -3,6 +3,14 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.2](https://github.com/agrc/parcels/compare/v2.3.1...v2.3.2) (2022-12-01)
+
+
+### 🐛 Bug Fixes
+
+* :evergreen_tree: november package updates ([d82bf78](https://github.com/agrc/parcels/commit/d82bf784e1c52bef041454550279db2b0795691b))
+* update arcgis reset sass for 4.25 ([d341feb](https://github.com/agrc/parcels/commit/d341feb149ba8e0d58e5429b46be71c8d8d8aca3))
+
 ## [2.3.1](https://github.com/agrc/parcels/compare/v2.3.0...v2.3.1) (2022-11-03)
 
 
