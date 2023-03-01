@@ -23,7 +23,7 @@
     "@ugrc/layer-selector": "^6.1.1",
     "@ugrc/utilities": "^2.2.1",
     "clsx": "^1.2.1",
-    "downshift": "^7.2.0",
+    "downshift": "^7.2.1",
     "firebase": "^9.16.0",
     "ky": "^0.33.2",
     "lodash.debounce": "^4.0.8",
