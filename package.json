@@ -48,7 +48,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
     "postcss": "^8.4.21",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "prop-types": "^15.8.1",
     "react-test-renderer": "^18.2.0",
     "sass": "^1.60.0",
