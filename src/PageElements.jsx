@@ -195,7 +195,7 @@ export function Section({ children }) {
 }
 
 export function ParcelTypeAhead({ county = '', onSuccess }) {
-  const [selectedCounty, setSelectedCounty] = useState();
+  const [selectedCounty, setSelectedCounty] = useState(county);
   const [layerName, setLayerName] = useState();
 
   useEffect(() => {
