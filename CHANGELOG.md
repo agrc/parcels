@@ -3,6 +3,18 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.6](https://github.com/agrc/parcels/compare/v2.3.5...v2.3.6) (2023-07-04)
+
+
+### 🌲 Dependencies
+
+* q3 package updates ([cf79fd9](https://github.com/agrc/parcels/commit/cf79fd91677e68148140373e2a7e102134224519))
+
+
+### 🐛 Bug Fixes
+
+* correct uncontrolled -&gt; controlled ([246db0d](https://github.com/agrc/parcels/commit/246db0db6f2df89789ef4edb2136d06b468188f7))
+
 ## [2.3.6-0](https://github.com/agrc/parcels/compare/v2.3.5...v2.3.6-0) (2023-07-04)
 
 
