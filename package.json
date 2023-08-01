@@ -22,7 +22,7 @@
     "@ugrc/dart-board": "^5.0.6",
     "@ugrc/layer-selector": "^6.1.2",
     "@ugrc/utilities": "^2.2.1",
-    "clsx": "^1.2.1",
+    "clsx": "^2.0.0",
     "downshift": "^7.6.0",
     "firebase": "^9.23.0",
     "ky": "^0.33.3",
