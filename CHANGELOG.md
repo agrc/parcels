@@ -3,6 +3,15 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.8](https://github.com/agrc/parcels/compare/v2.3.7...v2.3.8) (2024-04-03)
+
+
+### 🌲 Dependencies
+
+* bump the safe-dependencies group with 10 updates ([31d500c](https://github.com/agrc/parcels/commit/31d500ca2de3ab03aaad4931e708c5692b088877))
+* **dev:** bump @babel/traverse from 7.23.0 to 7.23.2 ([4f4458d](https://github.com/agrc/parcels/commit/4f4458de0ef8d914cb1a007f5904eadef8c26040))
+* q4 updates ([b3078a9](https://github.com/agrc/parcels/commit/b3078a9bd6ab7ed226a685ee523ef5b31d5fd044))
+
 ## [2.3.8-0](https://github.com/agrc/parcels/compare/v2.3.7...v2.3.8-0) (2024-04-03)
 
 
