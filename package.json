@@ -1,6 +1,6 @@
 {
   "name": "parcels",
-  "version": "2.3.8-0",
+  "version": "2.3.8",
   "scripts": {
     "build": "vite build",
     "copy:arcgis": "cpy \"./node_modules/@arcgis/core/assets/**\" ./public/assets",
