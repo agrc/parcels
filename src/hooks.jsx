@@ -17,7 +17,7 @@ export function useGraphicManager(mapView) {
         mapView.graphics.remove(graphics);
       }
     },
-    [mapView]
+    [mapView],
   );
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export function useHash() {
         window.location.hash = newHash;
       }
     },
-    [hash]
+    [hash],
   );
 
   return [hash, updateHash];

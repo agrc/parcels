@@ -1,4 +1,15 @@
-import { Dialog, Listbox, Transition } from '@headlessui/react';
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Label,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react';
 import clsx from 'clsx';
 import escapeRegExp from 'lodash.escaperegexp';
 import { Fragment, useEffect, useState } from 'react';
@@ -67,7 +78,7 @@ export function Sidebar({ children, isOpen }) {
     <section
       className={clsx(
         { hidden: !isOpen },
-        'px-3 mb-2 ml-2 overflow-scroll border border-gray-300 shadow bg-gray-50 grid-area-sidebar'
+        'px-3 mb-2 ml-2 overflow-scroll border border-gray-300 shadow bg-gray-50 grid-area-sidebar',
       )}
     >
       <div className="relative">
@@ -124,7 +135,7 @@ export function TypeAhead({ label, layer, field, onSuccess }) {
         <input
           className={clsx(
             { 'rounded-t': items.length > 0 && isOpen, rounded: items.length > 0 && !isOpen },
-            'block w-full px-3 py-2 mt-1 text-base text-gray-700 bg-white border border-gray-400 focus:outline-none focus:border-indigo-500'
+            'block w-full px-3 py-2 mt-1 text-base text-gray-700 bg-white border border-gray-400 focus:outline-none focus:border-indigo-500',
           )}
           {...getInputProps()}
           autoComplete="never"
@@ -147,7 +158,7 @@ export function TypeAhead({ label, layer, field, onSuccess }) {
                   'text-indigo-900 bg-indigo-100': highlightedIndex === index,
                   'text-gray-900': highlightedIndex !== index,
                 },
-                'relative pl-4 cursor-default select-none'
+                'relative pl-4 cursor-default select-none',
               )}
               key={`${item}${index}`}
               {...getItemProps({ item, index })}
@@ -186,7 +197,7 @@ const TypeAheadHighlight = ({ text = '', highlight = '' }) => {
         </span>
       ) : (
         <span key={i}>{part}</span>
-      )
+      ),
     );
 };
 
@@ -213,21 +224,21 @@ export function ParcelTypeAhead({ county = '', onSuccess }) {
       <div className="text-lg font-semibold">Find a parcel</div>
       <Listbox value={selectedCounty} onChange={setSelectedCounty}>
         <div className="relative mt-1">
-          <Listbox.Label>County</Listbox.Label>
-          <Listbox.Button className="relative w-full px-3 py-2 mt-1 mb-2 text-base text-left text-gray-700 bg-white border border-gray-400 rounded h-11 focus:outline-none focus:border-indigo-500">
+          <Label>County</Label>
+          <ListboxButton className="relative w-full px-3 py-2 mt-1 mb-2 text-base text-left text-gray-700 bg-white border border-gray-400 rounded h-11 focus:outline-none focus:border-indigo-500">
             <span className="block truncate">{selectedCounty}</span>
             <span className="absolute top-[13px] right-0 flex items-center pr-2 pointer-events-none">
               <span className="w-5 h-5 text-gray-400 esri-icon-down" aria-hidden="true" />
             </span>
-          </Listbox.Button>
+          </ListboxButton>
           <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
-            <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <ListboxOptions className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
               {counties.map((county, i) => (
-                <Listbox.Option
+                <ListboxOption
                   className={({ active }) =>
                     clsx(
                       { 'text-indigo-900 bg-indigo-100': active, 'text-gray-900': !active },
-                      'relative pl-10 pr-4 cursor-default select-none'
+                      'relative pl-10 pr-4 cursor-default select-none',
                     )
                   }
                   key={i}
@@ -246,9 +257,9 @@ export function ParcelTypeAhead({ county = '', onSuccess }) {
                       ) : null}
                     </>
                   )}
-                </Listbox.Option>
+                </ListboxOption>
               ))}
-            </Listbox.Options>
+            </ListboxOptions>
           </Transition>
         </div>
       </Listbox>
@@ -270,9 +281,9 @@ export function Disclaimer() {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={close}>
+      <Dialog className="fixed inset-0 z-10 overflow-y-auto" onClose={close}>
         <div className="min-h-screen px-4 text-center">
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0"
@@ -281,14 +292,14 @@ export function Disclaimer() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-800/95" />
-          </Transition.Child>
+            <div className="fixed inset-0 bg-gray-800/95" />
+          </TransitionChild>
 
           {/* This element is to trick the browser into centering the modal contents. */}
           <span className="inline-block h-screen align-middle" aria-hidden="true">
             &#8203;
           </span>
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0 scale-95"
@@ -297,10 +308,10 @@ export function Disclaimer() {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-              <Dialog.Title as="h3" className="text-3xl font-medium leading-6 text-center text-gray-900">
+            <DialogPanel className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <DialogTitle as="h3" className="text-3xl font-medium leading-6 text-center text-gray-900">
                 Disclaimer
-              </Dialog.Title>
+              </DialogTitle>
               <div className="mt-2 space-y-4">
                 <p className="text-sm text-gray-500">
                   No warranties or certification, express or implied, are provided for the statewide tax parcel dataset
@@ -334,8 +345,8 @@ export function Disclaimer() {
                   I agree
                 </button>
               </div>
-            </div>
-          </Transition.Child>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </Dialog>
     </Transition>

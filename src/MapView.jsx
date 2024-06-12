@@ -73,7 +73,7 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setActiveParcel, setGraphic]
+    [setActiveParcel, setGraphic],
   );
 
   const updateHash = useCallback(() => {
@@ -187,7 +187,7 @@ const ParcelMap = ({ ga, setMapView, toggleSidebar, fullScreen, setActiveParcel,
     <section
       className={clsx(
         { 'mx-2': fullScreen, 'mr-2': !fullScreen },
-        'relative mb-2 border border-gray-300 shadow cursor-pointer grid-area-map bg-gradient-to-br from-gray-50 to-gray-100'
+        'relative mb-2 border border-gray-300 shadow cursor-pointer grid-area-map bg-gradient-to-br from-gray-50 to-gray-100',
       )}
     >
       <div className="w-full h-full" ref={mapDiv}>
