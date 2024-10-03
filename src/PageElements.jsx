@@ -398,6 +398,7 @@ export function ParcelInformation({ feature }) {
                 <IdentifyItem label="Generalized Ownership Type" text={feature.attributes.OWN_TYPE} />
                 <IdentifyItem label="Current as of" text={intl.format(feature.attributes.ParcelsCur)} />
                 <IdentifyItem label="Notes" text={feature.attributes.ParcelNotes} />
+                <IdentifyItem label="Account Number" text={feature.attributes.ACCOUNT_NUM} />
                 {feature.attributes.CoParcel_URL && (
                   <a
                     className="flex flex-row items-center space-x-2 text-lg font-bold text-blue-300 hover:text-blue-100 active:text-blue-500"
