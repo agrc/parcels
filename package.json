@@ -14,7 +14,7 @@
     "release": "standard-version",
     "serve": "vite preview",
     "start": "npm run dev",
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@arcgis/core": "^4.30.9",
