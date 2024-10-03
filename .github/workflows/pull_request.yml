@@ -20,7 +20,7 @@ jobs:
       name: dev
 
     steps:
-      - name: 🚀 Deploy
+      - name: 🚀 Deploy preview
         uses: agrc/firebase-website-deploy-composite-action@v1
         with:
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
