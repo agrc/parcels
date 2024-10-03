@@ -24,177 +24,152 @@
 
 ## [2.3.9](https://github.com/agrc/parcels/compare/v2.3.8...v2.3.9) (2024-07-08)
 
-
 ### Dependencies
 
-* bump the safe-dependencies group across 1 directory with 17 updates ([2a8dd3f](https://github.com/agrc/parcels/commit/2a8dd3f42b2150576a282e0e756d1890a8d77d5f))
-* Q1 package update ([c2f269d](https://github.com/agrc/parcels/commit/c2f269d654e2b1ddc3a29e6af9a1cb89e60b987a))
-* q4 package updates ([7bb6f57](https://github.com/agrc/parcels/commit/7bb6f575f8b316d48ad88dff313251a9ef709c72))
-
+- bump the safe-dependencies group across 1 directory with 17 updates ([2a8dd3f](https://github.com/agrc/parcels/commit/2a8dd3f42b2150576a282e0e756d1890a8d77d5f))
+- Q1 package update ([c2f269d](https://github.com/agrc/parcels/commit/c2f269d654e2b1ddc3a29e6af9a1cb89e60b987a))
+- q4 package updates ([7bb6f57](https://github.com/agrc/parcels/commit/7bb6f575f8b316d48ad88dff313251a9ef709c72))
 
 ### Styles
 
-* format ([e0a1d10](https://github.com/agrc/parcels/commit/e0a1d10db72785a2855d7623762288ed0572e144))
+- format ([e0a1d10](https://github.com/agrc/parcels/commit/e0a1d10db72785a2855d7623762288ed0572e144))
 
 ## [2.3.9-0](https://github.com/agrc/parcels/compare/v2.3.8...v2.3.9-0) (2024-07-08)
 
-
 ### Dependencies
 
-* bump the safe-dependencies group across 1 directory with 17 updates ([2a8dd3f](https://github.com/agrc/parcels/commit/2a8dd3f42b2150576a282e0e756d1890a8d77d5f))
-* Q1 package update ([2f1818f](https://github.com/agrc/parcels/commit/2f1818f3e08adafcdf2092880125f78602d7295f))
-* q4 package updates ([7bb6f57](https://github.com/agrc/parcels/commit/7bb6f575f8b316d48ad88dff313251a9ef709c72))
-
+- bump the safe-dependencies group across 1 directory with 17 updates ([2a8dd3f](https://github.com/agrc/parcels/commit/2a8dd3f42b2150576a282e0e756d1890a8d77d5f))
+- Q1 package update ([2f1818f](https://github.com/agrc/parcels/commit/2f1818f3e08adafcdf2092880125f78602d7295f))
+- q4 package updates ([7bb6f57](https://github.com/agrc/parcels/commit/7bb6f575f8b316d48ad88dff313251a9ef709c72))
 
 ### Styles
 
-* format ([e0a1d10](https://github.com/agrc/parcels/commit/e0a1d10db72785a2855d7623762288ed0572e144))
+- format ([e0a1d10](https://github.com/agrc/parcels/commit/e0a1d10db72785a2855d7623762288ed0572e144))
 
 ## [2.3.8](https://github.com/agrc/parcels/compare/v2.3.7...v2.3.8) (2024-04-03)
 
-
 ### 🌲 Dependencies
 
-* bump the safe-dependencies group with 10 updates ([31d500c](https://github.com/agrc/parcels/commit/31d500ca2de3ab03aaad4931e708c5692b088877))
-* **dev:** bump @babel/traverse from 7.23.0 to 7.23.2 ([4f4458d](https://github.com/agrc/parcels/commit/4f4458de0ef8d914cb1a007f5904eadef8c26040))
-* q4 updates ([b3078a9](https://github.com/agrc/parcels/commit/b3078a9bd6ab7ed226a685ee523ef5b31d5fd044))
+- bump the safe-dependencies group with 10 updates ([31d500c](https://github.com/agrc/parcels/commit/31d500ca2de3ab03aaad4931e708c5692b088877))
+- **dev:** bump @babel/traverse from 7.23.0 to 7.23.2 ([4f4458d](https://github.com/agrc/parcels/commit/4f4458de0ef8d914cb1a007f5904eadef8c26040))
+- q4 updates ([b3078a9](https://github.com/agrc/parcels/commit/b3078a9bd6ab7ed226a685ee523ef5b31d5fd044))
 
 ## [2.3.8-0](https://github.com/agrc/parcels/compare/v2.3.7...v2.3.8-0) (2024-04-03)
 
-
 ### 🌲 Dependencies
 
-* bump the safe-dependencies group with 10 updates ([31d500c](https://github.com/agrc/parcels/commit/31d500ca2de3ab03aaad4931e708c5692b088877))
-* **dev:** bump @babel/traverse from 7.23.0 to 7.23.2 ([4f4458d](https://github.com/agrc/parcels/commit/4f4458de0ef8d914cb1a007f5904eadef8c26040))
-* q4 updates ([de5837b](https://github.com/agrc/parcels/commit/de5837b8cc97628dbb13bf312a8c85d48e462d3e))
+- bump the safe-dependencies group with 10 updates ([31d500c](https://github.com/agrc/parcels/commit/31d500ca2de3ab03aaad4931e708c5692b088877))
+- **dev:** bump @babel/traverse from 7.23.0 to 7.23.2 ([4f4458d](https://github.com/agrc/parcels/commit/4f4458de0ef8d914cb1a007f5904eadef8c26040))
+- q4 updates ([de5837b](https://github.com/agrc/parcels/commit/de5837b8cc97628dbb13bf312a8c85d48e462d3e))
 
 ## [2.3.7](https://github.com/agrc/parcels/compare/v2.3.6...v2.3.7) (2023-10-10)
 
-
 ### 🌲 Dependencies
 
-* **dev:** bump the safe-dependencies group with 2 updates ([e50bd28](https://github.com/agrc/parcels/commit/e50bd28b12daab2e5ec5d06a63cd9ffb2a724e03))
+- **dev:** bump the safe-dependencies group with 2 updates ([e50bd28](https://github.com/agrc/parcels/commit/e50bd28b12daab2e5ec5d06a63cd9ffb2a724e03))
 
 ## [2.3.6](https://github.com/agrc/parcels/compare/v2.3.5...v2.3.6) (2023-07-04)
 
-
 ### 🌲 Dependencies
 
-* q3 package updates ([cf79fd9](https://github.com/agrc/parcels/commit/cf79fd91677e68148140373e2a7e102134224519))
-
+- q3 package updates ([cf79fd9](https://github.com/agrc/parcels/commit/cf79fd91677e68148140373e2a7e102134224519))
 
 ### 🐛 Bug Fixes
 
-* correct uncontrolled -&gt; controlled ([246db0d](https://github.com/agrc/parcels/commit/246db0db6f2df89789ef4edb2136d06b468188f7))
+- correct uncontrolled -&gt; controlled ([246db0d](https://github.com/agrc/parcels/commit/246db0db6f2df89789ef4edb2136d06b468188f7))
 
 ## [2.3.6-0](https://github.com/agrc/parcels/compare/v2.3.5...v2.3.6-0) (2023-07-04)
 
-
 ### 🌲 Dependencies
 
-* q3 package updates ([eb44a0b](https://github.com/agrc/parcels/commit/eb44a0bef6173c2e5867176e6db99358cdfe6f0c))
+- q3 package updates ([eb44a0b](https://github.com/agrc/parcels/commit/eb44a0bef6173c2e5867176e6db99358cdfe6f0c))
 
 ## [2.3.5](https://github.com/agrc/parcels/compare/v2.3.4...v2.3.5) (2023-04-04)
 
-
 ### 🌲 Dependencies
 
-* q2 package updates ([821756f](https://github.com/agrc/parcels/commit/821756fef21aa0afbb6b32f664b1e5f6b77cb3c1))
+- q2 package updates ([821756f](https://github.com/agrc/parcels/commit/821756fef21aa0afbb6b32f664b1e5f6b77cb3c1))
 
 ## [2.3.4](https://github.com/agrc/parcels/compare/v2.3.3...v2.3.4) (2023-02-02)
 
-
 ### 🐛 Bug Fixes
 
-* february dependency updates ([cec52bf](https://github.com/agrc/parcels/commit/cec52bf3c8f67539066d461f24ba8d4e7826bc64))
+- february dependency updates ([cec52bf](https://github.com/agrc/parcels/commit/cec52bf3c8f67539066d461f24ba8d4e7826bc64))
 
 ## [2.3.3](https://github.com/agrc/parcels/compare/v2.3.2...v2.3.3) (2023-01-03)
 
-
 ### 🐛 Bug Fixes
 
-* january updates ([9163e46](https://github.com/agrc/parcels/commit/9163e4674b5616c3a95e383c07be3432bec93976))
+- january updates ([9163e46](https://github.com/agrc/parcels/commit/9163e4674b5616c3a95e383c07be3432bec93976))
 
 ## [2.3.2](https://github.com/agrc/parcels/compare/v2.3.1...v2.3.2) (2022-12-01)
 
-
 ### 🐛 Bug Fixes
 
-* :evergreen_tree: november package updates ([d82bf78](https://github.com/agrc/parcels/commit/d82bf784e1c52bef041454550279db2b0795691b))
-* update arcgis reset sass for 4.25 ([d341feb](https://github.com/agrc/parcels/commit/d341feb149ba8e0d58e5429b46be71c8d8d8aca3))
+- :evergreen_tree: november package updates ([d82bf78](https://github.com/agrc/parcels/commit/d82bf784e1c52bef041454550279db2b0795691b))
+- update arcgis reset sass for 4.25 ([d341feb](https://github.com/agrc/parcels/commit/d341feb149ba8e0d58e5429b46be71c8d8d8aca3))
 
 ## [2.3.1](https://github.com/agrc/parcels/compare/v2.3.0...v2.3.1) (2022-11-03)
 
-
 ### 🐛 Bug Fixes
 
-* november updates ([db4852a](https://github.com/agrc/parcels/commit/db4852a05473700b5cd096e89527097e5e4f1073))
+- november updates ([db4852a](https://github.com/agrc/parcels/commit/db4852a05473700b5cd096e89527097e5e4f1073))
 
 ## [2.3.0](https://github.com/agrc/parcels/compare/v2.2.1...v2.3.0) (2022-10-05)
 
-
 ### 🚀 Features
 
-* use ugrc dartboard instead of vendor version ([cd31fac](https://github.com/agrc/parcels/commit/cd31facacf6447cab6816bee4c0137cabbbbb117))
+- use ugrc dartboard instead of vendor version ([cd31fac](https://github.com/agrc/parcels/commit/cd31facacf6447cab6816bee4c0137cabbbbb117))
 
 ## [2.2.1](https://github.com/agrc/parcels/compare/v2.2.0...v2.2.1) (2022-10-05)
 
-
 ### 🐛 Bug Fixes
 
-* add missing repo token ([10dd6e0](https://github.com/agrc/parcels/commit/10dd6e04b8f2ae03f87af71485074a7c250ecdf8))
+- add missing repo token ([10dd6e0](https://github.com/agrc/parcels/commit/10dd6e04b8f2ae03f87af71485074a7c250ecdf8))
 
 ## [2.2.0](https://github.com/agrc/parcels/compare/v2.1.2...v2.2.0) (2022-10-05)
 
-
 ### 🌲 Dependencies
 
-* october dependency updates ([406152d](https://github.com/agrc/parcels/commit/406152d8371005cd43b96cd2b6c5d8ca1195cdb9))
-
+- october dependency updates ([406152d](https://github.com/agrc/parcels/commit/406152d8371005cd43b96cd2b6c5d8ca1195cdb9))
 
 ### 🎨 Design Improvements
 
-* change meta description ([4f59378](https://github.com/agrc/parcels/commit/4f593789c68db02ed338b612efa0cdb6c2c8c6de))
-* link to the release page instead of the changelog ([eebd0ce](https://github.com/agrc/parcels/commit/eebd0ceabf68188a0789ff9afdebba50d81c2bca))
-
+- change meta description ([4f59378](https://github.com/agrc/parcels/commit/4f593789c68db02ed338b612efa0cdb6c2c8c6de))
+- link to the release page instead of the changelog ([eebd0ce](https://github.com/agrc/parcels/commit/eebd0ceabf68188a0789ff9afdebba50d81c2bca))
 
 ### 🐛 Bug Fixes
 
-* use @ugrc/layer-selector ([5388d0a](https://github.com/agrc/parcels/commit/5388d0a5f55dab8bac044889a7c53ae940f7d71f))
-* use @ugrc/utilities where easily possible ([7b43ec1](https://github.com/agrc/parcels/commit/7b43ec1821fd8228bbe0523b86461920806e6090))
-
+- use @ugrc/layer-selector ([5388d0a](https://github.com/agrc/parcels/commit/5388d0a5f55dab8bac044889a7c53ae940f7d71f))
+- use @ugrc/utilities where easily possible ([7b43ec1](https://github.com/agrc/parcels/commit/7b43ec1821fd8228bbe0523b86461920806e6090))
 
 ### 🚀 Features
 
-* update to react 18 ([7b21662](https://github.com/agrc/parcels/commit/7b21662da377686dde8771946b23d58fd118ffef))
+- update to react 18 ([7b21662](https://github.com/agrc/parcels/commit/7b21662da377686dde8771946b23d58fd118ffef))
 
 ## [2.2.0-0](https://github.com/agrc/parcels/compare/v2.1.3-1...v2.2.0-0) (2022-10-05)
 
-
 ### 🚀 Features
 
-* update to react 18 ([4a007dc](https://github.com/agrc/parcels/commit/4a007dc83fc307bc6abf4513c68d22f086ede55a))
+- update to react 18 ([4a007dc](https://github.com/agrc/parcels/commit/4a007dc83fc307bc6abf4513c68d22f086ede55a))
 
 ## [2.1.3-1](https://github.com/agrc/parcels/compare/v2.1.3-0...v2.1.3-1) (2022-10-05)
 
-
 ### 🐛 Bug Fixes
 
-* use @ugrc/layer-selector ([196d76a](https://github.com/agrc/parcels/commit/196d76a1e6df519164106a87304e02d6a1cb22f0))
-* use @ugrc/utilities where easily possible ([eded4f8](https://github.com/agrc/parcels/commit/eded4f8afa44841caa098f9470daa7daa52cf0d7))
+- use @ugrc/layer-selector ([196d76a](https://github.com/agrc/parcels/commit/196d76a1e6df519164106a87304e02d6a1cb22f0))
+- use @ugrc/utilities where easily possible ([eded4f8](https://github.com/agrc/parcels/commit/eded4f8afa44841caa098f9470daa7daa52cf0d7))
 
 ## [2.1.3-0](https://github.com/agrc/parcels/compare/v2.1.2...v2.1.3-0) (2022-10-05)
 
-
 ### 🌲 Dependencies
 
-* october dependency updates ([1f6a332](https://github.com/agrc/parcels/commit/1f6a33221712c498af5cfa292f2e45a1681cb47d))
-
+- october dependency updates ([1f6a332](https://github.com/agrc/parcels/commit/1f6a33221712c498af5cfa292f2e45a1681cb47d))
 
 ### 🎨 Design Improvements
 
-* change meta description ([b07e9f5](https://github.com/agrc/parcels/commit/b07e9f54c09998b60698ffa78ec958b5b7f0df61))
-* link to the release page instead of the changelog ([76d1130](https://github.com/agrc/parcels/commit/76d1130cfe86aefe2b034d150ee0553cb68514d2))
+- change meta description ([b07e9f5](https://github.com/agrc/parcels/commit/b07e9f54c09998b60698ffa78ec958b5b7f0df61))
+- link to the release page instead of the changelog ([76d1130](https://github.com/agrc/parcels/commit/76d1130cfe86aefe2b034d150ee0553cb68514d2))
 
 ### [2.1.2](https://github.com/agrc/Parcels/compare/v2.1.0...v2.1.2) (2021-12-16)
 

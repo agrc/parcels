@@ -10,14 +10,14 @@ body {
   grid-template-columns: 300px 1fr;
   grid-template-rows: min-content 1fr;
   grid-template-areas:
-    'header header'
-    'sidebar   map';
+    "header header"
+    "sidebar   map";
 }
 .grid-template--sidebar-closed {
   grid-template-columns: 1fr;
   grid-template-areas:
-    'header'
-    'map';
+    "header"
+    "map";
 }
 
 .grid-area-header {

@@ -5,20 +5,20 @@ $font-family:
   system-ui,
   -apple-system,
   BlinkMacSystemFont,
-  'Segoe UI',
+  "Segoe UI",
   Roboto,
-  'Helvetica Neue',
+  "Helvetica Neue",
   Arial,
-  'Noto Sans',
+  "Noto Sans",
   sans-serif,
-  'Apple Color Emoji',
-  'Segoe UI Emoji',
-  'Segoe UI Symbol',
-  'Noto Color Emoji';
+  "Apple Color Emoji",
+  "Segoe UI Emoji",
+  "Segoe UI Symbol",
+  "Noto Color Emoji";
 
 // @arcgis/core font paths for vite to resolve
-$icomoon-font-path: './../../node_modules/@arcgis/core/assets/esri/themes/base/icons/fonts/';
-$calcite-fonts-path: './../../node_modules/@arcgis/core/assets/esri/themes/base/fonts/fonts/';
+$icomoon-font-path: "./../../node_modules/@arcgis/core/assets/esri/themes/base/icons/fonts/";
+$calcite-fonts-path: "./../../node_modules/@arcgis/core/assets/esri/themes/base/fonts/fonts/";
 
 $whoCares: inherit;
 // @arcgis/core widgets set to false
@@ -141,9 +141,9 @@ $view-height--xsmall__component-max-height: $whoCares;
 $view-ui-spacing: $whoCares;
 
 // @arcgis/core sass
-@import './../../node_modules/@arcgis/core/assets/esri/themes/base/icons/style.scss';
-@import './../../node_modules/@arcgis/core/assets/esri/themes/base/mixins';
-@import './../../node_modules/@arcgis/core/assets/esri/themes/base/View';
-@import './../../node_modules/@arcgis/core/assets/esri/themes/base/Ui';
+@import "./../../node_modules/@arcgis/core/assets/esri/themes/base/icons/style.scss";
+@import "./../../node_modules/@arcgis/core/assets/esri/themes/base/mixins";
+@import "./../../node_modules/@arcgis/core/assets/esri/themes/base/View";
+@import "./../../node_modules/@arcgis/core/assets/esri/themes/base/Ui";
 
-@import './../../node_modules/@arcgis/core/assets/esri/themes/base/widgets/Widget';
+@import "./../../node_modules/@arcgis/core/assets/esri/themes/base/widgets/Widget";

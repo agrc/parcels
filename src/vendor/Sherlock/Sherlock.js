@@ -1,6 +1,6 @@
-import { useCombobox } from 'downshift';
-import { useState } from 'react';
-import debounce from 'lodash.debounce';
+import { useCombobox } from "downshift";
+import { useState } from "react";
+import debounce from "lodash.debounce";
 const initialValue = {
   items: [],
   limitExceeded: false,
@@ -8,7 +8,7 @@ const initialValue = {
 const useSherlock = ({ provider, onSelect, maxResults = 10 }) => {
   // TODO: validate provider
   const [{ items, limitExceeded }, setState] = useState(initialValue);
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState("idle");
 
   const search = debounce(({ inputValue, type }) => {
     inputValue = inputValue.trim();
@@ -18,23 +18,26 @@ const useSherlock = ({ provider, onSelect, maxResults = 10 }) => {
       return;
     }
 
-    if (type === useCombobox.stateChangeTypes.ItemClick || type === useCombobox.stateChangeTypes.InputKeyDownEnter) {
+    if (
+      type === useCombobox.stateChangeTypes.ItemClick ||
+      type === useCombobox.stateChangeTypes.InputKeyDownEnter
+    ) {
       return;
     }
 
     provider
       .search(inputValue, maxResults)
       .then((result) => {
-        setStatus('complete');
+        setStatus("complete");
         setState(result);
       })
-      .catch(() => setStatus('error'));
+      .catch(() => setStatus("error"));
   }, 300);
   const downshiftProps = useCombobox({
     items,
     itemToString: provider.itemToString.bind(provider),
     onInputValueChange: (event) => {
-      setStatus('pending');
+      setStatus("pending");
       search(event);
     },
     onSelectedItemChange: ({ selectedItem }) => {

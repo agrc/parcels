@@ -1,12 +1,12 @@
-import ky from 'ky';
-import sortBy from 'lodash.sortby';
+import ky from "ky";
+import sortBy from "lodash.sortby";
 
 class ProviderBase {
   getOutFields(outFields, searchField, contextField) {
     outFields = outFields || [];
 
     // don't mess with '*'
-    if (outFields[0] === '*') {
+    if (outFields[0] === "*") {
       return outFields;
     }
 
@@ -57,7 +57,11 @@ class WebApiProvider extends ProviderBase {
     this.contextField = options?.contextField;
     this.wkid = options?.wkid ?? defaultWkid;
 
-    this.outFields = this.getOutFields(outFields.concat(['xid']), this.searchField, this.contextField);
+    this.outFields = this.getOutFields(
+      outFields.concat(["xid"]),
+      this.searchField,
+      this.contextField,
+    );
 
     this.webApi = new WebApi(apiKey);
   }
@@ -75,10 +79,14 @@ class WebApiProvider extends ProviderBase {
   }
 
   async getFeature(selectedItem) {
-    const results = await this.webApi.search(this.searchLayer, this.outFields.concat('shape@'), {
-      predicate: `xid=${selectedItem.attributes.xid}`,
-      spatialReference: this.wkid,
-    });
+    const results = await this.webApi.search(
+      this.searchLayer,
+      this.outFields.concat("shape@"),
+      {
+        predicate: `xid=${selectedItem.attributes.xid}`,
+        spatialReference: this.wkid,
+      },
+    );
 
     if (results.length) {
       return results[0];
@@ -89,7 +97,7 @@ class WebApiProvider extends ProviderBase {
 
   itemToString(item) {
     if (item === null) {
-      return '';
+      return "";
     }
 
     return item.attributes[this.searchField];
@@ -98,10 +106,10 @@ class WebApiProvider extends ProviderBase {
 
 class WebApi {
   constructor(apiKey) {
-    this.baseUrl = 'https://api.mapserv.utah.gov/api/v1/';
+    this.baseUrl = "https://api.mapserv.utah.gov/api/v1/";
 
     // defaultAttributeStyle: String
-    this.defaultAttributeStyle = 'identical';
+    this.defaultAttributeStyle = "identical";
 
     // xhrProvider: dojo/request/* provider
     //      The current provider as determined by the search function
@@ -151,7 +159,7 @@ class WebApi {
     //      'camel': camel cases all attribute names
     //
     // returns: Promise
-    var url = `${featureClass}/${returnValues.join(',')}`;
+    var url = `${featureClass}/${returnValues.join(",")}`;
 
     if (!options) {
       options = {};
