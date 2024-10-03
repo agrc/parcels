@@ -1,17 +1,25 @@
-import { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import Viewpoint from '@arcgis/core/Viewpoint';
-import Polygon from '@arcgis/core/geometry/Polygon';
-import Extent from '@arcgis/core/geometry/Extent';
-import { ToastContainer, toast } from 'react-toastify';
-import { initializeApp } from 'firebase/app';
-import { getAnalytics, logEvent } from 'firebase/analytics';
-import { Disclaimer, Header, Sidebar, Section, ParcelInformation, ParcelTypeAhead, TypeAhead } from './PageElements';
-import ParcelMap from './MapView';
-import { TailwindDartboard } from '@ugrc/dart-board';
-import { useOpenClosed } from '@ugrc/utilities/hooks';
-import { useHash, useMapZooming, useGraphicManager } from './hooks';
-import extents from './extents';
+import { useEffect, useState } from "react";
+import clsx from "clsx";
+import Viewpoint from "@arcgis/core/Viewpoint";
+import Polygon from "@arcgis/core/geometry/Polygon";
+import Extent from "@arcgis/core/geometry/Extent";
+import { ToastContainer, toast } from "react-toastify";
+import { initializeApp } from "firebase/app";
+import { getAnalytics, logEvent } from "firebase/analytics";
+import {
+  Disclaimer,
+  Header,
+  Sidebar,
+  Section,
+  ParcelInformation,
+  ParcelTypeAhead,
+  TypeAhead,
+} from "./PageElements";
+import ParcelMap from "./MapView";
+import { TailwindDartboard } from "@ugrc/dart-board";
+import { useOpenClosed } from "@ugrc/utilities/hooks";
+import { useHash, useMapZooming, useGraphicManager } from "./hooks";
+import extents from "./extents";
 
 const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
 
@@ -19,13 +27,13 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 const pointSymbol = {
-  type: 'web-style',
-  name: 'esri-pin-1',
-  styleName: 'Esri2DPointSymbolsStyle',
+  type: "web-style",
+  name: "esri-pin-1",
+  styleName: "Esri2DPointSymbolsStyle",
 };
 
 const defaultAppState = {
-  name: 'Utah State',
+  name: "Utah State",
   target: new Extent({
     xmax: -12010849.397533866,
     xmin: -12898741.918094235,
@@ -38,36 +46,36 @@ const defaultAppState = {
 };
 
 export function extractCountyAndView(hash) {
-  if (hash === '' || hash === '#') {
+  if (hash === "" || hash === "#") {
     return defaultAppState;
   }
 
   const symbolLength = 1;
-  const section = hash.indexOf('/');
+  const section = hash.indexOf("/");
 
-  let countyName = '';
+  let countyName = "";
   if (section === -1) {
-    countyName = hash.substring(symbolLength).replace(/\+|%20/g, ' ');
+    countyName = hash.substring(symbolLength).replace(/\+|%20/g, " ");
   } else {
-    countyName = hash.substring(symbolLength, section).replace(/\+|%20/g, ' ');
+    countyName = hash.substring(symbolLength, section).replace(/\+|%20/g, " ");
   }
 
-  if (hash.includes('/location/')) {
-    const [x, y, scale] = hash.substring(hash.lastIndexOf('/') + 1).split(',');
+  if (hash.includes("/location/")) {
+    const [x, y, scale] = hash.substring(hash.lastIndexOf("/") + 1).split(",");
 
     if (countyName !== defaultAppState.name) {
-      logEvent(analytics, 'county_view', {
+      logEvent(analytics, "county_view", {
         county: countyName || defaultAppState.name,
       });
     }
 
-    logEvent(analytics, 'deep_link');
+    logEvent(analytics, "deep_link");
 
     return {
       name: countyName || defaultAppState.name,
       target: new Viewpoint({
         targetGeometry: {
-          type: 'point',
+          type: "point",
           x,
           y,
           spatialReference: { wkid: 3857 },
@@ -81,7 +89,7 @@ export function extractCountyAndView(hash) {
   const state = county.length > 0 ? county[0] : defaultAppState;
 
   if (state.name !== defaultAppState.name) {
-    logEvent(analytics, 'county_view', {
+    logEvent(analytics, "county_view", {
       county: state.name,
     });
   }
@@ -105,9 +113,12 @@ export function App() {
 
   return (
     <main
-      className={clsx('grid w-screen h-screen gap-2 overflow-hidden bg-gray-100 grid-template', {
-        'grid-template--sidebar-closed': !isOpen,
-      })}
+      className={clsx(
+        "grid w-screen h-screen gap-2 overflow-hidden bg-gray-100 grid-template",
+        {
+          "grid-template--sidebar-closed": !isOpen,
+        },
+      )}
     >
       <Disclaimer />
       <ParcelInformation feature={activeParcel} />
@@ -115,23 +126,29 @@ export function App() {
       <Sidebar isOpen={isOpen}>
         <Section>
           <ParcelTypeAhead
-            county={appConfig.name === defaultAppState.name ? '' : appConfig.name}
+            county={
+              appConfig.name === defaultAppState.name ? "" : appConfig.name
+            }
             onSuccess={(result) => {
               const polygon = new Polygon(result.geometry);
 
               if (polygon.extent === null) {
-                logEvent(analytics, 'parcel_search_no_geometry', {
+                logEvent(analytics, "parcel_search_no_geometry", {
                   parcel: result?.attributes?.parcel_id,
-                  county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
+                  county:
+                    appConfig.name === defaultAppState.name
+                      ? ""
+                      : appConfig.name,
                 });
 
-                toast.error('There was no location found for this parcel');
+                toast.error("There was no location found for this parcel");
                 return;
               }
 
-              logEvent(analytics, 'parcel_search', {
+              logEvent(analytics, "parcel_search", {
                 parcel: result?.attributes?.parcel_id,
-                county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
+                county:
+                  appConfig.name === defaultAppState.name ? "" : appConfig.name,
               });
 
               setGeometry(polygon.extent.expand(3));
@@ -139,12 +156,12 @@ export function App() {
                 geometry: result.geometry,
                 attributes: {},
                 symbol: {
-                  type: 'simple-fill',
-                  style: 'solid',
+                  type: "simple-fill",
+                  style: "solid",
                   color: [170, 170, 170, 0.2],
                   outline: {
                     color: [255, 255, 0],
-                    style: 'dash-dot',
+                    style: "dash-dot",
                     width: 1.5,
                   },
                 },
@@ -158,14 +175,19 @@ export function App() {
             pointSymbol={pointSymbol}
             events={{
               success: (result) => {
-                logEvent(analytics, 'geocode', {
+                logEvent(analytics, "geocode", {
                   address: result?.attributes.InputAddress,
                   score: result?.attributes.Score,
                 });
-                setGeometry(new Viewpoint({ targetGeometry: result.geometry, scale: 1000 }));
+                setGeometry(
+                  new Viewpoint({
+                    targetGeometry: result.geometry,
+                    scale: 1000,
+                  }),
+                );
                 setGraphic(result);
               },
-              error: () => toast.error('No results found'),
+              error: () => toast.error("No results found"),
             }}
             apiKey={import.meta.env.VITE_API_KEY}
             format="esrijson"
@@ -176,8 +198,15 @@ export function App() {
         <Section>
           <TypeAhead
             onSuccess={(result) => {
-              logEvent(analytics, 'gnis_search', { gnis: result?.attributes?.name });
-              setGeometry(new Viewpoint({ targetGeometry: result.geometry, scale: 25000 }));
+              logEvent(analytics, "gnis_search", {
+                gnis: result?.attributes?.name,
+              });
+              setGeometry(
+                new Viewpoint({
+                  targetGeometry: result.geometry,
+                  scale: 25000,
+                }),
+              );
               setGraphic({
                 geometry: result.geometry,
                 attributes: {},
@@ -192,7 +221,9 @@ export function App() {
         <Section>
           <TypeAhead
             onSuccess={(result) => {
-              logEvent(analytics, 'city_search', { city: result?.attributes?.name });
+              logEvent(analytics, "city_search", {
+                city: result?.attributes?.name,
+              });
               const polygon = new Polygon(result.geometry);
 
               setGeometry(polygon.extent.expand(1));
@@ -200,12 +231,12 @@ export function App() {
                 geometry: result.geometry,
                 attributes: {},
                 symbol: {
-                  type: 'simple-fill',
-                  style: 'solid',
+                  type: "simple-fill",
+                  style: "solid",
                   color: [170, 170, 170, 0.2],
                   outline: {
                     color: [255, 255, 0],
-                    style: 'dash-dot',
+                    style: "dash-dot",
                     width: 1.5,
                   },
                 },
