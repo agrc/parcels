@@ -27,7 +27,7 @@ jobs:
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
           preview: yes
-          build-command: npm run build
+          build-command: npm run build -- --mode dev
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_QUAD_WORD }}
