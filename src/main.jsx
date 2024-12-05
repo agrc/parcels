@@ -3,10 +3,13 @@ import { StrictMode } from "react";
 import { App } from "./App";
 import "./styles/basic.scss";
 import "./styles/index.css";
-import "react-toastify/dist/ReactToastify.css";
+import { MapProvider } from "./context/MapProvider";
+// import "react-toastify/dist/ReactToastify.css";
 
-createRoot(document.getElementById("app")).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <MapProvider>
+      <App />
+    </MapProvider>
   </StrictMode>,
 );

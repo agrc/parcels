@@ -1,262 +1,283 @@
+import esriConfig from "@arcgis/core/config";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 import Viewpoint from "@arcgis/core/Viewpoint";
 import Polygon from "@arcgis/core/geometry/Polygon";
-import Extent from "@arcgis/core/geometry/Extent";
-import { ToastContainer, toast } from "react-toastify";
+import { ErrorBoundary } from "react-error-boundary";
+import { utahMercatorExtent } from "@ugrc/utilities/hooks";
+import { toast } from "react-toastify";
+import { MapContainer } from "./MapContainer";
 import { initializeApp } from "firebase/app";
 import { getAnalytics, logEvent } from "firebase/analytics";
-import {
-  Disclaimer,
-  Header,
-  Sidebar,
-  Section,
-  ParcelInformation,
-  ParcelTypeAhead,
-  TypeAhead,
-} from "./PageElements";
-import ParcelMap from "./MapView";
-import { TailwindDartboard } from "@ugrc/dart-board";
-import { useOpenClosed } from "@ugrc/utilities/hooks";
+import { useOverlayTrigger } from "react-aria";
+import { useOverlayTriggerState } from "react-stately";
+import { extractCountyAndView } from "./utils";
+import { useMap } from "./hooks/useMap";
+import { ParcelTypeAhead } from "./PageElements";
 import { useHash, useMapZooming, useGraphicManager } from "./hooks";
-import extents from "./extents";
+import {
+  Drawer,
+  Footer,
+  Geocode,
+  Header,
+  Sherlock,
+  SocialMedia,
+  ugrcApiProvider,
+  UgrcLogo,
+} from "@ugrc/utah-design-system";
 
 const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
+const ErrorFallback = ({ error }) => {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre style={{ color: "red" }}>{error.message}</pre>
+    </div>
+  );
+};
 const pointSymbol = {
   type: "web-style",
-  name: "esri-pin-1",
+  name: "esri-pin-2",
   styleName: "Esri2DPointSymbolsStyle",
 };
 
 const defaultAppState = {
   name: "Utah State",
-  target: new Extent({
-    xmax: -12010849.397533866,
-    xmin: -12898741.918094235,
-    ymax: 5224652.298632992,
-    ymin: 4422369.249751998,
-    spatialReference: {
-      wkid: 3857,
-    },
-  }),
+  target: utahMercatorExtent,
 };
-
-export function extractCountyAndView(hash) {
-  if (hash === "" || hash === "#") {
-    return defaultAppState;
-  }
-
-  const symbolLength = 1;
-  const section = hash.indexOf("/");
-
-  let countyName = "";
-  if (section === -1) {
-    countyName = hash.substring(symbolLength).replace(/\+|%20/g, " ");
-  } else {
-    countyName = hash.substring(symbolLength, section).replace(/\+|%20/g, " ");
-  }
-
-  if (hash.includes("/location/")) {
-    const [x, y, scale] = hash.substring(hash.lastIndexOf("/") + 1).split(",");
-
-    if (countyName !== defaultAppState.name) {
-      logEvent(analytics, "county_view", {
-        county: countyName || defaultAppState.name,
-      });
-    }
-
-    logEvent(analytics, "deep_link");
-
-    return {
-      name: countyName || defaultAppState.name,
-      target: new Viewpoint({
-        targetGeometry: {
-          type: "point",
-          x,
-          y,
-          spatialReference: { wkid: 3857 },
-        },
-        scale,
-      }),
-    };
-  }
-
-  const county = extents.filter((item) => item.name === countyName);
-  const state = county.length > 0 ? county[0] : defaultAppState;
-
-  if (state.name !== defaultAppState.name) {
-    logEvent(analytics, "county_view", {
-      county: state.name,
-    });
-  }
-
-  return state;
-}
+const version = import.meta.env.PACKAGE_VERSION;
+esriConfig.assetsPath = "./assets";
+const links = [
+  {
+    key: "SGID parcels product page",
+    action: { url: "https://gis.utah.gov/products/sgid/cadastre/parcels" },
+  },
+  {
+    key: "UGRC homepage",
+    action: { url: "https://gis.utah.gov" },
+  },
+  {
+    key: "GitHub repository",
+    action: { url: "https://github.com/agrc/parcels" },
+  },
+  {
+    key: `Version ${version} changelog`,
+    action: { url: `https://github.com/agrc/parcels/releases/v${version}` },
+  },
+];
 
 export function App() {
-  const [isOpen, { toggle }] = useOpenClosed(window.innerWidth >= 768);
-  const [mapView, setMapView] = useState();
+  const { mapView } = useMap();
   const { setGraphic } = useGraphicManager(mapView);
   const { setGeometry } = useMapZooming(mapView);
-  const [activeParcel, setActiveParcel] = useState(undefined);
   const [hash] = useHash();
   const [appConfig, setAppConfig] = useState(defaultAppState);
-
   useEffect(() => {
     setAppConfig(extractCountyAndView(hash));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const sideBarState = useOverlayTriggerState({
+    defaultOpen: window.innerWidth >= 768,
+  });
+  const sideBarTriggerProps = useOverlayTrigger(
+    {
+      type: "dialog",
+    },
+    sideBarState,
+  );
+  const trayState = useOverlayTriggerState({ defaultOpen: false });
+  const trayTriggerProps = useOverlayTrigger(
+    {
+      type: "dialog",
+    },
+    trayState,
+  );
 
   return (
-    <main
-      className={clsx(
-        "grid w-screen h-screen gap-2 overflow-hidden bg-gray-100 grid-template",
-        {
-          "grid-template--sidebar-closed": !isOpen,
-        },
-      )}
-    >
-      <Disclaimer />
-      <ParcelInformation feature={activeParcel} />
-      <Header county={appConfig.name} />
-      <Sidebar isOpen={isOpen}>
-        <Section>
-          <ParcelTypeAhead
-            county={
-              appConfig.name === defaultAppState.name ? "" : appConfig.name
-            }
-            onSuccess={(result) => {
-              const polygon = new Polygon(result.geometry);
+    <>
+      <main className="flex h-screen flex-col md:gap-2">
+        <Header links={links}>
+          <div className="flex h-full grow items-center gap-3">
+            <UgrcLogo />
+            <h2 className="font-heading text-3xl font-black text-zinc-600 sm:text-5xl dark:text-zinc-100">
+              {appConfig.name} Parcels
+            </h2>
+          </div>
+        </Header>
+        <section className="relative flex min-h-0 flex-1 overflow-x-hidden md:mr-2">
+          <Drawer main state={sideBarState} {...sideBarTriggerProps}>
+            <div className="mx-2 mb-2 grid grid-cols-1 gap-2">
+              <h2 className="text-xl font-bold">Map controls</h2>
+              <div className="flex flex-col gap-4 rounded border border-zinc-200 p-3 dark:border-zinc-700">
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <ParcelTypeAhead
+                    county={
+                      appConfig.name === defaultAppState.name
+                        ? ""
+                        : appConfig.name
+                    }
+                    onSuccess={(result) => {
+                      const polygon = new Polygon(result.geometry);
 
-              if (polygon.extent === null) {
-                logEvent(analytics, "parcel_search_no_geometry", {
-                  parcel: result?.attributes?.parcel_id,
-                  county:
-                    appConfig.name === defaultAppState.name
-                      ? ""
-                      : appConfig.name,
-                });
+                      if (polygon.extent === null) {
+                        logEvent(analytics, "parcel_search_no_geometry", {
+                          parcel: result?.attributes?.parcel_id,
+                          county:
+                            appConfig.name === defaultAppState.name
+                              ? ""
+                              : appConfig.name,
+                        });
 
-                toast.error("There was no location found for this parcel");
-                return;
-              }
+                        toast.error(
+                          "There was no location found for this parcel",
+                        );
+                        return;
+                      }
 
-              logEvent(analytics, "parcel_search", {
-                parcel: result?.attributes?.parcel_id,
-                county:
-                  appConfig.name === defaultAppState.name ? "" : appConfig.name,
-              });
+                      logEvent(analytics, "parcel_search", {
+                        parcel: result?.attributes?.parcel_id,
+                        county:
+                          appConfig.name === defaultAppState.name
+                            ? ""
+                            : appConfig.name,
+                      });
 
-              setGeometry(polygon.extent.expand(3));
-              setGraphic({
-                geometry: result.geometry,
-                attributes: {},
-                symbol: {
-                  type: "simple-fill",
-                  style: "solid",
-                  color: [170, 170, 170, 0.2],
-                  outline: {
-                    color: [255, 255, 0],
-                    style: "dash-dot",
-                    width: 1.5,
-                  },
-                },
-              });
-            }}
-          />
-        </Section>
-        <Section>
-          <TailwindDartboard
-            className="mb-4"
-            pointSymbol={pointSymbol}
-            events={{
-              success: (result) => {
-                logEvent(analytics, "geocode", {
-                  address: result?.attributes.InputAddress,
-                  score: result?.attributes.Score,
-                });
-                setGeometry(
-                  new Viewpoint({
-                    targetGeometry: result.geometry,
-                    scale: 1000,
-                  }),
-                );
-                setGraphic(result);
-              },
-              error: () => toast.error("No results found"),
-            }}
-            apiKey={import.meta.env.VITE_API_KEY}
-            format="esrijson"
-          >
-            <div className="text-lg font-semibold">Find an address</div>
-          </TailwindDartboard>
-        </Section>
-        <Section>
-          <TypeAhead
-            onSuccess={(result) => {
-              logEvent(analytics, "gnis_search", {
-                gnis: result?.attributes?.name,
-              });
-              setGeometry(
-                new Viewpoint({
-                  targetGeometry: result.geometry,
-                  scale: 25000,
-                }),
-              );
-              setGraphic({
-                geometry: result.geometry,
-                attributes: {},
-                symbol: pointSymbol,
-              });
-            }}
-            label="Find a GNIS place name"
-            layer="location.gnis_place_names"
-            field="name"
-          />
-        </Section>
-        <Section>
-          <TypeAhead
-            onSuccess={(result) => {
-              logEvent(analytics, "city_search", {
-                city: result?.attributes?.name,
-              });
-              const polygon = new Polygon(result.geometry);
+                      setGeometry(polygon.extent.expand(3));
+                      setGraphic({
+                        geometry: result.geometry,
+                        attributes: {},
+                        symbol: {
+                          type: "simple-fill",
+                          style: "solid",
+                          color: [170, 170, 170, 0.2],
+                          outline: {
+                            color: [255, 255, 0],
+                            style: "dash-dot",
+                            width: 1.5,
+                          },
+                        },
+                      });
+                    }}
+                  />
+                </ErrorBoundary>
+              </div>
+              <div className="flex flex-col gap-4 rounded border border-zinc-200 p-3 dark:border-zinc-700">
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <Geocode
+                    className="mb-4"
+                    pointSymbol={pointSymbol}
+                    events={{
+                      success: (result) => {
+                        logEvent(analytics, "geocode", {
+                          address: result?.attributes.InputAddress,
+                          score: result?.attributes.Score,
+                        });
+                        setGeometry(
+                          new Viewpoint({
+                            targetGeometry: result.geometry,
+                            scale: 1000,
+                          }),
+                        );
+                        setGraphic(result);
+                      },
+                      error: () => toast.error("No results found"),
+                    }}
+                    apiKey={import.meta.env.VITE_API_KEY}
+                    format="esrijson"
+                  >
+                    <div className="text-lg font-semibold">Find an address</div>
+                  </Geocode>
+                </ErrorBoundary>
+              </div>
+              <div className="flex flex-col gap-4 rounded border border-zinc-200 p-3 dark:border-zinc-700">
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <Sherlock
+                    onSherlockMatch={(result) => {
+                      logEvent(analytics, "gnis_search", {
+                        gnis: result?.attributes?.name,
+                      });
+                      setGeometry(
+                        new Viewpoint({
+                          targetGeometry: result.geometry,
+                          scale: 25000,
+                        }),
+                      );
+                      setGraphic({
+                        geometry: result.geometry,
+                        attributes: {},
+                        symbol: pointSymbol,
+                      });
+                    }}
+                    label="Find a GNIS place name"
+                    provider={ugrcApiProvider(
+                      import.meta.env.VITE_API_KEY,
+                      "location.gnis_place_names",
+                      "name",
+                    )}
+                  />
+                </ErrorBoundary>
+              </div>
+              <div className="flex flex-col gap-4 rounded border border-zinc-200 p-3 dark:border-zinc-700">
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <Sherlock
+                    onSherlockMatch={(result) => {
+                      logEvent(analytics, "city_search", {
+                        city: result?.attributes?.name,
+                      });
+                      const polygon = new Polygon(result.geometry);
 
-              setGeometry(polygon.extent.expand(1));
-              setGraphic({
-                geometry: result.geometry,
-                attributes: {},
-                symbol: {
-                  type: "simple-fill",
-                  style: "solid",
-                  color: [170, 170, 170, 0.2],
-                  outline: {
-                    color: [255, 255, 0],
-                    style: "dash-dot",
-                    width: 1.5,
-                  },
-                },
-              });
-            }}
-            label="Find a city"
-            layer="boundaries.municipal_boundaries"
-            field="name"
-          />
-        </Section>
-      </Sidebar>
-      <ParcelMap
-        ga={{ analytics, logEvent }}
-        initialView={appConfig}
-        setMapView={setMapView}
-        fullScreen={!isOpen}
-        toggleSidebar={toggle}
-        setActiveParcel={setActiveParcel}
-      />
-      <ToastContainer />
-    </main>
+                      setGeometry(polygon.extent.expand(1));
+                      setGraphic({
+                        geometry: result.geometry,
+                        attributes: {},
+                        symbol: {
+                          type: "simple-fill",
+                          style: "solid",
+                          color: [170, 170, 170, 0.2],
+                          outline: {
+                            color: [255, 255, 0],
+                            style: "dash-dot",
+                            width: 1.5,
+                          },
+                        },
+                      });
+                    }}
+                    label="Find a city"
+                    provider={ugrcApiProvider(
+                      import.meta.env.VITE_API_KEY,
+                      "boundaries.municipal_boundaries",
+                      "name",
+                    )}
+                  />
+                </ErrorBoundary>
+              </div>
+            </div>
+          </Drawer>
+          <div className="relative flex flex-1 flex-col rounded border border-b-0 border-zinc-200 dark:border-0 dark:border-zinc-700">
+            <div className="relative flex-1 overflow-hidden dark:rounded">
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <MapContainer />
+              </ErrorBoundary>
+              <Drawer
+                type="tray"
+                className="shadow-inner dark:shadow-white/20"
+                allowFullScreen
+                state={trayState}
+                {...trayTriggerProps}
+              >
+                <section className="grid gap-2 px-7 pt-2">
+                  <h2 className="text-center">What&#39;s here?</h2>
+                  {/* <IdentifyInformation apiKey={apiKey} location={initialIdentifyLocation} /> */}
+                </section>
+              </Drawer>
+            </div>
+            <SocialMedia />
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }
