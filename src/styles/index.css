@@ -2,72 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply flex w-full h-full overflow-hidden;
-}
-
-.grid-template {
-  grid-template-columns: 300px 1fr;
-  grid-template-rows: min-content 1fr;
-  grid-template-areas:
-    "header header"
-    "sidebar   map";
-}
-.grid-template--sidebar-closed {
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "header"
-    "map";
-}
-
-.grid-area-header {
-  grid-area: header;
-}
-
-.grid-area-map {
-  grid-area: map;
-}
-
-.grid-area-sidebar {
-  grid-area: sidebar;
-  will-change: transform;
-  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.drawer--closed {
-  transform: translateY(100vh);
-}
-
-/* @media (min-width: 640px) {
-  .app {
-    grid: [menu] 1fr / [menu] 95px [map] 1fr;
+@layer base {
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
   }
-  .menu {
-    @apply flex-col;
-    grid-area: menu;
-  }
-  .drawer {
-    grid-area: menu;
-    width: 320px;
-  }
-  .drawer--closed {
-    transform: translateX(-100%);
-  }
-  .menu {
-    will-change: transform;
-    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .menu--open {
-    transform: translateX(320px);
-  }
-} */
 
-.toggle-checkbox:checked {
-  @apply right-0 border-indigo-400;
-}
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
 
-.toggle-checkbox:checked + .toggle-label {
-  @apply bg-indigo-400;
+  h1 {
+    @apply text-3xl font-bold md:text-4xl;
+  }
+  h2 {
+    @apply text-2xl font-bold md:text-3xl;
+  }
+  h3 {
+    @apply text-xl font-bold md:text-2xl;
+  }
+  h4 {
+    @apply text-lg font-bold md:text-xl;
+  }
+  h5 {
+    @apply text-base font-bold md:text-lg;
+  }
+  h6 {
+    @apply text-sm font-bold md:text-base;
+  }
+
+  @font-face {
+    font-family: "SourceSansPro-Regular";
+    src: url("/fonts/SourceSans3-Regular.otf.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "SourceSansPro-Black";
+    src: url("/fonts/SourceSans3-Black.otf.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 }
 
 .esri-view .esri-view-surface--inset-outline:focus::after {
