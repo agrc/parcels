@@ -1,19 +1,5 @@
-import esriConfig from "@arcgis/core/config";
-import { useEffect, useState } from "react";
-import Viewpoint from "@arcgis/core/Viewpoint";
-import Polygon from "@arcgis/core/geometry/Polygon";
-import { ErrorBoundary } from "react-error-boundary";
-import { utahMercatorExtent } from "@ugrc/utilities/hooks";
-import { toast } from "react-toastify";
-import { MapContainer } from "./MapContainer";
-import { initializeApp } from "firebase/app";
-import { getAnalytics, logEvent } from "firebase/analytics";
-import { useOverlayTrigger } from "react-aria";
-import { useOverlayTriggerState } from "react-stately";
-import { extractCountyAndView } from "./utils";
-import { useMap } from "./hooks/useMap";
-import { ParcelTypeAhead } from "./PageElements";
-import { useHash, useMapZooming, useGraphicManager } from "./hooks";
+import Viewpoint from '@arcgis/core/Viewpoint';
+import Polygon from '@arcgis/core/geometry/Polygon';
 import {
   Drawer,
   Footer,
@@ -23,44 +9,51 @@ import {
   SocialMedia,
   ugrcApiProvider,
   UgrcLogo,
-} from "@ugrc/utah-design-system";
+  useFirebaseAnalytics,
+} from '@ugrc/utah-design-system';
+import { utahMercatorExtent } from '@ugrc/utilities/hooks';
+import { useEffect, useState } from 'react';
+import { useOverlayTrigger } from 'react-aria';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useOverlayTriggerState } from 'react-stately';
+import { toast } from 'react-toastify';
+import { MapContainer } from './MapContainer';
+import { ParcelTypeAhead } from './PageElements';
+import { useGraphicManager, useHash, useMapZooming } from './hooks';
+import { useMap } from './hooks/useMap';
+import { extractCountyAndView } from './utils';
 
-const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const ErrorFallback = ({ error }) => {
   return (
     <div role="alert">
       <p>Something went wrong:</p>
-      <pre style={{ color: "red" }}>{error.message}</pre>
+      <pre style={{ color: 'red' }}>{error.message}</pre>
     </div>
   );
 };
 const pointSymbol = {
-  type: "web-style",
-  name: "esri-pin-2",
-  styleName: "Esri2DPointSymbolsStyle",
+  type: 'web-style',
+  name: 'esri-pin-2',
+  styleName: 'Esri2DPointSymbolsStyle',
 };
 
 const defaultAppState = {
-  name: "Utah State",
+  name: 'Utah State',
   target: utahMercatorExtent,
 };
 const version = import.meta.env.PACKAGE_VERSION;
-esriConfig.assetsPath = "./assets";
 const links = [
   {
-    key: "SGID parcels product page",
-    action: { url: "https://gis.utah.gov/products/sgid/cadastre/parcels" },
+    key: 'SGID parcels product page',
+    action: { url: 'https://gis.utah.gov/products/sgid/cadastre/parcels' },
   },
   {
-    key: "UGRC homepage",
-    action: { url: "https://gis.utah.gov" },
+    key: 'UGRC homepage',
+    action: { url: 'https://gis.utah.gov' },
   },
   {
-    key: "GitHub repository",
-    action: { url: "https://github.com/agrc/parcels" },
+    key: 'GitHub repository',
+    action: { url: 'https://github.com/agrc/parcels' },
   },
   {
     key: `Version ${version} changelog`,
@@ -70,6 +63,7 @@ const links = [
 
 export function App() {
   const { mapView } = useMap();
+  const logEvent = useFirebaseAnalytics();
   const { setGraphic } = useGraphicManager(mapView);
   const { setGeometry } = useMapZooming(mapView);
   const [hash] = useHash();
@@ -83,14 +77,14 @@ export function App() {
   });
   const sideBarTriggerProps = useOverlayTrigger(
     {
-      type: "dialog",
+      type: 'dialog',
     },
     sideBarState,
   );
   const trayState = useOverlayTriggerState({ defaultOpen: false });
   const trayTriggerProps = useOverlayTrigger(
     {
-      type: "dialog",
+      type: 'dialog',
     },
     trayState,
   );
@@ -113,48 +107,37 @@ export function App() {
               <div className="flex flex-col gap-4 rounded border border-zinc-200 p-3 dark:border-zinc-700">
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <ParcelTypeAhead
-                    county={
-                      appConfig.name === defaultAppState.name
-                        ? ""
-                        : appConfig.name
-                    }
-                    onSuccess={(result) => {
+                    county={appConfig.name === defaultAppState.name ? '' : appConfig.name}
+                    onSuccess={(result: any) => {
                       const polygon = new Polygon(result.geometry);
 
                       if (polygon.extent === null) {
-                        logEvent(analytics, "parcel_search_no_geometry", {
+                        logEvent('parcel_search_no_geometry', {
                           parcel: result?.attributes?.parcel_id,
-                          county:
-                            appConfig.name === defaultAppState.name
-                              ? ""
-                              : appConfig.name,
+                          county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
                         });
 
-                        toast.error(
-                          "There was no location found for this parcel",
-                        );
+                        toast.error('There was no location found for this parcel');
+
                         return;
                       }
 
-                      logEvent(analytics, "parcel_search", {
+                      logEvent('parcel_search', {
                         parcel: result?.attributes?.parcel_id,
-                        county:
-                          appConfig.name === defaultAppState.name
-                            ? ""
-                            : appConfig.name,
+                        county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
                       });
 
-                      setGeometry(polygon.extent.expand(3));
+                      setGeometry(polygon.extent!.expand(3));
                       setGraphic({
                         geometry: result.geometry,
                         attributes: {},
                         symbol: {
-                          type: "simple-fill",
-                          style: "solid",
+                          type: 'simple-fill',
+                          style: 'solid',
                           color: [170, 170, 170, 0.2],
                           outline: {
                             color: [255, 255, 0],
-                            style: "dash-dot",
+                            style: 'dash-dot',
                             width: 1.5,
                           },
                         },
@@ -170,7 +153,7 @@ export function App() {
                     pointSymbol={pointSymbol}
                     events={{
                       success: (result) => {
-                        logEvent(analytics, "geocode", {
+                        logEvent('geocode', {
                           address: result?.attributes.InputAddress,
                           score: result?.attributes.Score,
                         });
@@ -182,7 +165,7 @@ export function App() {
                         );
                         setGraphic(result);
                       },
-                      error: () => toast.error("No results found"),
+                      error: () => toast.error('No results found'),
                     }}
                     apiKey={import.meta.env.VITE_API_KEY}
                     format="esrijson"
@@ -195,7 +178,7 @@ export function App() {
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <Sherlock
                     onSherlockMatch={(result) => {
-                      logEvent(analytics, "gnis_search", {
+                      logEvent('gnis_search', {
                         gnis: result?.attributes?.name,
                       });
                       setGeometry(
@@ -211,11 +194,7 @@ export function App() {
                       });
                     }}
                     label="Find a GNIS place name"
-                    provider={ugrcApiProvider(
-                      import.meta.env.VITE_API_KEY,
-                      "location.gnis_place_names",
-                      "name",
-                    )}
+                    provider={ugrcApiProvider(import.meta.env.VITE_API_KEY, 'location.gnis_place_names', 'name')}
                   />
                 </ErrorBoundary>
               </div>
@@ -223,7 +202,7 @@ export function App() {
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <Sherlock
                     onSherlockMatch={(result) => {
-                      logEvent(analytics, "city_search", {
+                      logEvent('city_search', {
                         city: result?.attributes?.name,
                       });
                       const polygon = new Polygon(result.geometry);
@@ -233,23 +212,19 @@ export function App() {
                         geometry: result.geometry,
                         attributes: {},
                         symbol: {
-                          type: "simple-fill",
-                          style: "solid",
+                          type: 'simple-fill',
+                          style: 'solid',
                           color: [170, 170, 170, 0.2],
                           outline: {
                             color: [255, 255, 0],
-                            style: "dash-dot",
+                            style: 'dash-dot',
                             width: 1.5,
                           },
                         },
                       });
                     }}
                     label="Find a city"
-                    provider={ugrcApiProvider(
-                      import.meta.env.VITE_API_KEY,
-                      "boundaries.municipal_boundaries",
-                      "name",
-                    )}
+                    provider={ugrcApiProvider(import.meta.env.VITE_API_KEY, 'boundaries.municipal_boundaries', 'name')}
                   />
                 </ErrorBoundary>
               </div>
