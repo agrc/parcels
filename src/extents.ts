@@ -9,7 +9,7 @@ export default [
       xmax: -12504743.772227503,
       ymax: 4665256.028247919,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -21,7 +21,7 @@ export default [
       xmax: -12452963.313058581,
       ymax: 5165595.366010987,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -33,7 +33,7 @@ export default [
       xmax: -12400965.989450946,
       ymax: 5161507.836804742,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -45,7 +45,7 @@ export default [
       xmax: -12231065.512825098,
       ymax: 4838934.365464408,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -57,7 +57,7 @@ export default [
       xmax: -12138169.425161269,
       ymax: 5014236.466546016,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -69,7 +69,7 @@ export default [
       xmax: -12438609.95246983,
       ymax: 5035489.8233449515,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -81,7 +81,7 @@ export default [
       xmax: -12240817.09862674,
       ymax: 4988351.206478653,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -93,7 +93,7 @@ export default [
       xmax: -12241951.551024204,
       ymax: 4823051.7356088655,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -105,7 +105,7 @@ export default [
       xmax: -12237033.212008381,
       ymax: 4601232.991746226,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -117,7 +117,7 @@ export default [
       xmax: -12137456.342764134,
       ymax: 4795437.617374449,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -129,7 +129,7 @@ export default [
       xmax: -12518687.286656635,
       ymax: 4604767.734278836,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -141,7 +141,7 @@ export default [
       xmax: -12421134.81951333,
       ymax: 4868293.196894837,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -153,7 +153,7 @@ export default [
       xmax: -12316268.409012178,
       ymax: 4517206.792735681,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -165,7 +165,7 @@ export default [
       xmax: -12468397.878398675,
       ymax: 4805426.502958709,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -177,7 +177,7 @@ export default [
       xmax: -12380952.569396785,
       ymax: 5067721.231013786,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -189,7 +189,7 @@ export default [
       xmax: -12441361.048692556,
       ymax: 4652826.904276951,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -201,7 +201,7 @@ export default [
       xmax: -12361518.864706784,
       ymax: 5161235.451147224,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -213,7 +213,7 @@ export default [
       xmax: -12417868.161987072,
       ymax: 5001272.728916211,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -225,7 +225,7 @@ export default [
       xmax: -12134413.416285668,
       ymax: 4652482.990852848,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -237,7 +237,7 @@ export default [
       xmax: -12383708.953647114,
       ymax: 4839031.672624785,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -249,7 +249,7 @@ export default [
       xmax: -12389417.029484445,
       ymax: 4728770.869071362,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -261,7 +261,7 @@ export default [
       xmax: -12244298.033312047,
       ymax: 5049254.622768108,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -273,7 +273,7 @@ export default [
       xmax: -12483359.062266357,
       ymax: 5024255.823969942,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -285,7 +285,7 @@ export default [
       xmax: -12135158.381409595,
       ymax: 4992941.538337953,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -297,7 +297,7 @@ export default [
       xmax: -12340452.326608617,
       ymax: 4950495.562130138,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -309,7 +309,7 @@ export default [
       xmax: -12344260.899770398,
       ymax: 4966956.052786438,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -321,7 +321,7 @@ export default [
       xmax: -12566680.48224515,
       ymax: 4527462.632244571,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -333,7 +333,7 @@ export default [
       xmax: -12231806.407992544,
       ymax: 4651653.969301762,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
@@ -345,7 +345,7 @@ export default [
       xmax: -12403064.136040375,
       ymax: 5077029.012290365,
       spatialReference: {
-        wkid: '3857',
+        wkid: 3857,
       },
     }),
   },
