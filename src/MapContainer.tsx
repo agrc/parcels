@@ -1,8 +1,9 @@
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import EsriMap from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import { LayerSelector, type LayerSelectorProps } from '@ugrc/utah-design-system';
-import { utahMercatorExtent } from '@ugrc/utilities/hooks';
+import { useMapReady, utahMercatorExtent } from '@ugrc/utilities/hooks';
 import { useEffect, useRef, useState } from 'react';
 import { useMap } from './hooks/useMap';
 
@@ -15,9 +16,10 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewImmediateClickE
   const mapNode = useRef<HTMLDivElement | null>(null);
   const mapComponent = useRef<EsriMap | null>(null);
   const mapView = useRef<MapView>(null);
+  const isReady = useMapReady(mapView.current);
   const clickHandler = useRef<IHandle>(null);
   const [selectorOptions, setSelectorOptions] = useState<LayerSelectorProps | null>(null);
-  const { setMapView } = useMap();
+  const { setMapView, addLayers } = useMap();
 
   // setup the Map
   useEffect(() => {
@@ -66,6 +68,55 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewImmediateClickE
       mapComponent.current?.destroy();
     };
   }, [setMapView]);
+
+  // add the map layers
+  useEffect(() => {
+    if (isReady) {
+      addLayers([
+        new FeatureLayer({
+          url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahStatewideParcels/FeatureServer/0/',
+          minScale: 10000,
+          renderer: {
+            type: 'simple',
+            symbol: {
+              type: 'simple-fill',
+              style: 'solid',
+              color: [0, 0, 0, 0],
+              outline: {
+                type: 'simple-line',
+                style: 'solid',
+                color: [255, 255, 255, 255],
+                width: 1,
+              },
+            },
+          },
+          labelingInfo: [
+            {
+              labelPlacement: 'always-horizontal',
+              labelExpression: '[PARCEL_ID]',
+              symbol: {
+                type: 'text',
+                color: [0, 0, 0, 255],
+                verticalAlignment: 'bottom',
+                horizontalAlignment: 'center',
+                haloColor: [255, 255, 255, 253],
+                haloSize: 5,
+                font: {
+                  family: 'Arial',
+                  size: 8,
+                  style: 'normal',
+                  weight: 'bold',
+                  decoration: 'none',
+                },
+              },
+              minScale: 5000,
+              maxScale: 0,
+            },
+          ],
+        }),
+      ]);
+    }
+  }, [isReady]);
 
   // add click event handlers
   useEffect(() => {
