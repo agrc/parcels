@@ -30,12 +30,11 @@
   },
   "dependencies": {
     "@arcgis/core": "^4.32.9",
-    "@heroicons/react": "^2.2.0",
     "@ugrc/eslint-config": "^1.1.1",
     "@ugrc/esri-theme-toggle": "^1.1.0",
     "@ugrc/layer-selector": "^6.3.0",
     "@ugrc/tsconfigs": "^1.0.3",
-    "@ugrc/utah-design-system": "^1.21.1",
+    "@ugrc/utah-design-system": "^1.21.2",
     "firebase": "^11.5.0",
     "ky": "^1.7.5",
     "lodash.debounce": "^4.0.8",
