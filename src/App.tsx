@@ -1,3 +1,4 @@
+import Graphic from '@arcgis/core/Graphic';
 import Viewpoint from '@arcgis/core/Viewpoint';
 import Polygon from '@arcgis/core/geometry/Polygon';
 import {
@@ -11,7 +12,7 @@ import {
   UgrcLogo,
   useFirebaseAnalytics,
 } from '@ugrc/utah-design-system';
-import { utahMercatorExtent } from '@ugrc/utilities/hooks';
+import { useGraphicManager, useViewPointZooming, utahMercatorExtent } from '@ugrc/utilities/hooks';
 import { useEffect, useState } from 'react';
 import { useOverlayTrigger } from 'react-aria';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -19,11 +20,11 @@ import { useOverlayTriggerState } from 'react-stately';
 import { toast } from 'react-toastify';
 import { MapContainer } from './MapContainer';
 import { ParcelTypeAhead } from './PageElements';
-import { useGraphicManager, useHash, useMapZooming } from './hooks';
+import { useHash } from './hooks/useHash';
 import { useMap } from './hooks/useMap';
-import { extractCountyAndView } from './utils';
+import { extractCountyAndView, type AppState } from './utils';
 
-const ErrorFallback = ({ error }) => {
+const ErrorFallback = ({ error }: { error: Error }) => {
   return (
     <div role="alert">
       <p>Something went wrong:</p>
@@ -35,7 +36,7 @@ const pointSymbol = {
   type: 'web-style',
   name: 'esri-pin-2',
   styleName: 'Esri2DPointSymbolsStyle',
-};
+} as __esri.WebStyleSymbolProperties;
 
 const defaultAppState = {
   name: 'Utah State',
@@ -65,13 +66,15 @@ export function App() {
   const { mapView } = useMap();
   const logEvent = useFirebaseAnalytics();
   const { setGraphic } = useGraphicManager(mapView);
-  const { setGeometry } = useMapZooming(mapView);
-  const [hash] = useHash();
-  const [appConfig, setAppConfig] = useState(defaultAppState);
+  const { setViewPoint } = useViewPointZooming(mapView!);
+  const { hash } = useHash();
+  const [appConfig, setAppConfig] = useState<AppState>(defaultAppState);
+
   useEffect(() => {
     setAppConfig(extractCountyAndView(hash));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const sideBarState = useOverlayTriggerState({
     defaultOpen: window.innerWidth >= 768,
   });
@@ -127,21 +130,32 @@ export function App() {
                         county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
                       });
 
-                      setGeometry(polygon.extent!.expand(3));
-                      setGraphic({
-                        geometry: result.geometry,
-                        attributes: {},
-                        symbol: {
-                          type: 'simple-fill',
-                          style: 'solid',
-                          color: [170, 170, 170, 0.2],
-                          outline: {
-                            color: [255, 255, 0],
-                            style: 'dash-dot',
-                            width: 1.5,
+                      // Convert to ensure numeric values
+                      const extent = polygon.extent!;
+                      const expandScale = Number(3);
+
+                      setViewPoint(
+                        new Viewpoint({
+                          targetGeometry: extent.expand(expandScale),
+                        }),
+                      );
+
+                      setGraphic(
+                        new Graphic({
+                          geometry: result.geometry,
+                          attributes: {},
+                          symbol: {
+                            type: 'simple-fill',
+                            style: 'solid',
+                            color: [170, 170, 170, 0.2],
+                            outline: {
+                              color: [255, 255, 0],
+                              style: 'dash-dot',
+                              width: 1.5,
+                            },
                           },
-                        },
-                      });
+                        }),
+                      );
                     }}
                   />
                 </ErrorBoundary>
@@ -149,7 +163,6 @@ export function App() {
               <div className="flex flex-col gap-4 rounded border border-zinc-200 p-3 dark:border-zinc-700">
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <Geocode
-                    className="mb-4"
                     pointSymbol={pointSymbol}
                     events={{
                       success: (result) => {
@@ -157,44 +170,18 @@ export function App() {
                           address: result?.attributes.InputAddress,
                           score: result?.attributes.Score,
                         });
-                        setGeometry(
+                        setViewPoint(
                           new Viewpoint({
                             targetGeometry: result.geometry,
                             scale: 1000,
                           }),
                         );
-                        setGraphic(result);
+                        setGraphic(new Graphic(result));
                       },
                       error: () => toast.error('No results found'),
                     }}
-                    apiKey={import.meta.env.VITE_API_KEY}
+                    apiKey={import.meta.env.VITE_UGRC_API}
                     format="esrijson"
-                  >
-                    <div className="text-lg font-semibold">Find an address</div>
-                  </Geocode>
-                </ErrorBoundary>
-              </div>
-              <div className="flex flex-col gap-4 rounded border border-zinc-200 p-3 dark:border-zinc-700">
-                <ErrorBoundary FallbackComponent={ErrorFallback}>
-                  <Sherlock
-                    onSherlockMatch={(result) => {
-                      logEvent('gnis_search', {
-                        gnis: result?.attributes?.name,
-                      });
-                      setGeometry(
-                        new Viewpoint({
-                          targetGeometry: result.geometry,
-                          scale: 25000,
-                        }),
-                      );
-                      setGraphic({
-                        geometry: result.geometry,
-                        attributes: {},
-                        symbol: pointSymbol,
-                      });
-                    }}
-                    label="Find a GNIS place name"
-                    provider={ugrcApiProvider(import.meta.env.VITE_API_KEY, 'location.gnis_place_names', 'name')}
                   />
                 </ErrorBoundary>
               </div>
@@ -202,29 +189,82 @@ export function App() {
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <Sherlock
                     onSherlockMatch={(result) => {
-                      logEvent('city_search', {
-                        city: result?.attributes?.name,
-                      });
-                      const polygon = new Polygon(result.geometry);
+                      console.log('result', result);
+                      const first = result[0];
+                      if (first === undefined) {
+                        return;
+                      }
 
-                      setGeometry(polygon.extent.expand(1));
-                      setGraphic({
-                        geometry: result.geometry,
-                        attributes: {},
-                        symbol: {
-                          type: 'simple-fill',
-                          style: 'solid',
-                          color: [170, 170, 170, 0.2],
-                          outline: {
-                            color: [255, 255, 0],
-                            style: 'dash-dot',
-                            width: 1.5,
-                          },
-                        },
+                      logEvent('gnis_search', {
+                        gnis: first?.attributes?.name,
                       });
+                      setViewPoint(
+                        new Viewpoint({
+                          targetGeometry: first.geometry,
+                          scale: 25000,
+                        }),
+                      );
+                      setGraphic(
+                        new Graphic({
+                          geometry: first.geometry,
+                          attributes: {},
+                          symbol: pointSymbol,
+                        }),
+                      );
+                    }}
+                    label="Find a GNIS place name"
+                    provider={ugrcApiProvider(
+                      import.meta.env.VITE_UGRC_API,
+                      'location.gnis_place_names',
+                      'name',
+                      'county',
+                    )}
+                  />
+                </ErrorBoundary>
+              </div>
+              <div className="flex flex-col gap-4 rounded border border-zinc-200 p-3 dark:border-zinc-700">
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <Sherlock
+                    onSherlockMatch={(result) => {
+                      const first = result[0];
+                      if (first === undefined) {
+                        return;
+                      }
+
+                      logEvent('city_search', {
+                        city: first?.attributes?.name,
+                      });
+                      const polygon = new Polygon(first.geometry);
+
+                      setViewPoint(
+                        new Viewpoint({
+                          targetGeometry: polygon.extent!.expand(1),
+                        }),
+                      );
+                      setGraphic(
+                        new Graphic({
+                          geometry: first.geometry,
+                          attributes: {},
+                          symbol: {
+                            type: 'simple-fill',
+                            style: 'solid',
+                            color: [170, 170, 170, 0.2],
+                            outline: {
+                              color: [255, 255, 0],
+                              style: 'dash-dot',
+                              width: 1.5,
+                            },
+                          },
+                        }),
+                      );
                     }}
                     label="Find a city"
-                    provider={ugrcApiProvider(import.meta.env.VITE_API_KEY, 'boundaries.municipal_boundaries', 'name')}
+                    provider={ugrcApiProvider(
+                      import.meta.env.VITE_UGRC_API,
+                      'boundaries.municipal_boundaries',
+                      'name',
+                      'countynbr',
+                    )}
                   />
                 </ErrorBoundary>
               </div>
