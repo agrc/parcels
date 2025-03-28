@@ -5,22 +5,19 @@
 
 ## [2.3.11](https://github.com/agrc/parcels/compare/v2.3.10...v2.3.11) (2024-10-03)
 
-
 ### Bug Fixes
 
-* use correct build commands ([5d1e205](https://github.com/agrc/parcels/commit/5d1e20514c4efee886d3a919bdeccde786f044ba))
+- use correct build commands ([5d1e205](https://github.com/agrc/parcels/commit/5d1e20514c4efee886d3a919bdeccde786f044ba))
 
 ## [2.3.10](https://github.com/agrc/parcels/compare/v2.3.9...v2.3.10) (2024-10-03)
 
-
 ### Features
 
-* add account number to identify ([49594c9](https://github.com/agrc/parcels/commit/49594c998e57fe055a76f2d5ddfea9dcf3a0e723))
-
+- add account number to identify ([49594c9](https://github.com/agrc/parcels/commit/49594c998e57fe055a76f2d5ddfea9dcf3a0e723))
 
 ### Dependencies
 
-* FY25 Q2 dependency updates 🌲 ([c02a6f0](https://github.com/agrc/parcels/commit/c02a6f0a73533a9564d49130708536fea4f00084))
+- FY25 Q2 dependency updates 🌲 ([c02a6f0](https://github.com/agrc/parcels/commit/c02a6f0a73533a9564d49130708536fea4f00084))
 
 ## [2.3.9](https://github.com/agrc/parcels/compare/v2.3.8...v2.3.9) (2024-07-08)
 
