@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import Graphic from "@arcgis/core/Graphic";
+import Graphic from '@arcgis/core/Graphic';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export function useGraphicManager(mapView) {
   const [graphic, setGraphic] = useState();
@@ -26,7 +26,7 @@ export function useGraphicManager(mapView) {
     removeGraphics(previousGraphic.current);
 
     let myGraphic = graphic;
-    if (myGraphic?.declaredClass !== "esri.Graphic") {
+    if (myGraphic?.declaredClass !== 'esri.Graphic') {
       if (Array.isArray(myGraphic)) {
         myGraphic = myGraphic.map((x) => new Graphic(x));
       } else {
@@ -66,9 +66,9 @@ export function useHash() {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("hashchange", hashChangeHandler);
+    window.addEventListener('hashchange', hashChangeHandler);
     return () => {
-      window.removeEventListener("hashchange", hashChangeHandler);
+      window.removeEventListener('hashchange', hashChangeHandler);
     };
   }, [hashChangeHandler]);
 

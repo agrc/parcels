@@ -4,14 +4,13 @@
 
 @layer base {
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-      "Helvetica Neue", sans-serif;
+    font-family:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+      'Droid Sans', 'Helvetica Neue', sans-serif;
   }
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   }
 
   h1 {
@@ -34,16 +33,16 @@
   }
 
   @font-face {
-    font-family: "SourceSansPro-Regular";
-    src: url("/fonts/SourceSans3-Regular.otf.woff2") format("woff2");
+    font-family: 'SourceSansPro-Regular';
+    src: url('/fonts/SourceSans3-Regular.otf.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: "SourceSansPro-Black";
-    src: url("/fonts/SourceSans3-Black.otf.woff2") format("woff2");
+    font-family: 'SourceSansPro-Black';
+    src: url('/fonts/SourceSans3-Black.otf.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

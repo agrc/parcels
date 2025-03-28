@@ -1,8 +1,8 @@
-import Graphic from "@arcgis/core/Graphic";
-import MapView from "@arcgis/core/views/MapView";
-import { useGraphicManager } from "@ugrc/utilities/hooks";
-import PropTypes from "prop-types";
-import { createContext, ReactNode, useState } from "react";
+import Graphic from '@arcgis/core/Graphic';
+import MapView from '@arcgis/core/views/MapView';
+import { useGraphicManager } from '@ugrc/utilities/hooks';
+import PropTypes from 'prop-types';
+import { createContext, ReactNode, useState } from 'react';
 
 type GraphicOptions = Graphic | Graphic[] | null;
 export const MapContext = createContext<{
@@ -18,7 +18,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
 
   const zoom = (geometry: __esri.GoToTarget2D): void => {
     if (!mapView) {
-      console.warn("attempting to zoom before the mapView is set");
+      console.warn('attempting to zoom before the mapView is set');
 
       return;
     }
