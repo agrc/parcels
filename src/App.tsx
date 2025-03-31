@@ -97,7 +97,7 @@ export function App() {
   );
 
   const clickHandler = useCallback(
-    async (event: __esri.ViewImmediateClickEvent) => {
+    async (event: __esri.ViewClickEvent) => {
       const results: __esri.FeatureSet = await ky
         .get('query', {
           prefixUrl: config.parcelService,
