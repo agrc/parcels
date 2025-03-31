@@ -13,7 +13,7 @@ const urls = {
     'https://www.arcgis.com/sharing/rest/content/items/77202507796a4d5796b7d8e6871e352e/resources/styles/root.json',
 };
 
-export const MapContainer = ({ onClick }: { onClick?: __esri.ViewImmediateClickEventHandler }) => {
+export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandler }) => {
   const mapNode = useRef<HTMLDivElement | null>(null);
   const mapComponent = useRef<EsriMap | null>(null);
   const mapView = useRef<MapView>(null);
@@ -125,7 +125,7 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewImmediateClickE
   // add click event handlers
   useEffect(() => {
     if (onClick) {
-      clickHandler.current = mapView.current!.on('immediate-click', onClick);
+      clickHandler.current = mapView.current!.on('click', onClick);
     }
 
     return () => {
