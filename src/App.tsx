@@ -1,5 +1,6 @@
 import Graphic from '@arcgis/core/Graphic';
 import Viewpoint from '@arcgis/core/Viewpoint';
+import { watch } from '@arcgis/core/core/reactiveUtils';
 import Polygon from '@arcgis/core/geometry/Polygon';
 import {
   Drawer,
@@ -14,6 +15,7 @@ import {
 } from '@ugrc/utah-design-system';
 import { useGraphicManager, useViewPointZooming, utahMercatorExtent } from '@ugrc/utilities/hooks';
 import ky from 'ky';
+import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useState } from 'react';
 import { useOverlayTrigger } from 'react-aria';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -65,14 +67,16 @@ const links = [
 ];
 
 export function App() {
+  const [appConfig, setAppConfig] = useState<AppState>(defaultAppState);
+  const [activeParcel, setActiveParcel] = useState<__esri.Graphic | nullish>(null);
+
   const { mapView } = useMap();
   const logEvent = useFirebaseAnalytics();
   const { setGraphic } = useGraphicManager(mapView);
   const { setViewPoint } = useViewPointZooming(mapView!);
-  const { hash } = useHash();
-  const [appConfig, setAppConfig] = useState<AppState>(defaultAppState);
-  const [activeParcel, setActiveParcel] = useState<__esri.Graphic | nullish>(null);
+  const { hash, updateHash: setHash } = useHash();
 
+  // get county name and set initial view
   useEffect(() => {
     setAppConfig(extractCountyAndView(hash));
     // only run once
@@ -96,6 +100,44 @@ export function App() {
     trayState,
   );
 
+  const updateHash = useCallback(() => {
+    if (!mapView) {
+      return;
+    }
+
+    const scale = mapView?.viewpoint?.scale ?? 0;
+    const x = mapView?.center?.x ?? 0;
+    const y = mapView?.center?.y ?? 0;
+
+    if (scale === 0 || x === 0 || y === 0) {
+      return;
+    }
+
+    setHash(`${appConfig.name === 'Utah State' ? '' : appConfig.name}/location/${x},${y},${scale}`);
+    // skip mapView and setHash so this stays stable
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appConfig]);
+
+  // update the hash when the map view changes
+  useEffect(() => {
+    if (mapView) {
+      const events = [] as IHandle[];
+      mapView.when(() => {
+        mapView
+          .goTo(appConfig.target, { animate: false })
+          .then(() => events.push(watch(() => mapView.extent, debounce(updateHash, 100))));
+      });
+
+      return () => {
+        events.forEach((handle) => handle.remove());
+        events.length = 0;
+      };
+    }
+    // skip mapView so this only runs once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appConfig]);
+
+  // parcel identify click handler
   const clickHandler = useCallback(
     async (event: __esri.ViewClickEvent) => {
       const results: __esri.FeatureSet = await ky
@@ -175,11 +217,15 @@ export function App() {
     [setGraphic, logEvent, mapView],
   );
 
+  // open the tray when a parcel is selected
   useEffect(() => {
     if (activeParcel !== null) {
       trayState.open();
     }
-  }, [activeParcel, trayState]);
+
+    // trayState cannot be closed if it is tracked
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeParcel]);
 
   return (
     <>
