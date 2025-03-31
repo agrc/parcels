@@ -50,11 +50,11 @@ const version = import.meta.env.PACKAGE_VERSION;
 const links = [
   {
     key: 'SGID parcels product page',
-    action: { url: 'https://gis.utah.gov/products/sgid/cadastre/parcels' },
+    action: { url: 'https://gis.utah.gov/products/sgid/cadastre/parcels/' },
   },
   {
     key: 'UGRC homepage',
-    action: { url: 'https://gis.utah.gov' },
+    action: { url: 'https://gis.utah.gov/' },
   },
   {
     key: 'GitHub repository',
