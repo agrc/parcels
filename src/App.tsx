@@ -13,13 +13,15 @@ import {
   useFirebaseAnalytics,
 } from '@ugrc/utah-design-system';
 import { useGraphicManager, useViewPointZooming, utahMercatorExtent } from '@ugrc/utilities/hooks';
-import { useEffect, useState } from 'react';
+import ky from 'ky';
+import { useCallback, useEffect, useState } from 'react';
 import { useOverlayTrigger } from 'react-aria';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useOverlayTriggerState } from 'react-stately';
 import { toast } from 'react-toastify';
 import { MapContainer } from './MapContainer';
-import { ParcelTypeAhead } from './PageElements';
+import { ParcelInformation, ParcelTypeAhead } from './PageElements';
+import config from './config';
 import { useHash } from './hooks/useHash';
 import { useMap } from './hooks/useMap';
 import { extractCountyAndView, type AppState } from './utils';
@@ -91,6 +93,91 @@ export function App() {
     },
     trayState,
   );
+
+  const clickHandler = useCallback(
+    async (event: __esri.ViewImmediateClickEvent) => {
+      const results: __esri.FeatureSet = await ky
+        .get('query', {
+          prefixUrl: config.parcelService,
+          searchParams: {
+            geometry: JSON.stringify(event.mapPoint.toJSON()),
+            geometryType: 'esriGeometryPoint',
+            returnGeometry: true,
+            outFields: [
+              'CoParcel_URL',
+              'PARCEL_ADD',
+              'PARCEL_CITY',
+              'PARCEL_ZIP',
+              'PARCEL_ID',
+              'ParcelsCur',
+              'ParcelNotes',
+              'OWN_TYPE',
+              'County',
+              'ACCOUNT_NUM',
+            ].join(),
+            f: 'json',
+          },
+        })
+        .json();
+
+      let feature = null;
+      if (results.features.length > 0) {
+        feature = results.features[0];
+        if (feature == null) {
+          return;
+        }
+
+        if (!feature.geometry) {
+          return;
+        }
+
+        feature.geometry = new Polygon({
+          ...feature.geometry,
+          spatialReference: mapView?.spatialReference,
+        });
+
+        feature.symbol = {
+          type: 'simple-fill',
+          color: [72, 44, 82, 0.25],
+          style: 'diagonal-cross',
+          outline: {
+            style: 'solid',
+            cap: 'square',
+            join: 'round',
+            color: [240, 18, 190],
+            width: 4,
+          },
+        };
+      }
+
+      setActiveParcel(feature);
+      setGraphic(new Graphic({ ...feature }));
+
+      let scale = mapView?.scale ?? Infinity;
+      if (scale > 35_000) {
+        scale = 10_000;
+      }
+
+      mapView?.goTo({
+        center: feature?.geometry,
+        scale,
+      });
+
+      if (feature !== null) {
+        logEvent('parcel_identify', {
+          id: feature.attributes.PARCEL_ID,
+          address: `${feature.attributes.PARCEL_ADD}, ${feature.attributes.PARCEL_CITY} ${feature.attributes.PARCEL_ZIP}`,
+        });
+      }
+    },
+    [setGraphic, logEvent, mapView],
+  );
+
+  useEffect(() => {
+    if (activeParcel !== null) {
+      trayState.open();
+    }
+  }, [trayState]);
 
   return (
     <>
@@ -273,7 +360,7 @@ export function App() {
           <div className="relative flex flex-1 flex-col rounded border border-b-0 border-zinc-200 dark:border-0 dark:border-zinc-700">
             <div className="relative flex-1 overflow-hidden dark:rounded">
               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <MapContainer />
+                <MapContainer onClick={clickHandler} />
               </ErrorBoundary>
               <Drawer
                 type="tray"
@@ -283,8 +370,7 @@ export function App() {
                 {...trayTriggerProps}
               >
                 <section className="grid gap-2 px-7 pt-2">
-                  <h2 className="text-center">What&#39;s here?</h2>
-                  {/* <IdentifyInformation apiKey={apiKey} location={initialIdentifyLocation} /> */}
+                  <ParcelInformation feature={activeParcel} />
                 </section>
               </Drawer>
             </div>
