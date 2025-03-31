@@ -1,4 +1,13 @@
-import { Dialog, ExternalLink, Modal, Select, SelectItem, Sherlock, ugrcApiProvider } from '@ugrc/utah-design-system';
+import {
+  Button,
+  Dialog,
+  ExternalLink,
+  Modal,
+  Select,
+  SelectItem,
+  Sherlock,
+  ugrcApiProvider,
+} from '@ugrc/utah-design-system';
 import startCase from 'lodash.startcase';
 import { useEffect, useState } from 'react';
 import { Heading, type Key } from 'react-aria-components';
@@ -90,8 +99,8 @@ export function ParcelTypeAhead({
 export function Disclaimer() {
   return (
     <Modal defaultOpen={true}>
-      <Dialog className="fixed inset-0 z-10 overflow-y-auto">
-        <div className="min-h-screen px-4 text-center">
+      <Dialog>
+        <div className="px-4 text-justify">
           <Heading slot="title">Disclaimer</Heading>
           <div className="mt-2 space-y-4">
             <p className="text-sm text-gray-500">
@@ -111,19 +120,13 @@ export function Disclaimer() {
               By using the information contained herein, the User is stating that the above Disclaimer has been read and
               that he/she has full understanding and is in agreement with the contents of this disclaimer. While the
               property boundary information depicted in this dataset is based directly on the legal descriptions
-              provided on recorded documents on file in County Recorders’ Offices, it is NOT intended to be used for
-              legal litigation or boundary disputes and is for informational use only. Users interested in pursuing
+              provided on recorded documents on file in County Recorders&apos; Offices, it is NOT intended to be used
+              for legal litigation or boundary disputes and is for informational use only. Users interested in pursuing
               legal litigation and/or boundary disputes should consult an attorney or licensed surveyor, or both.
             </p>
           </div>
           <div className="mt-4 text-right">
-            <button
-              type="button"
-              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-              onClick={close}
-            >
-              I agree
-            </button>
+            <Button slot="close">I agree</Button>
           </div>
         </div>
       </Dialog>
