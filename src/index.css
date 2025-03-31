@@ -49,6 +49,7 @@
   }
 }
 
-.esri-view .esri-view-surface--inset-outline:focus::after {
-  @apply outline-none;
+/* remove map outline */
+.esri-view .esri-view-surface:focus:after {
+  @apply outline-none !important;
 }
