@@ -20,7 +20,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { useOverlayTriggerState } from 'react-stately';
 import { toast } from 'react-toastify';
 import { MapContainer } from './MapContainer';
-import { ParcelInformation, ParcelTypeAhead } from './PageElements';
+import { Disclaimer, ParcelInformation, ParcelTypeAhead } from './PageElements';
 import config from './config';
 import { useHash } from './hooks/useHash';
 import { useMap } from './hooks/useMap';
@@ -183,6 +183,9 @@ export function App() {
 
   return (
     <>
+      <div className="relative z-10 mx-auto max-w-screen-md bg-white/50 dark:bg-zinc-900/50">
+        <Disclaimer />
+      </div>
       <main className="flex h-screen flex-col md:gap-2">
         <Header links={links}>
           <div className="flex h-full grow items-center gap-3">
