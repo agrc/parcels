@@ -20,7 +20,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useOverlayTrigger } from 'react-aria';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useOverlayTriggerState } from 'react-stately';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { MapContainer } from './MapContainer';
 import { Disclaimer, ParcelInformation, ParcelTypeAhead } from './PageElements';
 import config from './config';
@@ -441,6 +441,18 @@ export function App() {
           </div>
         </section>
       </main>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <Footer />
     </>
   );
