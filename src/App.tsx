@@ -38,7 +38,7 @@ const pointSymbol = {
   type: 'web-style',
   name: 'esri-pin-2',
   styleName: 'Esri2DPointSymbolsStyle',
-} as __esri.WebStyleSymbolProperties;
+} as __esri.WebStyleSymbolProperties & { type: 'web-style' };
 
 const defaultAppState = {
   name: 'Utah State',
@@ -71,9 +71,11 @@ export function App() {
   const { setViewPoint } = useViewPointZooming(mapView!);
   const { hash } = useHash();
   const [appConfig, setAppConfig] = useState<AppState>(defaultAppState);
+  const [activeParcel, setActiveParcel] = useState<__esri.Graphic | nullish>(null);
 
   useEffect(() => {
     setAppConfig(extractCountyAndView(hash));
+    // only run once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -177,7 +179,7 @@ export function App() {
     if (activeParcel !== null) {
       trayState.open();
     }
-  }, [trayState]);
+  }, [activeParcel, trayState]);
 
   return (
     <>
@@ -198,12 +200,25 @@ export function App() {
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <ParcelTypeAhead
                     county={appConfig.name === defaultAppState.name ? '' : appConfig.name}
-                    onSuccess={(result: any) => {
-                      const polygon = new Polygon(result.geometry);
+                    onSuccess={(result) => {
+                      if (result.length === 0) {
+                        toast.error('There was no location found for this parcel');
+
+                        return;
+                      }
+
+                      const first = result[0];
+                      if (first === undefined || first.geometry === null) {
+                        toast.error('There was no location found for this parcel');
+
+                        return;
+                      }
+
+                      const polygon = new Polygon(first.geometry);
 
                       if (polygon.extent === null) {
                         logEvent('parcel_search_no_geometry', {
-                          parcel: result?.attributes?.parcel_id,
+                          parcel: first?.attributes?.parcel_id,
                           county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
                         });
 
@@ -213,7 +228,7 @@ export function App() {
                       }
 
                       logEvent('parcel_search', {
-                        parcel: result?.attributes?.parcel_id,
+                        parcel: first?.attributes?.parcel_id,
                         county: appConfig.name === defaultAppState.name ? '' : appConfig.name,
                       });
 
@@ -229,7 +244,7 @@ export function App() {
 
                       setGraphic(
                         new Graphic({
-                          geometry: result.geometry,
+                          geometry: first.geometry,
                           attributes: {},
                           symbol: {
                             type: 'simple-fill',
@@ -276,7 +291,6 @@ export function App() {
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <Sherlock
                     onSherlockMatch={(result) => {
-                      console.log('result', result);
                       const first = result[0];
                       if (first === undefined) {
                         return;
@@ -321,6 +335,11 @@ export function App() {
                       logEvent('city_search', {
                         city: first?.attributes?.name,
                       });
+
+                      if (first.geometry === null) {
+                        return;
+                      }
+
                       const polygon = new Polygon(first.geometry);
 
                       setViewPoint(
@@ -346,12 +365,7 @@ export function App() {
                       );
                     }}
                     label="Find a city"
-                    provider={ugrcApiProvider(
-                      import.meta.env.VITE_UGRC_API,
-                      'boundaries.municipal_boundaries',
-                      'name',
-                      'countynbr',
-                    )}
+                    provider={ugrcApiProvider(import.meta.env.VITE_UGRC_API, 'boundaries.municipal_boundaries', 'name')}
                   />
                 </ErrorBoundary>
               </div>
