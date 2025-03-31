@@ -5,6 +5,7 @@ import MapView from '@arcgis/core/views/MapView';
 import { LayerSelector, type LayerSelectorProps } from '@ugrc/utah-design-system';
 import { useMapReady, utahMercatorExtent } from '@ugrc/utilities/hooks';
 import { useEffect, useRef, useState } from 'react';
+import config from './config';
 import { useMap } from './hooks/useMap';
 
 const urls = {
@@ -35,6 +36,9 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewImmediateClickE
       extent: utahMercatorExtent,
       ui: {
         components: ['zoom'],
+      },
+      padding: {
+        bottom: 200,
       },
     });
 
@@ -74,7 +78,7 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewImmediateClickE
     if (isReady) {
       addLayers([
         new FeatureLayer({
-          url: 'https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/UtahStatewideParcels/FeatureServer/0/',
+          url: config.parcelService,
           minScale: 10000,
           renderer: {
             type: 'simple',
@@ -116,7 +120,7 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewImmediateClickE
         }),
       ]);
     }
-  }, [isReady]);
+  }, [isReady, addLayers]);
 
   // add click event handlers
   useEffect(() => {
