@@ -35,7 +35,7 @@
     "@ugrc/esri-theme-toggle": "^1.1.0",
     "@ugrc/layer-selector": "^6.3.0",
     "@ugrc/tsconfigs": "^1.0.3",
-    "@ugrc/utah-design-system": "^1.21.3",
+    "@ugrc/utah-design-system": "^1.22.1",
     "@ugrc/utilities": "^3.0.2",
     "firebase": "^11.6.0",
     "ky": "^1.8.0",
