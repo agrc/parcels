@@ -99,16 +99,16 @@ export function ParcelTypeAhead({
 export function Disclaimer() {
   return (
     <Modal defaultOpen={true}>
-      <Dialog>
+      <Dialog className="dark:bg-black/70">
         <div className="px-4 text-justify">
           <Heading slot="title">Disclaimer</Heading>
-          <div className="mt-2 space-y-4">
-            <p className="text-sm text-gray-500">
+          <div className="mt-2 space-y-4 text-gray-500 dark:text-gray-50">
+            <p className="text-sm">
               No warranties or certification, express or implied, are provided for the statewide tax parcel dataset and
               related GIS mapping layer. This data product has been compiled as a best effort service strictly for
               general purpose informational use and any interpretations made are the responsibility of the User.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm">
               The State of Utah and County Governments, their elected officials, officers, employees, and agents assume
               no legal responsibilities for the information contained herein and shall have no liability for any
               damages, losses, costs, or expenses, including, but not limited to attorney&apos;s fees, arising from the
@@ -116,7 +116,7 @@ export function Disclaimer() {
               agreement by the User to release The State of Utah and County Government, its elected officials, officers,
               employees, and agents from such liability.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm">
               By using the information contained herein, the User is stating that the above Disclaimer has been read and
               that he/she has full understanding and is in agreement with the contents of this disclaimer. While the
               property boundary information depicted in this dataset is based directly on the legal descriptions
