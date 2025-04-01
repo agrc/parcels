@@ -164,14 +164,20 @@ export function App() {
         })
         .json();
 
-      let feature = null;
+      let feature = new Graphic();
       if (results.features.length > 0) {
         feature = results.features[0];
         if (feature == null) {
+          setActiveParcel(new Graphic());
+          setGraphic(null);
+
           return;
         }
 
         if (!feature.geometry) {
+          setActiveParcel(new Graphic());
+          setGraphic(null);
+
           return;
         }
 
@@ -207,7 +213,7 @@ export function App() {
         scale,
       });
 
-      if (feature !== null) {
+      if (feature.attributes !== null) {
         logEvent('parcel_identify', {
           id: feature.attributes.PARCEL_ID,
           address: `${feature.attributes.PARCEL_ADD}, ${feature.attributes.PARCEL_CITY} ${feature.attributes.PARCEL_ZIP}`,
@@ -433,7 +439,19 @@ export function App() {
                 {...trayTriggerProps}
               >
                 <section className="grid gap-2 px-7 pt-2">
-                  <ParcelInformation feature={activeParcel} />
+                  {activeParcel ? (
+                    <ParcelInformation feature={activeParcel} />
+                  ) : (
+                    <div className="pt-4 @container">
+                      <p className="text-center text-xl md:text-3xl">There is nothing to show yet</p>
+                      <p className="pt-3 text-lg md:text-xl">To find parcel information</p>
+                      <ol className="pt-2">
+                        <li>1. Use the map controls to find a specific parcel id within a county or</li>
+                        <li>2. Geocode an address and click on the parcel or</li>
+                        <li>3. Pan and zoom around the map and click on any parcel you are interested in</li>
+                      </ol>
+                    </div>
+                  )}
                 </section>
               </Drawer>
             </div>
