@@ -137,10 +137,9 @@ export function Disclaimer() {
 export function ParcelInformation({ feature }: { feature: __esri.Graphic | null | undefined }) {
   const countyName = feature?.attributes?.County ? startCase(feature.attributes.County) : null;
 
-  //sm:grid-cols-2 lg:grid-cols-5 2xl:grid-cols-9
   return (
-    <div className="@container pt-4">
-      <div className="@sm:grid-cols-2 @sm:gap-4 @3xl:grid-cols-3 @6xl:grid-cols-5 @3xl:gap-10 grid w-full grid-cols-1 gap-2">
+    <div className="pt-4 @container">
+      <div className="grid w-full grid-cols-1 gap-2 @sm:grid-cols-2 @sm:gap-4 @3xl:grid-cols-3 @3xl:gap-10 @6xl:grid-cols-5">
         {feature?.attributes ? (
           <>
             <IdentifyItem label="Parcel Number" text={feature.attributes.PARCEL_ID} />

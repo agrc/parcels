@@ -78,7 +78,7 @@ export function App() {
 
   // get county name and set initial view
   useEffect(() => {
-    setAppConfig(extractCountyAndView(hash));
+    setAppConfig(extractCountyAndView(hash, logEvent));
     // only run once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
