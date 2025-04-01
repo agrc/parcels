@@ -164,7 +164,7 @@ export function App() {
         })
         .json();
 
-      let feature = new Graphic();
+      let feature = new Graphic() as __esri.Graphic | undefined;
       if (results.features.length > 0) {
         feature = results.features[0];
         if (feature == null) {
@@ -212,15 +212,8 @@ export function App() {
         center: feature?.geometry,
         scale,
       });
-
-      if (feature.attributes !== null) {
-        logEvent('parcel_identify', {
-          id: feature.attributes.PARCEL_ID,
-          address: `${feature.attributes.PARCEL_ADD}, ${feature.attributes.PARCEL_CITY} ${feature.attributes.PARCEL_ZIP}`,
-        });
-      }
     },
-    [setGraphic, logEvent, mapView],
+    [setGraphic, mapView],
   );
 
   // open the tray when a parcel is selected
