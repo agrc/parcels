@@ -13,7 +13,10 @@ const defaultAppState: AppState = {
   target: utahMercatorExtent,
 };
 
-export function extractCountyAndView(hash: string) {
+export function extractCountyAndView(
+  hash: string,
+  logEvent: (eventName: string, data?: Record<string, unknown>) => void,
+): AppState {
   if (hash === '' || hash === '#') {
     return defaultAppState;
   }
@@ -31,18 +34,15 @@ export function extractCountyAndView(hash: string) {
   if (hash.includes('/location/')) {
     const [xStr, yStr, scaleStr] = hash.substring(hash.lastIndexOf('/') + 1).split(',');
 
-    // Convert string values to numbers
     const x = Number(xStr);
     const y = Number(yStr);
     const scale = Number(scaleStr);
 
-    // if (countyName !== defaultAppState.name) {
-    // logEvent('county_view', {
-    //   county: countyName || defaultAppState.name,
-    // });
-    // }
-
-    // logEvent('deep_link');
+    if (countyName !== defaultAppState.name) {
+      logEvent('county_view', {
+        county: countyName || defaultAppState.name,
+      });
+    }
 
     return {
       name: countyName || defaultAppState.name,
@@ -60,11 +60,11 @@ export function extractCountyAndView(hash: string) {
   const county = extents.filter((item) => item.name === countyName);
   const state: AppState = county.length > 0 ? (county[0] ?? defaultAppState) : defaultAppState;
 
-  // if (state.name !== defaultAppState.name) {
-  //   logEvent(analytics, 'county_view', {
-  //     county: state.name,
-  //   });
-  // }
+  if (state.name !== defaultAppState.name) {
+    logEvent('county_view', {
+      county: state.name,
+    });
+  }
 
   return state;
 }
