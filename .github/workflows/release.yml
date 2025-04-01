@@ -26,8 +26,8 @@ jobs:
           project-id: ${{ secrets.PROJECT_ID }}
           build-command: pnpm run build --mode dev
         env:
-          VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_QUAD_WORD }}
-          VITE_API_KEY: ${{ secrets.WEB_API_KEY }}
+          VITE_DISCOVER: ${{ secrets.VITE_DISCOVER }}
+          VITE_UGRC_API: ${{ secrets.VITE_WEB_API }}
           VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
   deploy-prod:
@@ -53,8 +53,8 @@ jobs:
           service-now-password: ${{ secrets.SN_PASSWORD }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          VITE_DISCOVER_KEY: ${{ secrets.DISCOVER_QUAD_WORD }}
-          VITE_API_KEY: ${{ secrets.WEB_API_KEY }}
+          VITE_DISCOVER: ${{ secrets.VITE_DISCOVER }}
+          VITE_UGRC_API: ${{ secrets.VITE_WEB_API }}
           VITE_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
   release-notifications:
