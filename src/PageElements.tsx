@@ -134,7 +134,7 @@ export function Disclaimer() {
   );
 }
 
-export function ParcelInformation({ feature }: { feature: __esri.Graphic | nullish }) {
+export function ParcelInformation({ feature }: { feature: __esri.Graphic | null | undefined }) {
   const countyName = feature?.attributes?.County ? startCase(feature.attributes.County) : null;
 
   //sm:grid-cols-2 lg:grid-cols-5 2xl:grid-cols-9
@@ -170,7 +170,7 @@ export function ParcelInformation({ feature }: { feature: __esri.Graphic | nulli
   );
 }
 
-function IdentifyItem({ text, label }: { text: string | nullish; label: string }) {
+function IdentifyItem({ text, label }: { text: string | null | undefined; label: string }) {
   text = text?.trim();
   if (!text) {
     text = '-';
