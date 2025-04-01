@@ -3,6 +3,35 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.12](https://github.com/agrc/parcels/compare/v2.3.11...v2.3.12) (2025-04-01)
+
+
+### Features
+
+* add parcel identify based on click with graphic treatment and zooming ([614bc5f](https://github.com/agrc/parcels/commit/614bc5f8086a37cf30b5cd271e74708c7773f69f))
+* read and update from hash to configure the app view ([bea315e](https://github.com/agrc/parcels/commit/bea315eafc60e79af0513ec4acbf97bbc7909045))
+* show disclaimer ([9fdb509](https://github.com/agrc/parcels/commit/9fdb509ddcaa7d3cfaa73c2959d801392acbc39a))
+
+
+### Dependencies
+
+* add missing ci package ([9fcde92](https://github.com/agrc/parcels/commit/9fcde92e2a8feecdbbcdf62f4800fbce90ff40d8))
+* remove and update packages ([a0ff403](https://github.com/agrc/parcels/commit/a0ff403fc62723a0106bca63aecdce56783c182e))
+* update packages ([8273e16](https://github.com/agrc/parcels/commit/8273e16f6499aff188f657285574c47535e81814))
+* update packages ([d61bb7f](https://github.com/agrc/parcels/commit/d61bb7f95f504ae543ac4cba71c196971a5b9afe))
+* update packages to fix sherlock bug ([0ab45c4](https://github.com/agrc/parcels/commit/0ab45c43a8b1292194ec6b1707a8f9692e57be1a))
+
+
+### Documentation
+
+* update the readme ([2c486dc](https://github.com/agrc/parcels/commit/2c486dc34458b41af187d23d367dd303a1c09cd6))
+
+
+### Styles
+
+* remove map focus ([b72119d](https://github.com/agrc/parcels/commit/b72119da0d53dc2e74dd41d87c6a304c269a391e))
+* update disclaimer dark mode ([9465bae](https://github.com/agrc/parcels/commit/9465bae52c84eaeaf0ee42a05f0d583a61c6d234))
+
 ## [2.3.11](https://github.com/agrc/parcels/compare/v2.3.10...v2.3.11) (2024-10-03)
 
 ### Bug Fixes
