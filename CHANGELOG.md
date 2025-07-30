@@ -3,6 +3,14 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.14](https://github.com/agrc/parcels/compare/v2.3.13...v2.3.14) (2025-07-30)
+
+
+### Dependencies
+
+* bump the safe-dependencies group with 2 updates ([e94bd34](https://github.com/agrc/parcels/commit/e94bd341b960630704a7e7fbd0a38d70973cfc3b))
+* bump the safe-dependencies group with 20 updates ([ac75995](https://github.com/agrc/parcels/commit/ac759953c8834dc6dbef492c615065e30feb1c13))
+
 ## [2.3.13](https://github.com/agrc/parcels/compare/v2.3.12...v2.3.13) (2025-05-14)
 
 
