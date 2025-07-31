@@ -76,12 +76,15 @@
     "vitest": "^3.2.4"
   },
   "pnpm": {
-    "overrides": {},
     "onlyBuiltDependencies": [
       "@firebase/util",
       "esbuild",
       "protobufjs",
       "re2"
+    ],
+    "overrides": {},
+    "ignoredBuiltDependencies": [
+      "@vaadin/vaadin-usage-statistics"
     ]
   }
 }
