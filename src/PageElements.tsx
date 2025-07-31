@@ -74,7 +74,7 @@ export function ParcelTypeAhead({
       <Select
         label="Find a parcel"
         placeholder={placeholder}
-        onSelectionChange={setSelectedCounty}
+        onSelectionChange={(key) => setSelectedCounty(key ?? undefined)}
         selectedKey={selectedCounty}
       >
         {counties.map((county) => (
