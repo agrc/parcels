@@ -1,5 +1,4 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
-import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import EsriMap from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import { LayerSelector, type LayerSelectorProps } from '@ugrc/utah-design-system';
@@ -7,11 +6,6 @@ import { useMapReady, utahMercatorExtent } from '@ugrc/utilities/hooks';
 import { useEffect, useRef, useState } from 'react';
 import config from './config';
 import { useMap } from './hooks/useMap';
-
-const urls = {
-  liteVector:
-    'https://www.arcgis.com/sharing/rest/content/items/77202507796a4d5796b7d8e6871e352e/resources/styles/root.json',
-};
 
 export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandler }) => {
   const mapNode = useRef<HTMLDivElement | null>(null);
@@ -48,20 +42,8 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandl
       options: {
         view: mapView.current,
         quadWord: import.meta.env.VITE_DISCOVER,
-        baseLayers: [
-          'Hybrid',
-          {
-            label: 'Lite',
-            function: () =>
-              new VectorTileLayer({
-                url: urls.liteVector,
-              }),
-          },
-          'Terrain',
-          'Topo',
-          'Color IR',
-        ],
-        referenceLayers: ['Land Ownership'],
+        basemaps: ['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR'],
+        operationalLayers: ['Land Ownership'],
       },
     };
 
