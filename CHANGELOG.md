@@ -3,6 +3,19 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.16](https://github.com/agrc/parcels/compare/v2.3.15...v2.3.16) (2025-09-16)
+
+
+### Bug Fixes
+
+* use design system layer selector ([a6838e8](https://github.com/agrc/parcels/commit/a6838e888825ed9ed38822ec1d51b47b5f30dbe4))
+
+
+### Dependencies
+
+* remove unused package ([3361408](https://github.com/agrc/parcels/commit/33614081240f58ce369f57b615d86722bcbee8ca))
+* update some packages ([94dab69](https://github.com/agrc/parcels/commit/94dab6950828a68dca4bab2a430b70aa8475a6a4))
+
 ## [2.3.15](https://github.com/agrc/parcels/compare/v2.3.14...v2.3.15) (2025-07-31)
 
 
