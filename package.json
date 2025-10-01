@@ -36,7 +36,7 @@
     "@ugrc/tsconfigs": "^1.0.3",
     "@ugrc/utah-design-system": "^1.28.1",
     "@ugrc/utilities": "^3.1.0",
-    "firebase": "^11.10.0",
+    "firebase": "^12.0.0",
     "ky": "^1.10.0",
     "lodash.debounce": "^4.0.8",
     "lodash.startcase": "^4.4.0",
