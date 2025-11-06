@@ -3,6 +3,16 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.17](https://github.com/agrc/parcels/compare/v2.3.16...v2.3.17) (2025-11-06)
+
+
+### Dependencies
+
+* bump the major-dependencies group across 1 directory with 3 updates ([22ab0e0](https://github.com/agrc/parcels/commit/22ab0e00ae7260b83f04cc7571d77f45cf621d6a))
+* bump the safe-dependencies group across 1 directory with 11 updates ([6a4ac84](https://github.com/agrc/parcels/commit/6a4ac845acb91a3113b59c10973b24dd4c253cf5))
+* **dev:** bump vite from 7.1.7 to 7.1.11 ([9a27c4d](https://github.com/agrc/parcels/commit/9a27c4dd0bda82909294ff6b48a44a04fd2bcbac))
+* FY26 Q2 package updates ([42c23b7](https://github.com/agrc/parcels/commit/42c23b73dc7516087f77571e8f530af68702abeb))
+
 ## [2.3.16](https://github.com/agrc/parcels/compare/v2.3.15...v2.3.16) (2025-09-16)
 
 
