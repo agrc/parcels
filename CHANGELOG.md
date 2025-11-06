@@ -3,6 +3,13 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.18](https://github.com/agrc/parcels/compare/v2.3.17...v2.3.18) (2025-11-06)
+
+
+### Bug Fixes
+
+* update lock file ([e4989e7](https://github.com/agrc/parcels/commit/e4989e7823328d14029563f5b1e039ab584362b6))
+
 ## [2.3.17](https://github.com/agrc/parcels/compare/v2.3.16...v2.3.17) (2025-11-06)
 
 
