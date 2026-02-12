@@ -177,7 +177,7 @@ function IdentifyItem({ text, label }: { text: string | null | undefined; label:
 
   return (
     <div>
-      <h4 className="text-sm font-normal uppercase">{label}</h4>
+      <p className="text-sm font-normal uppercase">{label}</p>
       <p className="font-bold">{text}</p>
     </div>
   );
