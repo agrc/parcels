@@ -34,7 +34,7 @@
     "@ugrc/eslint-config": "^1.2.3",
     "@ugrc/esri-theme-toggle": "^1.1.2",
     "@ugrc/tsconfigs": "^1.0.3",
-    "@ugrc/utah-design-system": "^1.28.2",
+    "@ugrc/utah-design-system": "^2.0.0",
     "@ugrc/utilities": "^3.1.1",
     "firebase": "^12.2.1",
     "ky": "^1.14.3",
