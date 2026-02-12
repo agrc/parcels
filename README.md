@@ -34,3 +34,7 @@ Duplicate the `.env` file to a `.env.local` file and do not check it into source
 - The firebase config can be obtained from [firebase](https://console.firebase.google.com/)
 
 This project uses [conventional commits](https://conventionalcommits.org/) and [release please](https://github.com/googleapis/release-please) to manage the change log and versioning.
+
+## Attribution
+
+This project was developed with the assistance of [GitHub Copilot](https://github.com/features/copilot).
