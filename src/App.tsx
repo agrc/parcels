@@ -64,6 +64,10 @@ const links = [
     key: `Version ${version} changelog`,
     action: { url: `https://github.com/agrc/parcels/releases/v${version}` },
   },
+  {
+    key: 'Third-party notices',
+    action: { url: '/ThirdPartyNotices.txt' },
+  },
 ];
 
 export function App() {
