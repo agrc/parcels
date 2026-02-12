@@ -3,6 +3,19 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.19](https://github.com/agrc/parcels/compare/v2.3.18...v2.3.19) (2026-02-12)
+
+
+### Bug Fixes
+
+* add 3rd party licensing ([a089152](https://github.com/agrc/parcels/commit/a0891526f617300b84d6d0b845e623f5d1bdb9ae))
+
+
+### Dependencies
+
+* audit fix ([e93133b](https://github.com/agrc/parcels/commit/e93133b13277154c00576b7d3bda0e0de16c4e0c))
+* bump the safe-dependencies group across 1 directory with 10 updates ([b2dfa28](https://github.com/agrc/parcels/commit/b2dfa28b874921be3b97e8cf6bff17e32cf60500))
+
 ## [2.3.18](https://github.com/agrc/parcels/compare/v2.3.17...v2.3.18) (2025-11-06)
 
 
