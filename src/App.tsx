@@ -18,7 +18,7 @@ import ky from 'ky';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useState } from 'react';
 import { useOverlayTrigger } from 'react-aria';
-import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorBoundary, getErrorMessage, type FallbackProps } from 'react-error-boundary';
 import { useOverlayTriggerState } from 'react-stately';
 import { toast, ToastContainer } from 'react-toastify';
 import { MapContainer } from './MapContainer';
@@ -28,11 +28,11 @@ import { useHash } from './hooks/useHash';
 import { useMap } from './hooks/useMap';
 import { extractCountyAndView, type AppState } from './utils';
 
-const ErrorFallback = ({ error }: { error: Error }) => {
+const ErrorFallback = ({ error }: FallbackProps) => {
   return (
     <div role="alert">
       <p>Something went wrong:</p>
-      <pre style={{ color: 'red' }}>{error.message}</pre>
+      <pre style={{ color: 'red' }}>{getErrorMessage(error)}</pre>
     </div>
   );
 };
