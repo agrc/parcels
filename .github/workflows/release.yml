@@ -20,8 +20,6 @@ jobs:
     steps:
       - name: ⬇️ Set up code
         uses: actions/checkout@v6
-        with:
-          show-progress: false
 
       - name: 📃 Configure 3rd party notice
         uses: agrc/third-party-notice-composite-action@v1
@@ -49,8 +47,6 @@ jobs:
     steps:
       - name: ⬇️ Set up code
         uses: actions/checkout@v6
-        with:
-          show-progress: false
 
       - name: 📃 Configure 3rd party notice
         uses: agrc/third-party-notice-composite-action@v1
