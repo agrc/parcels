@@ -235,13 +235,13 @@ export function App() {
       <div className="relative z-10 mx-auto max-w-screen-md bg-white/50 dark:bg-zinc-900/50">
         <Disclaimer />
       </div>
-      <main className="flex h-screen flex-col md:gap-2">
+      <main id="main-content" className="flex h-screen flex-col md:gap-2">
         <Header links={links}>
           <div className="flex h-full grow items-center gap-3">
             <UgrcLogo />
-            <h2 className="font-heading text-3xl font-black text-zinc-600 sm:text-5xl dark:text-zinc-100">
+            <h1 className="font-heading text-3xl font-black text-zinc-600 sm:text-5xl dark:text-zinc-100">
               {appConfig.name} Parcels
-            </h2>
+            </h1>
           </div>
         </Header>
         <section className="relative flex min-h-0 flex-1 overflow-x-hidden md:mr-2">
