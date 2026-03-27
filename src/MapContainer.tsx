@@ -42,7 +42,7 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandl
       options: {
         view: mapView.current,
         quadWord: import.meta.env.VITE_DISCOVER,
-        basemaps: ['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR'],
+        basemaps: ['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR', 'High Contrast'],
         operationalLayers: ['Land Ownership'],
       },
     };

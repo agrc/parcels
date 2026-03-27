@@ -37,8 +37,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       '@ugrc/utah-design-system':
-        specifier: ^1.34.1
-        version: 1.34.1(@lit/context@1.1.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@3.4.19(yaml@2.8.1))
+        specifier: ^1.35.0
+        version: 1.35.0(@lit/context@1.1.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@3.4.19(yaml@2.8.1))
       '@ugrc/utilities':
         specifier: ^3.1.1
         version: 3.1.1(@lit/context@1.1.6)(react@19.2.4)
@@ -2439,8 +2439,8 @@ packages:
   '@ugrc/tsconfigs@1.0.3':
     resolution: {integrity: sha512-9Z84bZpLJ6wRi4sm6RWvckPHs/Q6XZCHW5yjeHZzboZi/1bsJUOoh3F5wT/qQ5EKewDcHk65WcvUTWPc+JYjtQ==}
 
-  '@ugrc/utah-design-system@1.34.1':
-    resolution: {integrity: sha512-mpEVIMpwD3Xi+PpZt+KX96X81tkd27SpKGcMS46f6Ni8WcxMODe5Wl9Cwjzlsrvd3q6Pwj/v8OtQ/Imv7I8Zqg==}
+  '@ugrc/utah-design-system@1.35.0':
+    resolution: {integrity: sha512-kIe8S5SX6rS1LeowWyxF06wLA100an43OK3nVh6GJ0K6jdLU//aui9p+fs7aYUgSx2KHMm8TVa7VcL9vb0lcGQ==}
     peerDependencies:
       react: '>=16.8'
 
@@ -9441,7 +9441,7 @@ snapshots:
     dependencies:
       '@total-typescript/tsconfig': 1.0.4
 
-  '@ugrc/utah-design-system@1.34.1(@lit/context@1.1.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@3.4.19(yaml@2.8.1))':
+  '@ugrc/utah-design-system@1.35.0(@lit/context@1.1.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@3.4.19(yaml@2.8.1))':
     dependencies:
       '@arcgis/core': 4.34.8(@lit/context@1.1.6)
       '@esri/arcgis-rest-geocoding': 4.8.0(@esri/arcgis-rest-request@4.8.0)
