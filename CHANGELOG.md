@@ -3,6 +3,18 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.21](https://github.com/agrc/parcels/compare/v2.3.20...v2.3.21) (2026-03-30)
+
+
+### Features
+
+* **a11y:** add high contrast base map ([87524ab](https://github.com/agrc/parcels/commit/87524ab09b206db82fa32fcd12bbd1ab72fa8028))
+
+
+### Bug Fixes
+
+* **a11y:** noscript and skip link fixes ([65aac66](https://github.com/agrc/parcels/commit/65aac66922efd5d77f05120b7575a88aa702e02b))
+
 ## [2.3.20](https://github.com/agrc/parcels/compare/v2.3.19...v2.3.20) (2026-02-18)
 
 
