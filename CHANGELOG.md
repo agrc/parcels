@@ -3,6 +3,13 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.3.22](https://github.com/agrc/parcels/compare/v2.3.21...v2.3.22) (2026-03-31)
+
+
+### Bug Fixes
+
+* fix geocoding bug preventing score from showing ([583844f](https://github.com/agrc/parcels/commit/583844f8d5a51f35274df4683874bb7c5b8e6fb3)), closes [#246](https://github.com/agrc/parcels/issues/246)
+
 ## [2.3.21](https://github.com/agrc/parcels/compare/v2.3.20...v2.3.21) (2026-03-30)
 
 
