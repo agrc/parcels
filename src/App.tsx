@@ -318,11 +318,12 @@ export function App() {
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
                   <Geocode
                     pointSymbol={pointSymbol}
+                    wkid={3857}
                     events={{
                       success: (result) => {
                         logEvent('geocode', {
-                          address: result?.attributes.InputAddress,
-                          score: result?.attributes.Score,
+                          address: result?.attributes.address,
+                          score: result?.attributes.score,
                         });
                         setViewPoint(
                           new Viewpoint({
@@ -335,7 +336,6 @@ export function App() {
                       error: () => toast.error('No results found'),
                     }}
                     apiKey={import.meta.env.VITE_UGRC_API}
-                    format="esrijson"
                   />
                 </ErrorBoundary>
               </div>
