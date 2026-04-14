@@ -6,6 +6,7 @@ import { useMapReady, utahMercatorExtent } from '@ugrc/utilities/hooks';
 import { useEffect, useRef, useState } from 'react';
 import config from './config';
 import { useMap } from './hooks/useMap';
+import { overlayLayers } from './overlayLayers';
 
 export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandler }) => {
   const mapNode = useRef<HTMLDivElement | null>(null);
@@ -43,7 +44,7 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandl
         view: mapView.current,
         quadWord: import.meta.env.VITE_DISCOVER,
         basemaps: ['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR', 'High Contrast'],
-        operationalLayers: ['Land Ownership'],
+        operationalLayers: overlayLayers,
       },
     };
 
