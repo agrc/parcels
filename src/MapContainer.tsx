@@ -1,4 +1,5 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import EsriMap from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import { LayerSelector, type LayerSelectorProps } from '@ugrc/utah-design-system';
@@ -6,7 +7,6 @@ import { useMapReady, utahMercatorExtent } from '@ugrc/utilities/hooks';
 import { useEffect, useRef, useState } from 'react';
 import config from './config';
 import { useMap } from './hooks/useMap';
-import { overlayLayers } from './overlayLayers';
 
 export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandler }) => {
   const mapNode = useRef<HTMLDivElement | null>(null);
@@ -44,7 +44,16 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandl
         view: mapView.current,
         quadWord: import.meta.env.VITE_DISCOVER,
         basemaps: ['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR', 'High Contrast'],
-        operationalLayers: overlayLayers,
+        operationalLayers: [
+          'Land Ownership',
+          {
+            label: 'PLSS',
+            function: () =>
+              new VectorTileLayer({
+                url: config.plssVectorTileService,
+              }),
+          },
+        ],
       },
     };
 
