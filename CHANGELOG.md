@@ -3,6 +3,13 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.4.0](https://github.com/agrc/parcels/compare/v2.3.22...v2.4.0) (2026-04-14)
+
+
+### Features
+
+* Add PLSS vector tile layer to overlay selector ([#254](https://github.com/agrc/parcels/issues/254)) ([b642b10](https://github.com/agrc/parcels/commit/b642b1093def33cf24a3e496fc5feeed47a1458e)), closes [#253](https://github.com/agrc/parcels/issues/253)
+
 ## [2.3.22](https://github.com/agrc/parcels/compare/v2.3.21...v2.3.22) (2026-03-31)
 
 

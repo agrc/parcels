@@ -1,6 +1,6 @@
 {
   "name": "@ugrc/parcels",
-  "version": "2.3.22",
+  "version": "2.4.0",
   "type": "module",
   "scripts": {
     "build": "tsc -b && vite build",
