@@ -42,7 +42,7 @@ jobs:
   deploy-preview:
     name: Firebase preview
     runs-on: ubuntu-latest
-    if: ${{ github.event.sender.type == 'User' }}
+    if: ${{ (github.event.pull_request.user.type == 'User' || github.event.pull_request.user.login == 'Copilot') && github.head_ref != 'dev' }}
     environment:
       name: preview
 
