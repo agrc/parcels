@@ -45,7 +45,14 @@ export const MapContainer = ({ onClick }: { onClick?: __esri.ViewClickEventHandl
         quadWord: import.meta.env.VITE_DISCOVER,
         basemaps: ['Hybrid', 'Lite', 'Terrain', 'Topo', 'Color IR', 'High Contrast'],
         operationalLayers: [
-          'Land Ownership',
+          {
+            label: 'Land Ownership',
+            function: () =>
+              new VectorTileLayer({
+                url: 'https://gis.trustlands.utah.gov/hosting/rest/services/Hosted/Land_Ownership_Agency_Web_Mercator_Vector_T/VectorTileServer',
+                opacity: 0.5,
+              }),
+          },
           {
             label: 'PLSS',
             function: () =>

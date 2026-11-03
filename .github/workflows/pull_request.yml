@@ -22,7 +22,7 @@ jobs:
       - name: 📦 Setup PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: latest
+          version: 12
 
       - name: ⎔ Setup Node.js
         uses: actions/setup-node@v6
@@ -31,7 +31,7 @@ jobs:
           cache: pnpm
 
       - name: 📥 Download dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: 🧶 Lint
         run: pnpm run lint
@@ -58,6 +58,7 @@ jobs:
       - name: 🚀 Deploy
         uses: agrc/firebase-website-deploy-composite-action@v2
         with:
+          pnpm-version: 12
           identity-provider: ${{ secrets.IDENTITY_PROVIDER }}
           service-account-email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
           project-id: ${{ secrets.PROJECT_ID }}
