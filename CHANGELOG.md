@@ -3,6 +3,13 @@
 - [parcels.utah.gov](https://parcels.utah.gov)
 - [open issues](https://github.com/agrc/Parcels/issues?state=open)
 
+## [2.4.1](https://github.com/agrc/parcels/compare/v2.4.0...v2.4.1) (2026-11-03)
+
+
+### Bug Fixes
+
+* migrate Parcels Land Ownership vector tile service ([#282](https://github.com/agrc/parcels/issues/282)) ([911e14f](https://github.com/agrc/parcels/commit/911e14f5251d6023d2d02f57330b449e1e6155fd))
+
 ## [2.4.0](https://github.com/agrc/parcels/compare/v2.3.22...v2.4.0) (2026-04-14)
 
 
